@@ -9,6 +9,8 @@ import {Pressable, TextInput, ScrollView, Text, View} from 'react-native';
 
 import {connect, useDispatch} from 'react-redux';
 import {storeLog} from '../redux/actions/StoreGoodsMovementLogAction.js';
+import {storeQueue} from '../redux/actions/StoreTransferPostingQueueAction.js';
+import {useSelector} from 'react-redux';
 
 import SapRequestHandler from '../sap/SapRequestHandler.js';
 
@@ -38,6 +40,10 @@ export default TransferPosting = ({navigation}) => {
 
   const storeGoodsMovementLog = goodsMovementLog => {
     dispatch(storeLog(goodsMovementLog));
+  };
+
+  const storeTransferPostingQueue = transferPostingQueue => {
+    dispatch(storeQueue(transferPostingQueue));
   };
 
   const [lgortIn, setLgortIn] = useState();
@@ -81,6 +87,8 @@ export default TransferPosting = ({navigation}) => {
   useEffect(() => {
     handleAddMaterialTexts();
 
+    //FIXME: unsubscribe does not work
+
     const unsubscribe = navigation.addListener('focus', () => {
       if (invisibleInputRef.current) invisibleInputRef.current.focus();
     });
@@ -95,28 +103,39 @@ export default TransferPosting = ({navigation}) => {
     }
   };
 
+  const transferPostingQueue = useSelector(
+    store => store.transferPostingQueue.transferPostingQueue,
+  );
+
   const handleQueueEntries = async () => {
     let connectionState = await getConnectionState();
 
+    console.log(transferPostingQueue, 'queue');
+
     if (connectionState.isConnected && connectionState.details.strength >= 50) {
-      if (labelQueue.length > 0) {
-        let tempQueue = labelQueue;
+      if (transferPostingQueue.length > 0) {
         let i = 0;
 
-        while (tempQueue.length > 0 && tempQueue.length !== undefined) {
+        while (
+          transferPostingQueue.length > 0 &&
+          transferPostingQueue.length !== undefined
+        ) {
           const response = await SapRequestHandler.createGoodsMovement(
             lgortIn,
             lgortOut,
-            tempQueue[i],
+            transferPostingQueue[i],
             '04',
           );
 
           if (response !== undefined) {
-            tempQueue.splice(i++, 1);
+            transferPostingQueue.splice(i++, 1);
           }
-        }
 
-        setLabelQueue(tempQueue);
+          console.log(response, 'response');
+          console.log(transferPostingQueue, 'queue');
+
+          storeQueue(transferPostingQueue);
+        }
       }
     }
   };
@@ -174,7 +193,7 @@ export default TransferPosting = ({navigation}) => {
         menge,
         barcode,
         validity: false,
-        movetype: '261',
+        movetype: '311',
         aufnr: '',
       },
     ]);
@@ -358,11 +377,7 @@ export default TransferPosting = ({navigation}) => {
               }
             } else {
               if (labelText.length > 0) {
-                setLabelQueue(() => {
-                  let currentQueue = labelQueue;
-                  currentQueue.push(labelText);
-                  return currentQueue;
-                });
+                storeTransferPostingQueue(labelText);
 
                 resetScreenValues();
               } else {

@@ -27,8 +27,6 @@ export default TransferPostingLog = ({route, navigation}) => {
     route.params[2],
   );
 
-  console.log(lgortInDescription);
-
   if (lgortInDescription !== undefined) {
     lgortIn =
       lgortInDescription.storageLocation +
