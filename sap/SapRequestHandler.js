@@ -34,6 +34,7 @@ class SapRequestHandler {
       });
   }
   //TODO: rework request into header and lines
+  //TODO: write local DB username to backend
   static async createGoodsMovement(
     lgortIn,
     lgortOut,
@@ -51,7 +52,7 @@ class SapRequestHandler {
         lgort_in: lgortIn,
         lgort_out: lgortOut,
         validity: currentLabel.validity,
-        movetype: currentLabel.moveType,
+        movetype: currentLabel.movetype,
         aufnr: currentLabel.aufnr,
       };
     });
