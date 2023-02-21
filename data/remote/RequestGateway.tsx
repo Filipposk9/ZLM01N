@@ -4,20 +4,24 @@ import {
   REQUEST_LIMIT_PER_SEC,
 } from './NetworkTypes';
 
-// TODO Delay between requests is not working 100% correct.
+// TODO:  Delay between requests is not working 100% correct.
 class RequestGateway {
-  private static baseUrl = 'http://10.0.0.17:8101/sap/bc/gui/sap/its/zwm_rfn';
+  private baseUrl: string;
+  private requestTimeQueue: number[] = [];
 
-  private static requestTimeQueue: number[] = [];
+  constructor(
+    baseUrl: string = 'http://10.0.0.17:8101/sap/bc/gui/sap/its/zwm_rfn',
+  ) {
+    this.baseUrl = baseUrl;
+  }
 
-  static async get<T>(
-    endpoint: string,
-  ): Promise<SuccessResponse<T> | ErrorResponse> {
+  async get<T>(endpoint: string): Promise<SuccessResponse<T> | ErrorResponse> {
     try {
-      await RequestGateway.processRequest();
+      await this.processRequest();
       console.log('Network request to', endpoint);
-      const response = await fetch(RequestGateway.baseUrl + endpoint);
+      const response = await fetch(this.baseUrl + endpoint);
       const result = await response.json();
+
       if (result.type && result.message) {
         const error = {
           status: result.status,
@@ -45,29 +49,29 @@ class RequestGateway {
     }
   }
 
-  private static async processRequest() {
+  private async processRequest() {
     return new Promise(async resolve => {
-      const len = RequestGateway.requestTimeQueue.push(getSec());
-      await RequestGateway.checkSecLimit(len - 1);
+      const len = this.requestTimeQueue.push(getSec());
+      await this.checkSecLimit(len - 1);
       this.requestTimeQueue[len - 1] = getSec();
       resolve(null);
     });
   }
 
-  private static async checkSecLimit(index: number) {
+  private async checkSecLimit(index: number) {
     const len = this.requestTimeQueue.length;
     const prevElement =
       len > REQUEST_LIMIT_PER_SEC
         ? this.requestTimeQueue[index - REQUEST_LIMIT_PER_SEC]
         : undefined;
     if (prevElement === getSec()) {
-      await RequestGateway.delay(index * 1000);
+      await this.delay(index * 1000);
       this.requestTimeQueue[index] = getSec();
       await this.checkSecLimit(index);
     }
   }
 
-  private static async delay(ms: number) {
+  private async delay(ms: number) {
     return new Promise(resolve => setTimeout(() => resolve(null), ms));
   }
 }
