@@ -80,7 +80,7 @@ export default LoginScreen = ({navigation}) => {
   return (
     <ThemeProvider>
       <View style={styles(theme).loginContainer}>
-        <View style={styles(theme).toggleAppearanceView}>
+        <View style={styles(theme).darkModeSwitchContainer}>
           <Pressable
             style={styles(theme).toggleAppearanceBtn}
             onPress={() => {

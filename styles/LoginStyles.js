@@ -6,7 +6,7 @@ export const styles = theme =>
       backgroundColor: theme.backgroundColor,
       height: '100%',
     },
-    toggleAppearanceView: {
+    darkModeSwitchContainer: {
       paddingTop: '10%',
       paddingRight: '10%',
       alignItems: 'flex-end',
