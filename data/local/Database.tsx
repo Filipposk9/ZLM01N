@@ -11,6 +11,7 @@ class Database {
     if (!this.connection) {
       this.connection = await Realm.open({
         schema: [UserSchema, MaterialSchema, StorageLocationSchema],
+        deleteRealmIfMigrationNeeded: true,
       });
     }
 
