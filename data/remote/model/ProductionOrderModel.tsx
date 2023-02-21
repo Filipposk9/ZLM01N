@@ -9,7 +9,7 @@ export interface ProductionOrderModel {
 }
 
 interface ProductionOrderHeader {
-  productionOrderNumber: number;
+  productionOrderNumber: string;
   producedMaterial: MaterialModel;
   scheduledStartDate: Date;
   targetQuantity: number; //REMOVE?
@@ -21,7 +21,7 @@ interface ProductionOrderHeader {
 }
 
 interface ProductionOrderComponent {
-  reservationNumber: number;
+  reservationNumber: string;
   reservationPosition: number;
   material: MaterialModel;
   requirementQuantity: number;

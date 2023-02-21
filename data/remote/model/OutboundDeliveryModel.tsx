@@ -9,10 +9,10 @@ export interface OutboundDeliveryModel {
 //TODO: associated sales order?
 
 interface OutboundDeliveryHeader {
-  outboundDeliveryNumber: number;
-  customerNumber: number;
+  outboundDeliveryNumber: string;
+  customerNumber: string;
   customerName: string;
-  shipToPartyNumber: number;
+  shipToPartyNumber: string;
   shipToPartyName: string;
   status: string;
 }
@@ -23,7 +23,7 @@ interface OutboundDeliveryItem {
 }
 
 interface HandlingUnitModel {
-  handlingUnitNumber: number;
+  handlingUnitNumber: string;
   sscc: string;
   packedMaterials: MaterialModel[];
 }

@@ -1,13 +1,13 @@
 import {StorageLocationModel} from './StorageLocationModel';
 
 export interface MaterialModel {
-  materialNumber: number;
+  materialNumber: string;
   description: string;
   materialGroup: string;
   batch: string;
   quantity: number;
   unitOfMeasure: string;
-  plant: number;
+  plant: string;
   storageLocation: StorageLocationModel;
 }
 

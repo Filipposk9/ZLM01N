@@ -6,8 +6,8 @@ export interface SalesOrderModel {
 }
 
 interface SalesOrderHeader {
-  salesOrderNumber: number;
-  customerNumber: number;
+  salesOrderNumber: string;
+  customerNumber: string;
   customerName: string;
 }
 

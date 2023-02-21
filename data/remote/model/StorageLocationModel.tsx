@@ -1,5 +1,5 @@
 export interface StorageLocationModel {
-  storageLocation: number;
+  storageLocation: string;
   description: string;
 }
 
