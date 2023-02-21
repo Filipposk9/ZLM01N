@@ -11,7 +11,6 @@ import {ThemeProvider, ThemeContext} from '../styles/ThemeContext.js';
 import UserContext, {User} from '../realm/DBSchema.js';
 
 //TODO: Logout and clear()
-//TODO: Make dark mode toggle available to all screens
 
 export default LoginScreen = ({navigation}) => {
   const [username, setUsername] = useState('FILKOZ');
@@ -28,7 +27,6 @@ export default LoginScreen = ({navigation}) => {
       realm.write(() => {
         realm.create('User', User.generate('FILKOZ'));
         console.log('written');
-        //realm.deleteAll();
       });
     },
     [realm],
@@ -125,9 +123,6 @@ export default LoginScreen = ({navigation}) => {
             onChangeText={password => setPassword(password)}
             value={password}
           />
-          {/*//TODO: offline mode
-          //TODO: when csrfToken expires?
-          //TODO: local users*/}
 
           <View style={styles(theme).loginBtnView}>
             <Pressable
