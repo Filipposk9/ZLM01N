@@ -10,7 +10,7 @@ class HorizontalRotation {
     });
   }
 
-  setInterpolate(): any {
+  setInterpolate(): object {
     if (this.currentValue >= 90) {
       Animated.spring(this.animatedValue, {
         toValue: 0,
@@ -32,10 +32,14 @@ class HorizontalRotation {
     }
 
     return {
-      rotateY: this.animatedValue.interpolate({
-        inputRange: [0, 180],
-        outputRange: ['180deg', '360deg'],
-      }),
+      transform: [
+        {
+          rotateY: this.animatedValue.interpolate({
+            inputRange: [0, 180],
+            outputRange: ['180deg', '360deg'],
+          }),
+        },
+      ],
     };
   }
 }
