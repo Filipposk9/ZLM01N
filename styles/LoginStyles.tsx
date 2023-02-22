@@ -1,6 +1,6 @@
 import {StyleSheet} from 'react-native';
-
-export const styles = theme =>
+//TODO: remove any? set data type
+export const styles = (theme: any) =>
   StyleSheet.create({
     loginContainer: {
       backgroundColor: theme.backgroundColor,
