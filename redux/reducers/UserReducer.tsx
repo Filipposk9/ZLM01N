@@ -1,0 +1,18 @@
+import {createReducer} from '@reduxjs/toolkit';
+import {UserState} from '../ReduxTypes';
+import {setCurrentUser} from '../actions/UserActions';
+import {User} from '../../shared/Types';
+
+const initialState: UserState = {
+  user: {username: '', password: ''},
+};
+
+export const userReducer = createReducer(initialState, builder => {
+  builder.addCase(setCurrentUser, (state, action) => {
+    if (state.user.username !== '') {
+      return state;
+    }
+    state.user = action.payload;
+    return state;
+  });
+});

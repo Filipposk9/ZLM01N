@@ -1,23 +1,12 @@
 import React from 'react';
 import {configureStore} from '@reduxjs/toolkit';
 import {Provider, useDispatch} from 'react-redux';
-import {createLogger} from 'redux-logger';
-
-//import {userReducer} from './reducers/UserReducer';
-
-const logger = createLogger({
-  level: {
-    prevState: false,
-    nextState: false,
-  },
-});
+import {userReducer} from './reducers/UserReducer';
 
 export const store = configureStore({
   reducer: {
-    //user: userReducer,
+    user: userReducer,
   },
-  middleware: defaultMiddleware =>
-    defaultMiddleware({serializableCheck: false}).concat(logger),
 });
 
 export type RootState = ReturnType<typeof store.getState>;
