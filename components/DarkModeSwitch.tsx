@@ -3,23 +3,16 @@ import {Pressable, StyleSheet, Animated} from 'react-native';
 import {ThemeContext} from '../styles/ThemeContext';
 import Icon from 'react-native-vector-icons/Feather';
 
-const {dark, theme, toggle} = useContext(ThemeContext);
-
-const AnimatedIcon = Animated.createAnimatedComponent(Icon);
-
-const [iconName, setIconName] = useState('');
-const [iconColor, setIconColor] = useState('');
-
 interface DarkModeSwitchProps {
   lightModeIcon: string;
   darkModeIcon: string;
   lightModeColor: string;
   darkModeColor: string;
   size: number;
-  animation: Animated.AnimatedInterpolation<string>;
+  animation: Animated.AnimatedInterpolation<string | number>;
 }
 
-function DarkModeSwitch(props: DarkModeSwitchProps) {
+function DarkModeSwitch(props: DarkModeSwitchProps): JSX.Element {
   const {
     lightModeIcon,
     darkModeIcon,
@@ -28,6 +21,13 @@ function DarkModeSwitch(props: DarkModeSwitchProps) {
     size,
     animation,
   } = props;
+
+  //TODO: remove icon import
+  const AnimatedIcon = Animated.createAnimatedComponent(Icon);
+
+  const [iconName, setIconName] = useState(lightModeIcon);
+  const [iconColor, setIconColor] = useState(lightModeColor);
+  const {dark, theme, toggle} = useContext(ThemeContext);
 
   return (
     <Pressable
@@ -47,13 +47,11 @@ function DarkModeSwitch(props: DarkModeSwitchProps) {
         name={iconName}
         color={iconColor}
         size={size}
-        style={{transform: [{rotateY: animation}]}}
+        style={{transform: [animation]}}
       />
     </Pressable>
   );
 }
-
-//TODO: abstract away animation
 
 const styles = (theme: any) =>
   StyleSheet.create({
