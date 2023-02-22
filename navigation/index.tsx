@@ -2,7 +2,7 @@ import React from 'react';
 
 import {createNativeStackNavigator} from '@react-navigation/native-stack';
 
-import LoginScreen from '../screens/Login';
+import Login from '../screens/login';
 import MainMenu from '../screens/MainMenu';
 import TransferPosting from '../screens/TransferPosting';
 import TransferPostingLog from '../screens/TransferPostingLog';
@@ -24,7 +24,7 @@ function AppNavigation(): JSX.Element {
       }}>
       <AppStack.Screen
         name="Login"
-        component={LoginScreen}
+        component={Login}
         options={{title: 'Login'}}
       />
       <AppStack.Screen
