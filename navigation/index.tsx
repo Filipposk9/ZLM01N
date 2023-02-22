@@ -3,7 +3,7 @@ import React from 'react';
 import {createNativeStackNavigator} from '@react-navigation/native-stack';
 
 import Login from '../screens/login/index';
-import MainMenu from '../screens/MainMenu';
+import MainMenu from '../screens/mainmenu/index';
 import TransferPosting from '../screens/TransferPosting';
 import TransferPostingLog from '../screens/TransferPostingLog';
 import TransferPostingHistory from '../screens/TransferPostingHistory';
