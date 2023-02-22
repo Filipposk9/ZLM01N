@@ -2,7 +2,7 @@ import React, {Component, useRef, createRef} from 'react';
 import {View, Text, Pressable, FlatList, LayoutAnimation} from 'react-native';
 
 import {styles} from '../styles/PickingStyles';
-import {GlobalStyles} from '../styles/GlobalStyles.js';
+import {GlobalStyles} from '../styles/GlobalStyles';
 import {ThemeContext} from '../styles/ThemeContext.js';
 
 class OutboundDelivery extends Component {

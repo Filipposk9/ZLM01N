@@ -4,7 +4,7 @@ import {View, Text, TextInput, Pressable} from 'react-native';
 import Modal from 'react-native-modal';
 
 import {styles} from '../styles/TransferPostingStyles.js';
-import {GlobalStyles} from '../styles/GlobalStyles.js';
+import {GlobalStyles} from '../styles/GlobalStyles';
 import {ThemeContext} from '../styles/ThemeContext.js';
 
 class TypedLabelInserterPopup extends Component {

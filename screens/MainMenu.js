@@ -7,7 +7,7 @@ import MaterialIcon from 'react-native-vector-icons/MaterialCommunityIcons';
 
 import {ThemeContext} from '../styles/ThemeContext.js';
 import {styles} from '../styles/MainMenuStyles.js';
-import {GlobalStyles} from '../styles/GlobalStyles.js';
+import {GlobalStyles} from '../styles/GlobalStyles';
 
 export default MainMenu = ({navigation}) => {
   const {dark, theme, toggle} = useContext(ThemeContext);

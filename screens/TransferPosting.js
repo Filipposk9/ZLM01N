@@ -20,7 +20,7 @@ import Label from '../components/Label.js';
 import TypedLabelInserterPopup from '../components/TypedLabelInserterPopup.js';
 
 import {styles} from '../styles/TransferPostingStyles.js';
-import {GlobalStyles} from '../styles/GlobalStyles.js';
+import {GlobalStyles} from '../styles/GlobalStyles';
 import {ThemeContext} from '../styles/ThemeContext.js';
 
 import GoodsMovementLog from '../objects/GoodsMovementLog.js';

@@ -17,7 +17,7 @@ import HandlingUnit from '../objects/HandlingUnit.js';
 import SapRequestHandler from '../sap/SapRequestHandler.js';
 
 import {styles} from '../styles/PickingStyles.js';
-import {GlobalStyles} from '../styles/GlobalStyles.js';
+import {GlobalStyles} from '../styles/GlobalStyles';
 import {ThemeContext} from '../styles/ThemeContext.js';
 
 //TODO: Check if lock exists on outbound delivery number
