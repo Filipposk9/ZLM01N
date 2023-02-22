@@ -1,22 +1,60 @@
-import React, {useState, useContext} from 'react';
-import {View, TextInput} from 'react-native';
-import {styles} from '../../styles/LoginStyles.js';
+import React, {useState, useContext, useEffect} from 'react';
+import {View, TextInput, Pressable, Alert, Text} from 'react-native';
+import {styles} from '../../styles/LoginStyles';
+import {GlobalStyles} from '../../styles/GlobalStyles';
 
-import DarkModeSwitch from '../../components/DarkModeSwitch.js';
-import {HorizontalRotation} from '../../animations/HorizontalRotation.js';
+import DarkModeSwitch from '../../components/DarkModeSwitch';
+import HorizontalRotation from '../../animations/HorizontalRotation';
 
 import Spinner from 'react-native-loading-spinner-overlay';
 import {ThemeContext} from '../../styles/ThemeContext.js';
 
-//TODO: Logout and clear()
-
-const {theme} = useContext(ThemeContext);
+import {RootState, useAppDispatch} from '../../redux/Store';
+import {setCurrentUser} from '../../redux/actions/UserActions';
+import {useSelector} from 'react-redux';
+import Repository from '../../data/Repository';
+import {User} from '../../shared/Types';
 
 function Login({navigation}: {navigation: any}): JSX.Element {
+  const {theme} = useContext(ThemeContext);
+
   const [username, setUsername] = useState('FILKOZ');
   const [password, setPassword] = useState('COMPO2SITION4');
+  const [users, setUsers] = useState([]);
 
   const [isLoading, setIsLoading] = useState(false);
+
+  //TODO: return setInterpolate instead of whole class
+  //TODO: animation triggers on every button press
+  const animation = HorizontalRotation.setInterpolate();
+
+  const dispatch = useAppDispatch();
+
+  const currentUser = useSelector((state: RootState) => state.user);
+
+  useEffect((): void => {
+    async function fetchUsers() {
+      const users = await Repository.getUsers();
+      setUsers(users);
+      //TODO: fix data type
+    }
+    fetchUsers();
+  }, []);
+
+  const checkUserValidity = (username: string, password: string): boolean => {
+    return users.some(element => {
+      //TODO: fix data type
+      if (element.username === username) {
+        if (element.password === password) {
+          return true;
+        } else {
+          return false;
+        }
+      } else {
+        return false;
+      }
+    });
+  };
 
   return (
     <View style={styles(theme).loginContainer}>
@@ -27,10 +65,12 @@ function Login({navigation}: {navigation: any}): JSX.Element {
       />
       <View style={styles(theme).darkModeSwitchContainer}>
         <DarkModeSwitch
-          icon={'feather'}
-          color={'red'}
+          lightModeIcon={'sun'}
+          darkModeIcon={'moon'}
+          lightModeColor={'#222222'}
+          darkModeColor={'#ffffff'}
           size={30}
-          animation={HorizontalRotation}
+          animation={animation}
         />
       </View>
       <TextInput
@@ -48,35 +88,27 @@ function Login({navigation}: {navigation: any}): JSX.Element {
         onChangeText={password => setPassword(password)}
         value={password}
       />
+      <View style={styles(theme).loginButtonContainer}>
+        <Pressable
+          style={styles(theme).loginButton}
+          onPress={() => {
+            setIsLoading(true);
 
-      {/* <Pressable
-              style={styles(theme).loginBtn}
-              onPress={() => {
-                setLoading(true);
+            if (checkUserValidity(username, password)) {
+              dispatch(
+                setCurrentUser({username: username, password: password}),
+              );
+              navigation.navigate('MainMenu');
+            } else {
+              Alert.alert('Λάθος όνομα/κωδικός χρήστη');
+            }
 
-                let usernameChecks = collection.some(element => {
-                  if (element.username === username) {
-                    if (element.password === password) {
-                      return true;
-                    } else {
-                      return false;
-                    }
-                  } else {
-                    return false;
-                  }
-                });
-
-                setLoading(false);
-
-                if (usernameChecks) {
-                  navigation.navigate('MainMenu');
-                } else {
-                  alert('Λάθος όνομα/κωδικός χρήστη');
-                }
-              }}
-              android_ripple={GlobalStyles(theme).rippleColor}>
-              <Text style={styles(theme).loginBtnText}>Login</Text>
-            </Pressable> */}
+            setIsLoading(false);
+          }}
+          android_ripple={GlobalStyles(theme).rippleColor}>
+          <Text style={styles(theme).loginButtonText}>Login</Text>
+        </Pressable>
+      </View>
     </View>
   );
 }
