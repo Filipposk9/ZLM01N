@@ -17,10 +17,16 @@ class Database {
       });
 
       this.connection.write(() => {
-        this.connection.create(SCHEMA_NAME.USER, {
-          username: 'FILKOZ',
-          password: 'COMPO2SITION4',
-        });
+        if (this.connection !== undefined) {
+          this.connection.create(
+            SCHEMA_NAME.USER,
+            {
+              username: 'FILKOZ',
+              password: 'COMPO2SITION4',
+            },
+            'modified',
+          );
+        }
       });
     }
 
