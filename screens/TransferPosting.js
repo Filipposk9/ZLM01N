@@ -31,9 +31,6 @@ export default TransferPosting = ({navigation}) => {
   const dispatch = useDispatch();
 
   const {dark, theme, toggle} = useContext(ThemeContext);
-
-  const {useRealm, useQuery, useObject} = UserContext;
-  const realm = useRealm();
   const collection = useQuery(MaterialText);
 
   const storeGoodsMovementLog = goodsMovementLog => {
