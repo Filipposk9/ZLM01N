@@ -20,7 +20,7 @@ function Login({navigation}: {navigation: any}): JSX.Element {
 
   const [username, setUsername] = useState('FILKOZ');
   const [password, setPassword] = useState('COMPO2SITION4');
-  const [users, setUsers] = useState([]);
+  const [users, setUsers] = useState<User[] | undefined>([]);
 
   const [isLoading, setIsLoading] = useState(false);
 
@@ -35,26 +35,29 @@ function Login({navigation}: {navigation: any}): JSX.Element {
   useEffect((): void => {
     async function fetchUsers() {
       const users = await Repository.getUsers();
+
       setUsers(users);
-      //TODO: fix data type
       //TODO: get only 1 user instead of all?
     }
     fetchUsers();
   }, []);
 
   const checkUserValidity = (username: string, password: string): boolean => {
-    return users.some(element => {
-      //TODO: fix data type
-      if (element.username === username) {
-        if (element.password === password) {
-          return true;
+    if (users !== undefined) {
+      return users.some(element => {
+        if (element.username === username) {
+          if (element.password === password) {
+            return true;
+          } else {
+            return false;
+          }
         } else {
           return false;
         }
-      } else {
-        return false;
-      }
-    });
+      });
+    }
+
+    return false;
   };
 
   return (
