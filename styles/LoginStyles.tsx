@@ -12,19 +12,12 @@ export const styles = theme =>
       alignItems: 'flex-end',
       height: '30%',
     },
-    toggleAppearanceBtn: {
-      alignItems: 'center',
-      justifyContent: 'center',
-    },
-    loginBodyContainer: {
-      alignItems: 'center',
-      justifyContent: 'center',
-    },
     usernameInput: {
       borderBottomWidth: 1,
       borderBottomColor: theme.borderColor,
       width: '80%',
       color: theme.textColor,
+      marginLeft: '9%',
     },
     passwordInput: {
       borderBottomWidth: 1,
@@ -32,24 +25,26 @@ export const styles = theme =>
       width: '80%',
       color: theme.textColor,
       marginTop: '10%',
+      marginLeft: '9%',
     },
-    loginBtnView: {
+    loginButtonContainer: {
       borderRadius: 20,
       borderWidth: 1,
       borderColor: theme.buttonBorderColor,
       marginTop: '15%',
       width: '60%',
-      height: '10%',
+      height: '6%',
       alignItems: 'center',
       justifyContent: 'center',
       backgroundColor: theme.foregroundColor,
+      margin: '18%',
     },
-    loginBtn: {
+    loginButton: {
       alignItems: 'center',
       justifyContent: 'center',
       width: '100%',
     },
-    loginBtnText: {
+    loginButtonText: {
       color: theme.buttonTextColor,
     },
   });
