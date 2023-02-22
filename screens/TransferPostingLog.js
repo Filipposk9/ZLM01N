@@ -4,8 +4,6 @@ import {ScrollView, View, Text} from 'react-native';
 import {styles} from '../styles/TransferPostingLogStyles.js';
 import {ThemeContext} from '../styles/ThemeContext.js';
 
-import UserContext, {StorageLocation} from '../realm/DBSchema.js';
-
 export default TransferPostingLog = ({route, navigation}) => {
   const {dark, theme, toggle} = useContext(ThemeContext);
 

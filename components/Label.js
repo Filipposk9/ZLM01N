@@ -14,8 +14,6 @@ import {styles} from '../styles/TransferPostingStyles.js';
 import Icon from 'react-native-vector-icons/AntDesign';
 import {ThemeContext} from '../styles/ThemeContext.js';
 
-import UserContext, {MaterialText} from '../realm/DBSchema.js';
-
 //FIXME: initial checkmark is always false
 
 const Label = ({

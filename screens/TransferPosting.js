@@ -25,8 +25,6 @@ import {ThemeContext} from '../styles/ThemeContext.js';
 
 import GoodsMovementLog from '../objects/GoodsMovementLog.js';
 
-import UserContext, {MaterialText} from '../realm/DBSchema.js';
-
 import NetInfo from '@react-native-community/netinfo';
 
 export default TransferPosting = ({navigation}) => {

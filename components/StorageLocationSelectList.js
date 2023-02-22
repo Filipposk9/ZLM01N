@@ -6,7 +6,6 @@ import {styles} from '../styles/TransferPostingStyles.js';
 import {ThemeContext} from '../styles/ThemeContext.js';
 import CredentialStorage from '../credentials/CredentialStorage.js';
 import SapRequestHandler from '../sap/SapRequestHandler.js';
-import UserContext, {StorageLocation} from '../realm/DBSchema.js';
 
 const StorageLocationSelectList = ({placeholder, onStorageLocationChange}) => {
   const {theme} = React.useContext(ThemeContext);
