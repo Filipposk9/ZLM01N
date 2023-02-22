@@ -9,7 +9,7 @@ interface DarkModeSwitchProps {
   lightModeColor: string;
   darkModeColor: string;
   size: number;
-  animation: Animated.AnimatedInterpolation<string | number>;
+  animation: Animated.AnimatedInterpolation<string>;
 }
 
 function DarkModeSwitch(props: DarkModeSwitchProps): JSX.Element {
@@ -47,7 +47,7 @@ function DarkModeSwitch(props: DarkModeSwitchProps): JSX.Element {
         name={iconName}
         color={iconColor}
         size={size}
-        style={{transform: [animation]}}
+        style={animation}
       />
     </Pressable>
   );
