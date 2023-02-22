@@ -37,6 +37,7 @@ function Login({navigation}: {navigation: any}): JSX.Element {
       const users = await Repository.getUsers();
       setUsers(users);
       //TODO: fix data type
+      //TODO: get only 1 user instead of all?
     }
     fetchUsers();
   }, []);
