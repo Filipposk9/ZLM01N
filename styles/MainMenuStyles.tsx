@@ -1,6 +1,6 @@
 import {StyleSheet} from 'react-native';
 
-export const styles = theme =>
+export const styles = (theme: any) =>
   StyleSheet.create({
     mainMenuContainer: {
       backgroundColor: theme.backgroundColor,

@@ -25,6 +25,72 @@ function MainMenu({navigation}: {navigation: any}): JSX.Element {
           <Text style={styles(theme).mainMenuBtnText}>Ενδοδιακινήσεις</Text>
         </Pressable>
       </View>
+
+      <View style={styles(theme).mainMenuItem}>
+        <Pressable
+          style={styles(theme).mainMenuBtn}
+          onPress={() => {
+            navigation.navigate('Picking');
+          }}
+          android_ripple={GlobalStyles(theme).rippleColor}>
+          <FeatherIcon name={'truck'} color={'white'} size={30} />
+          <Text style={styles(theme).mainMenuBtnText}>Παραδόσεις</Text>
+        </Pressable>
+      </View>
+
+      <View style={styles(theme).mainMenuItem}>
+        <Pressable
+          style={styles(theme).mainMenuBtn}
+          onPress={() => {
+            navigation.navigate('GoodsIssues');
+          }}
+          android_ripple={GlobalStyles(theme).rippleColor}>
+          <MaterialIcon name={'material-ui'} color={'white'} size={30} />
+          <Text style={styles(theme).mainMenuBtnText}>Αναλώσεις</Text>
+        </Pressable>
+      </View>
+
+      <View style={styles(theme).mainMenuItem}>
+        <Pressable
+          style={styles(theme).mainMenuBtn}
+          onPress={() => {
+            //navigation.navigate('');
+          }}
+          android_ripple={GlobalStyles(theme).rippleColor}>
+          <MaterialIcon
+            name={'propane-tank-outline'}
+            color={'white'}
+            size={30}
+          />
+          <Text style={styles(theme).mainMenuBtnText}>
+            Χαρακτηριστικά Δεξαμενών
+          </Text>
+        </Pressable>
+      </View>
+
+      <View style={styles(theme).mainMenuItem}>
+        <Pressable
+          style={styles(theme).mainMenuBtn}
+          onPress={() => {
+            //navigation.navigate('');
+          }}
+          android_ripple={GlobalStyles(theme).rippleColor}>
+          <FeatherIcon name={'trash-2'} color={'white'} size={30} />
+          <Text style={styles(theme).mainMenuBtnText}>Λιώματα</Text>
+        </Pressable>
+      </View>
+
+      <View style={styles(theme).mainMenuItem}>
+        <Pressable
+          style={styles(theme).mainMenuBtn}
+          onPress={() => {
+            //navigation.navigate('');
+          }}
+          android_ripple={GlobalStyles(theme).rippleColor}>
+          <MaterialIcon name={'barcode-scan'} color={'white'} size={30} />
+          <Text style={styles(theme).mainMenuBtnText}>Απογραφή</Text>
+        </Pressable>
+      </View>
     </ScrollView>
   );
 }
