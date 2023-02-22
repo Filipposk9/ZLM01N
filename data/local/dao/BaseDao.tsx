@@ -16,9 +16,9 @@ class BaseDao {
     return object;
   }
 
-  async getCopyObjectById<T>(
+  async getCopyObjectById<T extends {[key: string]: any}>(
     schema: string,
-    id: number,
+    id: any,
   ): Promise<T | undefined> {
     const realm = await db.getConnection();
     const result = realm.objectForPrimaryKey<T>(schema, id);
@@ -28,7 +28,7 @@ class BaseDao {
     return this.convertToItem<T>(result, schema);
   }
 
-  async getObjectById<T>(schema: string, id: number): Promise<T | undefined> {
+  async getObjectById<T>(schema: string, id: any): Promise<T> {
     const realm = await db.getConnection();
     const result = realm.objectForPrimaryKey<T>(schema, id);
     return result;
@@ -113,62 +113,6 @@ class BaseDao {
     });
   }
 
-  async addElementToFields<T extends ComparedFields>(
-    schema: string,
-    id: number,
-    fields: string[],
-    values: any[],
-  ) {
-    const realm = await db.getConnection();
-    const obj = realm.objectForPrimaryKey<T>(schema, id);
-    if (!obj) {
-      return;
-    }
-    realm.write(() => {
-      if (obj) {
-        fields.forEach((fieldName, index) => {
-          let value = values[index];
-          let field = (obj as any)[fieldName];
-          const findIndex = field.findIndex((el: T) =>
-            compareFields(el, value),
-          );
-          if (findIndex === -1) {
-            field.push(value);
-          } else {
-            field[findIndex] = value;
-          }
-        });
-      }
-    });
-  }
-
-  async removeElementFromFields<T extends ComparedFields>(
-    schema: string,
-    id: number,
-    fields: string[],
-    values: any[],
-  ) {
-    const realm = await db.getConnection();
-    const obj = realm.objectForPrimaryKey<T>(schema, id);
-    if (!obj) {
-      return;
-    }
-    realm.write(() => {
-      if (obj) {
-        fields.forEach((fieldName, index) => {
-          const value = values[index];
-          let field = (obj as any)[fieldName];
-          const findIndex = field.findIndex((el: T) =>
-            compareFields(el, value),
-          );
-          if (findIndex !== -1) {
-            field.splice(findIndex, 1);
-          }
-        });
-      }
-    });
-  }
-
   async deleteAll() {
     const realm = await db.getConnection();
     realm.write(() => {
@@ -196,31 +140,6 @@ class BaseDao {
       }
     });
   }
-}
-
-interface ComparedFields {
-  id?: number;
-  searched_item_id?: number;
-  mangaId?: number;
-}
-
-function compareFields(first: ComparedFields, second: ComparedFields) {
-  const isRefEq = first === second;
-  const isIdEq =
-    first.id !== undefined && second.id !== undefined
-      ? first.id === second.id
-      : false;
-  const isSearchRecentIdEq =
-    first.searched_item_id !== undefined &&
-    second.searched_item_id !== undefined
-      ? first.searched_item_id === second.searched_item_id
-      : false;
-  const isReadingStatusEq =
-    first.mangaId !== undefined && second.mangaId !== undefined
-      ? first.mangaId === second.mangaId
-      : false;
-
-  return isRefEq || isIdEq || isSearchRecentIdEq || isReadingStatusEq;
 }
 
 export default new BaseDao();
