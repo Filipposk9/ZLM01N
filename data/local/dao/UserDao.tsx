@@ -5,7 +5,7 @@ import BaseDao from './BaseDao';
 
 class UserDao {
   async getUser(username: string) {
-    const user = await BaseDao.getCopyObjectById<typeof UserSchema>(
+    const user = await BaseDao.getCopyObjectById<User>(
       SCHEMA_NAME.USER,
       username,
     );
