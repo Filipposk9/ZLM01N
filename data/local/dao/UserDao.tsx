@@ -1,10 +1,9 @@
-import {UserSchema} from '../schema/UserSchema';
 import {User} from '../../../shared/Types';
 import {SCHEMA_NAME} from '../SchemaName';
 import BaseDao from './BaseDao';
 
 class UserDao {
-  async getUser(username: string) {
+  async getUser(username: string): Promise<User | undefined> {
     const user = await BaseDao.getCopyObjectById<User>(
       SCHEMA_NAME.USER,
       username,
