@@ -1,9 +1,9 @@
 import React, {Component} from 'react';
 import {View, Text, Animated, Pressable, Easing} from 'react-native';
 
-import {styles} from '../styles/TransferPostingHistoryStyles.js';
+import {styles} from '../styles/TransferPostingHistoryStyles';
 
-import {ThemeContext} from '../styles/ThemeContext.js';
+import {ThemeContext} from '../styles/ThemeContext';
 
 class TransferPostingHistoryItem extends Component {
   static contextType = ThemeContext;

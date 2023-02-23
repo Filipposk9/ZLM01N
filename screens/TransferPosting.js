@@ -217,11 +217,11 @@ export default TransferPosting = ({navigation}) => {
       }}
       style={styles(theme).transferPostingContainer}>
       {/* Loading Indicator */}
-      <Spinner
+      {/*<Spinner
         visible={loading}
         textContent={'Πραγματοποιείται ενδοδιακίνηση...'}
         textStyle={{color: 'white'}}
-      />
+      />*/}
 
       {/*Storage Location Selectors */}
       <StorageLocationSelectList

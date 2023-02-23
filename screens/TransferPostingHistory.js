@@ -6,8 +6,8 @@ import {useSelector} from 'react-redux';
 
 import TransferPostingHistoryItem from '../components/TransferPostingHistoryItem.js';
 
-import {ThemeContext} from '../styles/ThemeContext.js';
-import {styles} from '../styles/TransferPostingHistoryStyles.js';
+import {ThemeContext} from '../styles/ThemeContext';
+import {styles} from '../styles/TransferPostingHistoryStyles';
 
 export default TransferPostingHistory = ({navigation}) => {
   const {dark, theme, toggle} = useContext(ThemeContext);

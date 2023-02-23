@@ -3,7 +3,7 @@ import {View, Text, Pressable, FlatList, LayoutAnimation} from 'react-native';
 
 import {styles} from '../styles/PickingStyles';
 import {GlobalStyles} from '../styles/GlobalStyles';
-import {ThemeContext} from '../styles/ThemeContext.js';
+import {ThemeContext} from '../styles/ThemeContext';
 
 class OutboundDelivery extends Component {
   static contextType = ThemeContext;

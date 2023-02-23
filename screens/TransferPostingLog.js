@@ -1,8 +1,8 @@
 import React, {useContext} from 'react';
 
 import {ScrollView, View, Text} from 'react-native';
-import {styles} from '../styles/TransferPostingLogStyles.js';
-import {ThemeContext} from '../styles/ThemeContext.js';
+import {styles} from '../styles/TransferPostingLogStyles';
+import {ThemeContext} from '../styles/ThemeContext';
 
 export default TransferPostingLog = ({route, navigation}) => {
   const {dark, theme, toggle} = useContext(ThemeContext);

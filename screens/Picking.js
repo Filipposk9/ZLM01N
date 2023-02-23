@@ -12,13 +12,13 @@ import {
 
 import Spinner from 'react-native-loading-spinner-overlay';
 
-import OutboundDelivery from '../components/OutboundDelivery.js';
-import HandlingUnit from '../objects/HandlingUnit.js';
-import SapRequestHandler from '../sap/SapRequestHandler.js';
+import OutboundDelivery from '../components/OutboundDelivery';
+import HandlingUnit from '../objects/HandlingUnit';
+import SapRequestHandler from '../sap/SapRequestHandler';
 
-import {styles} from '../styles/PickingStyles.js';
+import {styles} from '../styles/PickingStyles';
 import {GlobalStyles} from '../styles/GlobalStyles';
-import {ThemeContext} from '../styles/ThemeContext.js';
+import {ThemeContext} from '../styles/ThemeContext';
 
 //TODO: Check if lock exists on outbound delivery number
 
