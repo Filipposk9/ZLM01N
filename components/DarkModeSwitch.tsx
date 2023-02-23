@@ -61,4 +61,4 @@ const styles = (theme: any) =>
     },
   });
 
-export default React.memo(DarkModeSwitch);
+export default DarkModeSwitch;
