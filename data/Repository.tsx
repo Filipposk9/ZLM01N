@@ -1,7 +1,7 @@
 import UserDao from './local/dao/UserDao';
-import BaseDao from './local/dao/BaseDao';
-import {User} from '../shared/Types';
-import {UserSchema} from './local/schema/UserSchema';
+import MasterDataService from './remote/service/MasterDataService';
+import StorageLocationDao from './local/dao/StorageLocationDao';
+import {User, StorageLocation} from '../shared/Types';
 
 class Repository {
   async getUsers(): Promise<User[] | undefined> {
@@ -22,6 +22,20 @@ class Repository {
     }
 
     return undefined;
+  }
+
+  async getStorageLocations(): Promise<StorageLocation[]> {
+    const remoteStorageLocationList =
+      await MasterDataService.getStorageLocations();
+
+    if (remoteStorageLocationList && remoteStorageLocationList.length > 0) {
+      return remoteStorageLocationList;
+    } else {
+      const localStorageLocationList =
+        await StorageLocationDao.getStorageLocations();
+
+      return localStorageLocationList;
+    }
   }
 }
 
