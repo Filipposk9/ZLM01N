@@ -7,7 +7,7 @@ import DarkModeSwitch from '../../components/DarkModeSwitch';
 import HorizontalRotation from '../../animations/HorizontalRotation';
 
 import Spinner from 'react-native-loading-spinner-overlay';
-import {ThemeContext} from '../../styles/ThemeContext.js';
+import {ThemeContext} from '../../styles/ThemeContext';
 
 import {RootState, useAppDispatch} from '../../redux/Store';
 import {setCurrentUser} from '../../redux/actions/UserActions';
