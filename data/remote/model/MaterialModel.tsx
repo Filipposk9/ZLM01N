@@ -8,7 +8,7 @@ export interface MaterialModel {
   quantity: number;
   unitOfMeasure: string;
   plant: string;
-  storageLocation: StorageLocationModel;
+  storageLocation: string;
 }
 
 export interface MaterialResponse {
