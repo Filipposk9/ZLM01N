@@ -5,22 +5,37 @@ import {ThemeContext} from '../../../styles/ThemeContext';
 import Repository from '../../../data/Repository';
 import {StorageLocation} from '../../../shared/Types';
 
-//const [selectListData, setSelectListData] = useState();
-
 interface StorageLocationDropdownProps {
   placeholder: string;
   //onChange: (val: string) => void;
+  selectLiData: {key: string; value: string}[];
+}
+
+interface dropDownContent {
+  selectListData: {key: string; value: string}[];
 }
 
 function StorageLocationDropdown(
   props: StorageLocationDropdownProps,
 ): JSX.Element {
+  const [dropDownData, setDropDownData] = useState<dropDownContent>({
+    selectListData: [],
+  });
+
   useEffect(() => {
     console.log('a');
 
     const fetchData = async () => {
       const data = await Repository.getStorageLocations();
-      console.log(data);
+
+      setDropDownData({
+        selectListData: data.map(item => {
+          return {
+            key: item.storageLocation,
+            value: item.storageLocation + ' ' + item.description,
+          };
+        }),
+      });
     };
 
     fetchData();
@@ -31,9 +46,7 @@ function StorageLocationDropdown(
 
   return (
     <SelectList
-      setSelected={() => {
-        console.log('a');
-      }}
+      setSelected={() => {}}
       save="key"
       search={false}
       arrowicon={<Text />}
@@ -42,7 +55,7 @@ function StorageLocationDropdown(
       boxStyles={styles(theme).dropDownBox}
       inputStyles={styles(theme).dropDownInput}
       dropdownTextStyles={styles(theme).dropDownText}
-      data={[]}
+      data={dropDownData.selectListData}
     />
   );
 }
