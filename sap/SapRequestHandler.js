@@ -1,6 +1,6 @@
 import base64 from 'react-native-base64';
 
-import CredentialStorage from '../credentials/CredentialStorage.js';
+import CredentialStorage from '../credentials/CredentialStorage';
 
 //TODO: Generalise request into get(params), post(body)
 class SapRequestHandler {

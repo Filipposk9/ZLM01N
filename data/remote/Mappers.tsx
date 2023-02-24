@@ -21,7 +21,7 @@ export const storageLocationModelToStorageLocation = (
   storageLocationModel: StorageLocationModel,
 ): StorageLocation => {
   return Object.freeze({
-    storageLocation: storageLocationModel.storageLocation,
-    description: storageLocationModel.description,
+    storageLocation: storageLocationModel.STORAGELOCATION,
+    description: storageLocationModel.DESCRIPTION,
   });
 };

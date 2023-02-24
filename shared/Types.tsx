@@ -11,7 +11,7 @@ export interface Material {
   quantity: number;
   unitOfMeasure: string;
   plant: string;
-  storageLocation: StorageLocation;
+  storageLocation: string;
 }
 
 export interface StorageLocation {

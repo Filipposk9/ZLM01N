@@ -1,3 +1,5 @@
+import CredentialStorage from '../../credentials/CredentialStorage';
+import base64 from 'react-native-base64';
 import {
   ErrorResponse,
   SuccessResponse,
@@ -16,10 +18,22 @@ class RequestGateway {
   }
 
   async get<T>(endpoint: string): Promise<SuccessResponse<T> | ErrorResponse> {
+    const credentials = JSON.parse(await CredentialStorage.getCredentials());
+
     try {
       await this.processRequest();
       console.log('Network request to', endpoint);
-      const response = await fetch(this.baseUrl + endpoint);
+      const response = await fetch(this.baseUrl + endpoint, {
+        method: 'GET',
+        headers: {
+          'Content-type': 'application/json',
+          'x-csrf-token': credentials.token,
+          Authorization:
+            'Basic ' +
+            base64.encode(credentials.username + ':' + credentials.password),
+        },
+      });
+
       const result = await response.json();
 
       if (result.type && result.message) {
@@ -33,13 +47,14 @@ class RequestGateway {
         );
         return error;
       } else {
+        const response = {data: result};
         return {
-          result: result as T,
+          result: response as T,
         };
       }
     } catch (error) {
       const _e = error as Error;
-      console.error(
+      console.log(
         `RequestGateway::get Error: ${_e.name} message: ${_e.message}`,
       );
       return {

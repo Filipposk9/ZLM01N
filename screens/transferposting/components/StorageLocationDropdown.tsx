@@ -5,38 +5,34 @@ import {ThemeContext} from '../../../styles/ThemeContext';
 import Repository from '../../../data/Repository';
 import {StorageLocation} from '../../../shared/Types';
 
-const [selectListData, setSelectListData] = useState<any>();
+//const [selectListData, setSelectListData] = useState();
 
 interface StorageLocationDropdownProps {
   placeholder: string;
-  onChange: (val: string) => void;
+  //onChange: (val: string) => void;
 }
-
-useEffect(() => {
-  console.log('a');
-
-  const fetchData = async () => {
-    const data = await Repository.getStorageLocations();
-    console.log(data);
-
-    setSelectListData(data);
-  };
-
-  fetchData();
-}, []);
 
 function StorageLocationDropdown(
   props: StorageLocationDropdownProps,
 ): JSX.Element {
-  const {placeholder, onChange} = props;
+  useEffect(() => {
+    console.log('a');
 
+    const fetchData = async () => {
+      const data = await Repository.getStorageLocations();
+      console.log(data);
+    };
+
+    fetchData();
+  }, []);
+
+  const {placeholder} = props;
   const {theme} = useContext(ThemeContext);
 
   return (
     <SelectList
-      setSelected={(val: string) => {
-        onChange(val);
-        //TODO: FIX LAG ON SELECTION CHANGE
+      setSelected={() => {
+        console.log('a');
       }}
       save="key"
       search={false}
@@ -46,7 +42,7 @@ function StorageLocationDropdown(
       boxStyles={styles(theme).dropDownBox}
       inputStyles={styles(theme).dropDownInput}
       dropdownTextStyles={styles(theme).dropDownText}
-      data={selectListData}
+      data={[]}
     />
   );
 }

@@ -32,10 +32,9 @@ class MasterDataService {
     if (isError(response)) {
       return [];
     } else {
-      const storageLocations: StorageLocation[] = response.result.data.map(
-        item => storageLocationModelToStorageLocation(item),
+      return response.result.data.map(item =>
+        storageLocationModelToStorageLocation(item),
       );
-      return storageLocations;
     }
   }
 }

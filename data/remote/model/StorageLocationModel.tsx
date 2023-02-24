@@ -1,6 +1,6 @@
 export interface StorageLocationModel {
-  storageLocation: string;
-  description: string;
+  STORAGELOCATION: string;
+  DESCRIPTION: string;
 }
 
 export interface StorageLocationResponse {
