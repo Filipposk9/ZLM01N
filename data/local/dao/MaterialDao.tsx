@@ -1,7 +1,26 @@
-import {MaterialSchema} from '../schema/MaterialSchema';
+import {Material} from '../../../shared/Types';
+import {SCHEMA_NAME} from '../SchemaName';
+import BaseDao from './BaseDao';
 
 class MaterialDao {
-  async getMaterialTextByNumber(
+  async getMaterialBasicData(
     materialNumber: string,
-  ): Promise<MaterialSchema | undefined> {}
+  ): Promise<Material | undefined> {
+    const materialBasicData = await BaseDao.getCopyObjectById<Material>(
+      SCHEMA_NAME.MATERIAL,
+      materialNumber,
+    );
+
+    if (!materialBasicData) {
+      return undefined;
+    }
+
+    return materialBasicData;
+  }
+
+  async createMaterial(material: Material) {
+    BaseDao.createObject(SCHEMA_NAME.MATERIAL, material);
+  }
 }
+
+export default new MaterialDao();
