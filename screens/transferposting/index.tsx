@@ -1,8 +1,9 @@
 import React, {useContext, useRef, useState} from 'react';
-import {View, Text} from 'react-native';
+import {View, Text, ScrollView, Pressable} from 'react-native';
 import Spinner from 'react-native-loading-spinner-overlay/lib';
 import BarcodeScanner from '../../components/BarcodeScanner';
 import StorageLocationDropdown from './components/StorageLocationDropdown';
+import Label from './components/Label';
 import {useAppDispatch} from '../../redux/Store';
 import {ThemeContext} from '../../styles/ThemeContext';
 
@@ -19,25 +20,40 @@ function TransferPosting({navigation}: {navigation: any}): JSX.Element {
   const barcodeScannerRef = useRef();
   const [lastScannedBarcode, setLastScannedBarcode] = useState('');
 
-  const [lgortIn, setLgortIn] = useState();
-  const [lgortOut, setLgortOut] = useState();
+  const [storageLocationIn, setStorageLocationIn] = useState('');
+  const [storageLocationOut, setStorageLocationOut] = useState('');
+
+  const [scannedLabels, setScannedLabels] = useState([
+    {
+      count: 1,
+      matnr: '210000521',
+      charg: '11111CU123',
+      menge: '150',
+      barcode: '210000521-11111CU123-150',
+      validity: false,
+      movetype: '311',
+      aufnr: '',
+    },
+  ]);
 
   const focusBarcodeScanner = (e: any) => {
     e.preventDefault();
-    if (barcodeScannerRef.current) {
+    /*if (barcodeScannerRef.current) {
       barcodeScannerRef.current.focus();
-    }
+    }*/
   };
 
   const addLabel = (lastScannedBarcode: string) => {
     console.log(lastScannedBarcode);
   };
 
-  const addTest = () => {
-    console.log('a');
+  const onStorageLocationInChange = (storageLocationIn: string) => {
+    setStorageLocationIn(storageLocationIn);
   };
 
-  const [t, setT] = useState<string>('');
+  const onStorageLocationOutChange = (storageLocationOut: string) => {
+    setStorageLocationOut(storageLocationOut);
+  };
 
   return (
     <View onTouchStart={focusBarcodeScanner}>
@@ -47,11 +63,44 @@ function TransferPosting({navigation}: {navigation: any}): JSX.Element {
         textStyle={{color: 'white'}}
       />
 
+      <StorageLocationDropdown
+        placeholder={'Αποθηκευτικός χώρος προέλευσης'}
+        onChange={onStorageLocationInChange}
+      />
+      <StorageLocationDropdown
+        placeholder={'Αποθηκευτικός χώρος προορισμού'}
+        onChange={onStorageLocationOutChange}
+      />
+
       <BarcodeScanner scannedText={lastScannedBarcode} onScan={addLabel} />
 
-      <StorageLocationDropdown placeholder={'Αποθηκευτικός χώρος προέλευσης'} />
+      <ScrollView contentInsetAdjustmentBehavior="automatic">
+        {scannedLabels.length > 0
+          ? scannedLabels.map((item, i) => {
+              return (
+                <Label
+                  key={i}
+                  value={scannedLabels[i]}
+                  barcode={scannedLabels[i].barcode}
+                  counter={scannedLabels.length}
+                  lgortIn={storageLocationIn}
+                  lgortOut={storageLocationOut}
+                  validity={scannedLabels[i].validity}
+                  onDeletePressed={() => {
+                    console.log('a');
+                  }}
+                />
+              );
+            })
+          : null}
+      </ScrollView>
 
-      <Text>a</Text>
+      <Pressable
+        onPress={() => {
+          console.log(scannedLabels);
+        }}>
+        <Text>a</Text>
+      </Pressable>
     </View>
   );
 }
