@@ -16,7 +16,7 @@ import SapRequestHandler from '../sap/SapRequestHandler.js';
 
 import Spinner from 'react-native-loading-spinner-overlay';
 import StorageLocationSelectList from '../components/StorageLocationSelectList.js';
-import Label from '../components/Label.js';
+import Label from '../components/Label2.js';
 import TypedLabelInserterPopup from '../components/TypedLabelInserterPopup.js';
 
 import {styles} from '../styles/TransferPostingStyles.js';
