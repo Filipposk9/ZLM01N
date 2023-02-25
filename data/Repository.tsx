@@ -1,9 +1,8 @@
 import UserDao from './local/dao/UserDao';
 import MasterDataService from './remote/service/MasterDataService';
 import StorageLocationDao from './local/dao/StorageLocationDao';
-import {User, StorageLocation} from '../shared/Types';
-
-import Transporter from './transporter/Transporter';
+import MaterialDao from './local/dao/MaterialDao';
+import {User, StorageLocation, Material} from '../shared/Types';
 
 class Repository {
   async getUsers(): Promise<User[] | undefined> {
@@ -31,7 +30,9 @@ class Repository {
       await MasterDataService.getStorageLocations();
 
     if (remoteStorageLocationList && remoteStorageLocationList.length > 0) {
-      Transporter.transport(remoteStorageLocationList);
+      await StorageLocationDao.createStorageLocations(
+        remoteStorageLocationList,
+      );
 
       return remoteStorageLocationList;
     } else {
@@ -39,6 +40,25 @@ class Repository {
         await StorageLocationDao.getStorageLocations();
 
       return localStorageLocationList;
+    }
+  }
+
+  async getMaterialBasicData(
+    materialNumber: string,
+  ): Promise<Material | undefined> {
+    const remoteMaterialBasicData =
+      await MasterDataService.getMaterialBasicData(materialNumber);
+
+    if (remoteMaterialBasicData) {
+      await MaterialDao.createMaterial(remoteMaterialBasicData);
+
+      return remoteMaterialBasicData;
+    } else {
+      const localMaterialBasicData = await MaterialDao.getMaterialBasicData(
+        materialNumber,
+      );
+
+      return localMaterialBasicData;
     }
   }
 }
