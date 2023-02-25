@@ -28,7 +28,7 @@ class BaseDao {
     return this.convertToItem<T>(result, schema);
   }
 
-  async getObjectById<T>(schema: string, id: any): Promise<T> {
+  async getObjectById<T>(schema: string, id: any): Promise<T | null> {
     const realm = await db.getConnection();
     const result = realm.objectForPrimaryKey<T>(schema, id);
     return result;
