@@ -7,8 +7,7 @@ import {StorageLocation} from '../../../shared/Types';
 
 interface StorageLocationDropdownProps {
   placeholder: string;
-  //onChange: (val: string) => void;
-  selectLiData: {key: string; value: string}[];
+  onChange: (storageLocation: string) => void;
 }
 
 interface dropDownContent {
@@ -23,13 +22,11 @@ function StorageLocationDropdown(
   });
 
   useEffect(() => {
-    console.log('a');
-
     const fetchData = async () => {
-      const data = await Repository.getStorageLocations();
+      const storageLocations = await Repository.getStorageLocations();
 
       setDropDownData({
-        selectListData: data.map(item => {
+        selectListData: storageLocations.map(item => {
           return {
             key: item.storageLocation,
             value: item.storageLocation + ' ' + item.description,
@@ -41,12 +38,14 @@ function StorageLocationDropdown(
     fetchData();
   }, []);
 
-  const {placeholder} = props;
+  const {placeholder, onChange} = props;
   const {theme} = useContext(ThemeContext);
 
   return (
     <SelectList
-      setSelected={() => {}}
+      setSelected={(storageLocation: string) => {
+        onChange(storageLocation);
+      }}
       save="key"
       search={false}
       arrowicon={<Text />}
