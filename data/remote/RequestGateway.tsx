@@ -22,7 +22,7 @@ class RequestGateway {
     let credentials = JSON.parse(await CredentialStorage.getCredentials());
 
     try {
-      await this.processRequest();
+      //await this.processRequest();
       console.log('Network request to', endpoint);
       const response = await fetch(this.baseUrl + endpoint, {
         method: 'GET',
