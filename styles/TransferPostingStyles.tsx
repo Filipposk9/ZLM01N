@@ -27,39 +27,6 @@ export const styles = (theme: any) =>
       alignItems: 'center',
       justifyContent: 'center',
     },
-    //label item list
-    labelItemContainer: {
-      borderWidth: 1,
-      borderColor: theme.borderColor,
-      backgroundColor: theme.secondaryForegroundColor,
-      borderRadius: 20,
-      margin: '3%',
-      alignItems: 'center',
-      flexDirection: 'row',
-    },
-    labelItem: {
-      color: theme.secondaryTextColor,
-      paddingLeft: '5%',
-    },
-    swipedRow: {
-      flexDirection: 'row',
-    },
-    swipedContainer: {
-      backgroundColor: 'red',
-      borderRadius: 20,
-      borderWidth: 1,
-      borderColor: theme.borderColor,
-      height: 60,
-      width: 70,
-      alignItems: 'center',
-      justifyContent: 'center',
-      flexDirection: 'row',
-      marginTop: 5,
-      marginRight: 5,
-    },
-    swipedText: {
-      color: 'white',
-    },
     //bottom panel container
     bottomPanelContainer: {
       flexDirection: 'row',
