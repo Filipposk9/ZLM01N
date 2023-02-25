@@ -23,6 +23,10 @@ class StorageLocationDao {
       SCHEMA_NAME.STORAGE_LOCATION,
     );
   }
+
+  async createStorageLocations(storageLocation: StorageLocation[]) {
+    BaseDao.createObjects(SCHEMA_NAME.STORAGE_LOCATION, storageLocation);
+  }
 }
 
 export default new StorageLocationDao();
