@@ -8,7 +8,7 @@ import {
 } from '../Mappers';
 
 class MasterDataService {
-  async getMaterials(): Promise<Material[]> {
+  /*async getMaterials(): Promise<Material[]> {
     const response = await RequestGateway.get<MaterialResponse>(
       '/mdata?matnr=1&charg=&menge=&lgort_in=',
     );
@@ -22,7 +22,7 @@ class MasterDataService {
 
       return materials;
     }
-  }
+  }*/
 
   async getStorageLocations(): Promise<StorageLocation[]> {
     const response = await RequestGateway.get<StorageLocationResponse>(
@@ -35,6 +35,20 @@ class MasterDataService {
       return response.result.data.map(item =>
         storageLocationModelToStorageLocation(item),
       );
+    }
+  }
+
+  async getMaterialBasicData(
+    materialNumber: string,
+  ): Promise<Material | undefined> {
+    const response = await RequestGateway.get<MaterialResponse>(
+      '/mdata?matnr=' + materialNumber,
+    );
+
+    if (isError(response)) {
+      return undefined;
+    } else {
+      return materialModelToMaterial(response.result.data);
     }
   }
 }
