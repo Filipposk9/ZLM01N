@@ -17,8 +17,9 @@ class RequestGateway {
     this.baseUrl = baseUrl;
   }
 
+  //TODO: async get<T>(endpoint: string, params: {}): Promise<...
   async get<T>(endpoint: string): Promise<SuccessResponse<T> | ErrorResponse> {
-    const credentials = JSON.parse(await CredentialStorage.getCredentials());
+    let credentials = JSON.parse(await CredentialStorage.getCredentials());
 
     try {
       await this.processRequest();
