@@ -3,6 +3,8 @@ import MasterDataService from './remote/service/MasterDataService';
 import StorageLocationDao from './local/dao/StorageLocationDao';
 import {User, StorageLocation} from '../shared/Types';
 
+import Transporter from './transporter/Transporter';
+
 class Repository {
   async getUsers(): Promise<User[] | undefined> {
     const localUsers = await UserDao.getUsers();
@@ -29,6 +31,8 @@ class Repository {
       await MasterDataService.getStorageLocations();
 
     if (remoteStorageLocationList && remoteStorageLocationList.length > 0) {
+      Transporter.transport(remoteStorageLocationList);
+
       return remoteStorageLocationList;
     } else {
       const localStorageLocationList =
