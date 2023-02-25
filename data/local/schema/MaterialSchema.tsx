@@ -6,5 +6,7 @@ export const MaterialSchema = {
   properties: {
     materialNumber: 'string',
     description: 'string',
+    materialGroup: 'string',
+    unitOfMeasure: 'string',
   },
 };
