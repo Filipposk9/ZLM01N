@@ -6,15 +6,11 @@ export const materialModelToMaterial = (
   materialModel: MaterialModel,
 ): Material => {
   return Object.freeze({
-    materialNumber: materialModel.materialNumber,
-    description: materialModel.description,
-    materialGroup: materialModel.materialGroup,
-    batch: materialModel.batch,
-    quantity: materialModel.quantity,
-    unitOfMeasure: materialModel.unitOfMeasure,
-    plant: materialModel.plant,
-    storageLocation: materialModel.storageLocation,
-  } as const);
+    materialNumber: materialModel.MATERIALNUMBER,
+    description: materialModel.DESCRIPTION,
+    materialGroup: materialModel.MATERIALGROUP,
+    unitOfMeasure: materialModel.UNITOFMEASURE,
+  });
 };
 
 export const storageLocationModelToStorageLocation = (
