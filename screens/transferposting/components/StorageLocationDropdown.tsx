@@ -22,7 +22,7 @@ function StorageLocationDropdown(
   });
 
   useEffect(() => {
-    const fetchData = async () => {
+    const fetchStorageLocations = async () => {
       const storageLocations = await Repository.getStorageLocations();
 
       setDropDownData({
@@ -35,7 +35,7 @@ function StorageLocationDropdown(
       });
     };
 
-    fetchData();
+    fetchStorageLocations();
   }, []);
 
   const {placeholder, onChange} = props;
