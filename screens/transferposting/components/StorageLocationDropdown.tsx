@@ -3,7 +3,6 @@ import {Text, StyleSheet} from 'react-native';
 import {SelectList} from 'react-native-dropdown-select-list';
 import {ThemeContext} from '../../../styles/ThemeContext';
 import Repository from '../../../data/Repository';
-import {StorageLocation} from '../../../shared/Types';
 
 interface StorageLocationDropdownProps {
   placeholder: string;
