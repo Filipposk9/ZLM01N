@@ -16,6 +16,8 @@ class Database {
         path: 'bundle.realm',
       });
 
+      //TODO: take initial database users somewhere else
+
       this.connection.write(() => {
         if (this.connection !== undefined) {
           this.connection.create(
