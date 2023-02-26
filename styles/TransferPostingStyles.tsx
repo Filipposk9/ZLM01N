@@ -7,44 +7,27 @@ export const styles = (theme: any) =>
       backgroundColor: theme.backgroundColor,
       height: '100%',
     },
-    //storage location selection list
-    storageLocationBox: {
-      backgroundColor: theme.foregroundColor,
-      margin: '3%',
-      borderColor: theme.borderColor,
-      borderRadius: 20,
-    },
-    storageLocationInput: {
-      color: theme.buttonTextColor,
-      margin: '2%',
-    },
-    storageLocationText: {
-      margin: '2%',
-    },
-    //invisible text input
-    invisibleInputContainer: {
-      height: 0,
-      alignItems: 'center',
-      justifyContent: 'center',
-    },
     //bottom panel container
     bottomPanelContainer: {
       flexDirection: 'row',
+      marginTop: '65%',
+      margin: '3%',
     },
     //history button
-    historyBtnContainer: {
+    historyButtonContainer: {
       backgroundColor: theme.foregroundColor,
       borderWidth: 1,
       borderColor: theme.borderColor,
       borderRadius: 20,
-      marginLeft: '4%',
       justifyContent: 'center',
-    },
-    historyBtn: {
       alignItems: 'center',
-      width: 150,
+      width: '40%',
     },
-    historyBtnText: {
+    historyButton: {
+      alignItems: 'center',
+      width: '100%',
+    },
+    historyButtonText: {
       color: theme.buttonTextColor,
     },
     addLabelBtnContainer: {
@@ -52,7 +35,7 @@ export const styles = (theme: any) =>
       borderWidth: 1,
       borderColor: theme.borderColor,
       backgroundColor: theme.foregroundColor,
-      marginLeft: '40%',
+      marginLeft: '45%',
     },
     //add label manually button
     addLabelBtn: {
@@ -117,7 +100,7 @@ export const styles = (theme: any) =>
       backgroundColor: theme.foregroundColor,
       alignItems: 'center',
       justifyContent: 'center',
-      margin: '4%',
+      margin: '3%',
     },
     submitBtn: {
       height: 60,
