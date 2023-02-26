@@ -33,68 +33,6 @@ class SapRequestHandler {
         //TODO: throw error;
       });
   }
-  //TODO: rework request into header and lines
-  //TODO: write local DB username to backend
-  static async createGoodsMovement(
-    lgortIn,
-    lgortOut,
-    scannedLabels,
-    goodsMovementCode,
-  ) {
-    const credentials = JSON.parse(await CredentialStorage.getCredentials());
-
-    let bodyData = scannedLabels.map(currentLabel => {
-      return {
-        count: currentLabel.count,
-        matnr: currentLabel.matnr,
-        charg: currentLabel.charg,
-        menge: currentLabel.menge.replace(',', '.'),
-        lgort_in: lgortIn,
-        lgort_out: lgortOut,
-        validity: currentLabel.validity,
-        movetype: currentLabel.movetype,
-        aufnr: currentLabel.aufnr,
-      };
-    });
-
-    bodyData = {items: bodyData, gm_code: goodsMovementCode};
-
-    let csrfToken = await this.login();
-
-    if (csrfToken !== undefined) {
-      CredentialStorage.setCredentials(
-        SapRequestHandler.username,
-        SapRequestHandler.password,
-        csrfToken,
-      );
-    }
-
-    return await fetch(SapRequestHandler.baseUrl + '/transfer_posting', {
-      method: 'POST',
-      headers: {
-        'Content-type': 'application/json',
-        'x-csrf-token': csrfToken,
-        Authorization:
-          'Basic ' +
-          base64.encode(credentials.username + ':' + credentials.password),
-      },
-      body: JSON.stringify(bodyData),
-    })
-      .then(async response => {
-        if (response.status === 200) {
-          return await response.json();
-        } else if (response.status === 500) {
-          //TODO: start offline mode
-          throw new Error('SAP Server is down');
-        } else {
-          throw new Error('Unhandled HTTP Response');
-        }
-      })
-      .catch(error => {
-        //alert(error);
-        console.log(error);
-      });
-  }
 
   //TODO: return label stock, handle array of labels with 1 request
   static async getLabelStock(scannedLabels, lgortIn) {
