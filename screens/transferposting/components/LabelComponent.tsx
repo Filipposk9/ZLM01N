@@ -1,4 +1,4 @@
-import React, {useEffect, useRef, useContext} from 'react';
+import React, {useEffect, useRef, useContext, useState} from 'react';
 import Repository from '../../../data/Repository';
 import {
   Animated,
@@ -19,20 +19,22 @@ interface LabelProps {
   onDeletePressed: () => void;
 }
 
-function Label(props: LabelProps): JSX.Element {
+function LabelComponent(props: LabelProps): JSX.Element {
   const {count, barcode, validity, onDeletePressed} = props;
   const {theme} = useContext(ThemeContext);
   const swipeablePanel = useRef();
 
-  useEffect(() => {
-    const materialNumber = barcode.split('-')[0];
+  const [materialDescription, setMaterialDescription] = useState<
+    string | undefined
+  >('');
 
+  useEffect(() => {
     const fetchMaterialBasicData = async () => {
       const materialBasicData = await Repository.getMaterialBasicData(
-        materialNumber,
+        barcode.split('-')[0],
       );
 
-      //
+      setMaterialDescription(materialBasicData?.description);
     };
 
     fetchMaterialBasicData();
@@ -70,7 +72,7 @@ function Label(props: LabelProps): JSX.Element {
           <TextInput
             style={styles(theme).labelItem}
             editable={false}
-            value={barcode}
+            value={barcode + '\n' + materialDescription}
             multiline={true}
           />
           <Icon
@@ -120,4 +122,4 @@ const styles = (theme: any) =>
     },
   });
 
-export default Label;
+export default LabelComponent;
