@@ -1,7 +1,6 @@
 import {createReducer} from '@reduxjs/toolkit';
 import {UserState} from '../ReduxTypes';
 import {setCurrentUser} from '../actions/UserActions';
-import {User} from '../../shared/Types';
 
 const initialState: UserState = {
   user: {username: '', password: ''},
