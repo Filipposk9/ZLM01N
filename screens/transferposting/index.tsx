@@ -3,9 +3,18 @@ import {View, Text, ScrollView, Pressable} from 'react-native';
 import Spinner from 'react-native-loading-spinner-overlay/lib';
 import BarcodeScanner from '../../components/BarcodeScanner';
 import StorageLocationDropdown from './components/StorageLocationDropdown';
-import Label from './components/Label';
+import LabelComponent from './components/LabelComponent';
 import {useAppDispatch} from '../../redux/Store';
 import {ThemeContext} from '../../styles/ThemeContext';
+import {styles} from '../../styles/TransferPostingStyles';
+import {GlobalStyles} from '../../styles/GlobalStyles';
+import Repository from '../../data/Repository';
+import {Label} from '../../shared/Types';
+import {
+  GOODS_MOVEMENT_CODE,
+  MOVEMENT_TYPE,
+  PRODUCTION_ORDER,
+} from '../../shared/Constants';
 
 function TransferPosting({navigation}: {navigation: any}): JSX.Element {
   const dispatch = useAppDispatch();
@@ -23,18 +32,28 @@ function TransferPosting({navigation}: {navigation: any}): JSX.Element {
   const [storageLocationIn, setStorageLocationIn] = useState('');
   const [storageLocationOut, setStorageLocationOut] = useState('');
 
-  const [scannedLabels, setScannedLabels] = useState([
+  const [scannedLabels, setScannedLabels] = useState<Label[]>([
     {
       count: 1,
-      matnr: '210000521',
-      charg: '11111CU123',
-      menge: '150',
-      barcode: '210000521-11111CU123-150',
-      validity: false,
-      movetype: '311',
-      aufnr: '',
+      materialNumber: '210000521',
+      batch: '11111CU123',
+      quantity: 150,
+    },
+    {
+      count: 2,
+      materialNumber: '210000521',
+      batch: '11111CU123',
+      quantity: 150,
     },
   ]);
+
+  const onStorageLocationInChange = (storageLocationIn: string) => {
+    setStorageLocationIn(storageLocationIn);
+  };
+
+  const onStorageLocationOutChange = (storageLocationOut: string) => {
+    setStorageLocationOut(storageLocationOut);
+  };
 
   const focusBarcodeScanner = (e: any) => {
     e.preventDefault();
@@ -44,15 +63,26 @@ function TransferPosting({navigation}: {navigation: any}): JSX.Element {
   };
 
   const addLabel = (lastScannedBarcode: string) => {
-    console.log(lastScannedBarcode);
+    setScannedLabels([
+      ...scannedLabels,
+      {
+        count: scannedLabels.length + 1,
+        materialNumber: lastScannedBarcode.split('-')[0],
+        batch: lastScannedBarcode.split('-')[1],
+        quantity: Number(lastScannedBarcode.split('-')[2]),
+      },
+    ]);
   };
 
-  const onStorageLocationInChange = (storageLocationIn: string) => {
-    setStorageLocationIn(storageLocationIn);
-  };
-
-  const onStorageLocationOutChange = (storageLocationOut: string) => {
-    setStorageLocationOut(storageLocationOut);
+  const submitMaterialDocument = (scannedLabels: Label[]) => {
+    Repository.createGoodsMovement(
+      GOODS_MOVEMENT_CODE.TRANSFER_POSTING,
+      scannedLabels,
+      storageLocationIn,
+      storageLocationOut,
+      MOVEMENT_TYPE.TRANSFER_POSTING,
+      PRODUCTION_ORDER.BLANK,
+    );
   };
 
   return (
@@ -78,14 +108,17 @@ function TransferPosting({navigation}: {navigation: any}): JSX.Element {
         {scannedLabels.length > 0
           ? scannedLabels.map((item, i) => {
               return (
-                <Label
+                <LabelComponent
                   key={i}
-                  value={scannedLabels[i]}
-                  barcode={scannedLabels[i].barcode}
-                  counter={scannedLabels.length}
-                  lgortIn={storageLocationIn}
-                  lgortOut={storageLocationOut}
-                  validity={scannedLabels[i].validity}
+                  count={scannedLabels.length}
+                  barcode={
+                    scannedLabels[i].materialNumber +
+                    '-' +
+                    scannedLabels[i].batch +
+                    '-' +
+                    scannedLabels[i].quantity
+                  }
+                  validity={false}
                   onDeletePressed={() => {
                     console.log('a');
                   }}
@@ -95,12 +128,53 @@ function TransferPosting({navigation}: {navigation: any}): JSX.Element {
           : null}
       </ScrollView>
 
-      <Pressable
-        onPress={() => {
-          console.log(scannedLabels);
-        }}>
-        <Text>a</Text>
-      </Pressable>
+      {/* Bottom panel */}
+      <View style={styles(theme).bottomPanelContainer}>
+        {/*Transfer Posting History Button */}
+        <View style={styles(theme).historyButtonContainer}>
+          <Pressable
+            onPress={() => {
+              navigation.navigate('TransferPostingHistory');
+            }}
+            style={styles(theme).historyButton}
+            android_ripple={GlobalStyles(theme).rippleColor}>
+            <Text style={styles(theme).historyButtonText}>Ιστορικό</Text>
+          </Pressable>
+        </View>
+
+        {/*Add Label Manually Button*/}
+        <View style={styles(theme).addLabelBtnContainer}>
+          <Pressable
+            onPress={() => {
+              console.log('a');
+              //typedLabelInserterRef.current.setState({visibility: true});
+            }}
+            style={styles(theme).addLabelBtn}
+            android_ripple={GlobalStyles(theme).rippleColor}>
+            <Text style={styles(theme).addLabelBtnText}>+</Text>
+          </Pressable>
+        </View>
+      </View>
+
+      {/*       <TypedLabelInserterPopup
+        onSubmit={() => {
+          addLabel(typedLabelInserterRef.current.state.barcode);
+        }}
+        ref={typedLabelInserterRef}
+      /> */}
+
+      {/* Submit form to SAP */}
+      <View style={styles(theme).submitBtnContainer}>
+        <Pressable
+          style={styles(theme).submitBtn}
+          onPress={() => {
+            submitMaterialDocument(scannedLabels);
+            //TODO: turn storagelocs into header fields
+          }}
+          android_ripple={GlobalStyles(theme).rippleColor}>
+          <Text style={styles(theme).submitBtnText}>Καταχώριση</Text>
+        </Pressable>
+      </View>
     </View>
   );
 }
