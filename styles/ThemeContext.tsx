@@ -27,7 +27,7 @@ const themes = {
 
     textColor: '#000000',
     buttonTextColor: '#ffffff',
-    secondaryTextColor: '#333333',
+    secondaryTextColor: '#444444',
 
     rippleColor: '#a0c4c2',
   },
@@ -41,7 +41,7 @@ const initialState = {
 
 const ThemeContext = React.createContext(initialState);
 
-function ThemeProvider({children}) {
+function ThemeProvider({children}: any) {
   const [dark, setDark] = React.useState(false); // Default theme is light
 
   // Toggle between dark and light modes
