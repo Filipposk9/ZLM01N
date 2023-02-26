@@ -15,8 +15,6 @@ class ApiPostService {
     movementType: string,
     productionOrder: string,
   ): Promise<MaterialDocument | undefined> {
-    //TODO: rework input parameters into one structure GoodsMovement
-
     const materialDocument = labelToGoodsMovement(
       goodsMovementCode,
       scannedLabels,
