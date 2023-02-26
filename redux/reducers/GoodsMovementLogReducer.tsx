@@ -9,7 +9,7 @@ export const goodsMovementLogReducer = createReducer(initialState, builder => {
     if (state.goodsMovementLog) {
       return {
         ...state,
-        goodsMovementLog: action.payload,
+        goodsMovementLog: state.goodsMovementLog.concat(action.payload),
       };
     }
     state.goodsMovementLog = action.payload;
