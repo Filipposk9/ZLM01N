@@ -123,7 +123,7 @@ class RequestGateway {
   }
 
   private async getCSRFToken(): Promise<string | void | null> {
-    //TODO: this.get(), credentials from credential storage
+    //TODO: USE this.get(), credentials from credential storage
 
     return await fetch(this.baseUrl + '/mdata', {
       method: 'GET',
