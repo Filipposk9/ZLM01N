@@ -77,7 +77,7 @@ class Repository {
     movementType: string,
     productionOrder: string,
   ): Promise<MaterialDocument | undefined> {
-    const createdMaterialDocument = await ApiPostService.createGoodsMovement(
+    const materialDocument = await ApiPostService.createGoodsMovement(
       goodsMovementCode,
       scannedLabels,
       storageLocationIn,
@@ -86,9 +86,9 @@ class Repository {
       productionOrder,
     );
 
-    if (createdMaterialDocument) {
+    if (materialDocument) {
       //TODO: put in redux store
-      return createdMaterialDocument;
+      return materialDocument;
     }
   }
 }
