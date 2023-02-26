@@ -1,5 +1,5 @@
-import {UserSchema} from '../data/local/schema/UserSchema';
 import {User} from '../shared/Types';
+import {GoodsMovement} from '../shared/Types';
 
 export interface ActionMap<T> {
   id: string;
@@ -8,4 +8,8 @@ export interface ActionMap<T> {
 
 export interface UserState {
   user: User;
+}
+
+export interface GoodsMovementLogState {
+  goodsMovementLog: GoodsMovement[];
 }
