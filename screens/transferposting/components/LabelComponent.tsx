@@ -40,6 +40,8 @@ function LabelComponent(props: LabelProps): JSX.Element {
     fetchMaterialBasicData();
   }, []);
 
+  //TODO: move animation to animations folder
+
   const renderLeftActions = (
     dragAnimatedValue: Animated.AnimatedInterpolation<number>,
   ) => {

@@ -16,6 +16,7 @@ import {
   MOVEMENT_TYPE,
   PRODUCTION_ORDER,
 } from '../../shared/Constants';
+import ManualLabelInputModal from './components/ManualLabelInputModal';
 
 function TransferPosting({navigation}: {navigation: any}): JSX.Element {
   const dispatcher = useAppDispatch();
@@ -163,25 +164,25 @@ function TransferPosting({navigation}: {navigation: any}): JSX.Element {
         </View>
 
         {/*Add Label Manually Button*/}
-        <View style={styles(theme).addLabelBtnContainer}>
+        <View style={styles(theme).addLabelButtonContainer}>
           <Pressable
             onPress={() => {
               console.log('a');
               //typedLabelInserterRef.current.setState({visibility: true});
             }}
-            style={styles(theme).addLabelBtn}
+            style={styles(theme).addLabelButton}
             android_ripple={GlobalStyles(theme).rippleColor}>
-            <Text style={styles(theme).addLabelBtnText}>+</Text>
+            <Text style={styles(theme).addLabelButtonText}>+</Text>
           </Pressable>
         </View>
       </View>
 
-      {/*       <TypedLabelInserterPopup
+      <ManualLabelInputModal
+        visibility={false}
         onSubmit={() => {
-          addLabel(typedLabelInserterRef.current.state.barcode);
+          addLabel('a');
         }}
-        ref={typedLabelInserterRef}
-      /> */}
+      />
 
       {/* Submit form to SAP */}
       <View style={styles(theme).submitButtonContainer}>

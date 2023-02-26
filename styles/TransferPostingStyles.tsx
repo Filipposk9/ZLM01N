@@ -30,7 +30,7 @@ export const styles = (theme: any) =>
     historyButtonText: {
       color: theme.buttonTextColor,
     },
-    addLabelBtnContainer: {
+    addLabelButtonContainer: {
       borderRadius: 50,
       borderWidth: 1,
       borderColor: theme.borderColor,
@@ -38,59 +38,15 @@ export const styles = (theme: any) =>
       marginLeft: '45%',
     },
     //add label manually button
-    addLabelBtn: {
+    addLabelButton: {
       width: 50,
       height: 50,
       alignItems: 'center',
       justifyContent: 'center',
     },
-    addLabelBtnText: {
+    addLabelButtonText: {
       fontSize: 26,
       color: theme.buttonTextColor,
-    },
-    //popup dialog
-    popupContainer: {
-      borderRadius: 20,
-      borderColor: theme.borderColor,
-      borderWidth: 1,
-      backgroundColor: theme.backgroundColor,
-    },
-    popupHeaderContainer: {
-      alignItems: 'center',
-      borderRadius: 20,
-      margin: 10,
-    },
-    popupHeaderText: {
-      color: theme.secondaryTextColor,
-      fontSize: 20,
-    },
-    popupBodyContainer: {
-      borderTopWidth: 1,
-      borderTopColor: theme.borderColor,
-    },
-    popupBodyText: {
-      color: theme.secondaryTextColor,
-    },
-    popupFooterContainer: {
-      borderTopWidth: 1,
-      borderTopColor: theme.borderColor,
-      backgroundColor: theme.foregroundColor,
-      borderBottomLeftWidth: 1,
-      borderBottomLeftColor: theme.borderColor,
-      borderBottomLeftRadius: 20,
-      borderBottomRightWidth: 1,
-      borderBottomRightColor: theme.borderColor,
-      borderBottomRightRadius: 20,
-    },
-    //submit manually typed label button
-    popupSubmitBtn: {
-      margin: 10,
-      justifyContent: 'center',
-      alignItems: 'center',
-    },
-    popupSubmitBtnText: {
-      color: theme.buttonTextColor,
-      fontSize: 16,
     },
     //submit transfer posting button
     submitButtonContainer: {
