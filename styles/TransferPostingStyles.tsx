@@ -93,7 +93,7 @@ export const styles = (theme: any) =>
       fontSize: 16,
     },
     //submit transfer posting button
-    submitBtnContainer: {
+    submitButtonContainer: {
       borderRadius: 20,
       borderWidth: 1,
       borderColor: theme.borderColor,
@@ -102,13 +102,13 @@ export const styles = (theme: any) =>
       justifyContent: 'center',
       margin: '3%',
     },
-    submitBtn: {
+    submitButton: {
       height: 60,
       width: '100%',
       alignItems: 'center',
       justifyContent: 'center',
     },
-    submitBtnText: {
+    submitButtonText: {
       fontSize: 16,
       color: theme.buttonTextColor,
     },

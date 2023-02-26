@@ -1,5 +1,5 @@
 import React, {useContext, useRef, useState} from 'react';
-import {View, Text, ScrollView, Pressable} from 'react-native';
+import {View, Text, ScrollView, Pressable, Alert} from 'react-native';
 import Spinner from 'react-native-loading-spinner-overlay/lib';
 import BarcodeScanner from '../../components/BarcodeScanner';
 import StorageLocationDropdown from './components/StorageLocationDropdown';
@@ -91,7 +91,18 @@ function TransferPosting({navigation}: {navigation: any}): JSX.Element {
         dispatcher(setGoodsMovementLog([materialDocument]));
       }
     };
-    submitGoodsMovement();
+
+    if (storageLocationIn && storageLocationOut) {
+      if (scannedLabels.length > 0) {
+        submitGoodsMovement();
+
+        navigation.navigate('TransferPostingLog');
+      } else {
+        Alert.alert('Άδειο παραστατικό');
+      }
+    } else {
+      Alert.alert('Εισάγετε αποθηκευτικό χώρο');
+    }
   };
 
   return (
@@ -173,14 +184,14 @@ function TransferPosting({navigation}: {navigation: any}): JSX.Element {
       /> */}
 
       {/* Submit form to SAP */}
-      <View style={styles(theme).submitBtnContainer}>
+      <View style={styles(theme).submitButtonContainer}>
         <Pressable
-          style={styles(theme).submitBtn}
+          style={styles(theme).submitButton}
           onPress={() => {
             submitMaterialDocument(scannedLabels);
           }}
           android_ripple={GlobalStyles(theme).rippleColor}>
-          <Text style={styles(theme).submitBtnText}>Καταχώριση</Text>
+          <Text style={styles(theme).submitButtonText}>Καταχώριση</Text>
         </Pressable>
       </View>
     </View>
