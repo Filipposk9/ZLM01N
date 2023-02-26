@@ -1,5 +1,6 @@
 import UserDao from './local/dao/UserDao';
 import MasterDataService from './remote/service/MasterDataService';
+import ApiPostService from './remote/service/ApiPostService';
 import StorageLocationDao from './local/dao/StorageLocationDao';
 import MaterialDao from './local/dao/MaterialDao';
 import {
@@ -9,7 +10,6 @@ import {
   MaterialDocument,
   Label,
 } from '../shared/Types';
-import ApiPostService from './remote/service/ApiPostService';
 
 class Repository {
   async getUsers(): Promise<User[] | undefined> {
@@ -87,7 +87,6 @@ class Repository {
     );
 
     if (materialDocument) {
-      //TODO: put in redux store
       return materialDocument;
     }
   }
