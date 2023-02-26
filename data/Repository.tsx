@@ -2,7 +2,14 @@ import UserDao from './local/dao/UserDao';
 import MasterDataService from './remote/service/MasterDataService';
 import StorageLocationDao from './local/dao/StorageLocationDao';
 import MaterialDao from './local/dao/MaterialDao';
-import {User, StorageLocation, Material} from '../shared/Types';
+import {
+  User,
+  StorageLocation,
+  Material,
+  MaterialDocument,
+  Label,
+} from '../shared/Types';
+import ApiPostService from './remote/service/ApiPostService';
 
 class Repository {
   async getUsers(): Promise<User[] | undefined> {
@@ -59,6 +66,29 @@ class Repository {
       );
 
       return localMaterialBasicData;
+    }
+  }
+
+  async createGoodsMovement(
+    goodsMovementCode: string,
+    scannedLabels: Label[],
+    storageLocationIn: string,
+    storageLocationOut: string,
+    movementType: string,
+    productionOrder: string,
+  ): Promise<MaterialDocument | undefined> {
+    const createdMaterialDocument = await ApiPostService.createGoodsMovement(
+      goodsMovementCode,
+      scannedLabels,
+      storageLocationIn,
+      storageLocationOut,
+      movementType,
+      productionOrder,
+    );
+
+    if (createdMaterialDocument) {
+      //TODO: put in redux store
+      return createdMaterialDocument;
     }
   }
 }
