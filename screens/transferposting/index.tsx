@@ -5,6 +5,7 @@ import BarcodeScanner from '../../components/BarcodeScanner';
 import StorageLocationDropdown from './components/StorageLocationDropdown';
 import LabelComponent from './components/LabelComponent';
 import {useAppDispatch} from '../../redux/Store';
+import {setGoodsMovementLog} from '../../redux/actions/GoodsMovementLogActions';
 import {ThemeContext} from '../../styles/ThemeContext';
 import {styles} from '../../styles/TransferPostingStyles';
 import {GlobalStyles} from '../../styles/GlobalStyles';
@@ -17,7 +18,7 @@ import {
 } from '../../shared/Constants';
 
 function TransferPosting({navigation}: {navigation: any}): JSX.Element {
-  const dispatch = useAppDispatch();
+  const dispatcher = useAppDispatch();
 
   const {theme} = useContext(ThemeContext);
 
@@ -75,14 +76,22 @@ function TransferPosting({navigation}: {navigation: any}): JSX.Element {
   };
 
   const submitMaterialDocument = (scannedLabels: Label[]) => {
-    Repository.createGoodsMovement(
-      GOODS_MOVEMENT_CODE.TRANSFER_POSTING,
-      scannedLabels,
-      storageLocationIn,
-      storageLocationOut,
-      MOVEMENT_TYPE.TRANSFER_POSTING,
-      PRODUCTION_ORDER.BLANK,
-    );
+    //TODO: add current user param
+
+    const submitGoodsMovement = async () => {
+      const materialDocument = await Repository.createGoodsMovement(
+        GOODS_MOVEMENT_CODE.TRANSFER_POSTING,
+        scannedLabels,
+        storageLocationIn,
+        storageLocationOut,
+        MOVEMENT_TYPE.TRANSFER_POSTING,
+        PRODUCTION_ORDER.BLANK,
+      );
+      if (materialDocument !== undefined) {
+        dispatcher(setGoodsMovementLog([materialDocument]));
+      }
+    };
+    submitGoodsMovement();
   };
 
   return (
@@ -169,7 +178,6 @@ function TransferPosting({navigation}: {navigation: any}): JSX.Element {
           style={styles(theme).submitBtn}
           onPress={() => {
             submitMaterialDocument(scannedLabels);
-            //TODO: turn storagelocs into header fields
           }}
           android_ripple={GlobalStyles(theme).rippleColor}>
           <Text style={styles(theme).submitBtnText}>Καταχώριση</Text>
