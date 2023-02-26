@@ -19,7 +19,9 @@ class RequestGateway {
 
   //TODO: async get<T>(endpoint: string, params: {}): Promise<...
   async get<T>(endpoint: string): Promise<SuccessResponse<T> | ErrorResponse> {
-    let credentials = JSON.parse(await CredentialStorage.getCredentials());
+    const credentials = JSON.parse(
+      String(await CredentialStorage.getCredentials()),
+    );
 
     try {
       //await this.processRequest();
@@ -63,6 +65,88 @@ class RequestGateway {
         errorMessage: _e.message,
       };
     }
+  }
+
+  //TODO: body datatype
+  async post<T>(
+    endpoint: string,
+    data: any,
+  ): Promise<SuccessResponse<T> | ErrorResponse> {
+    const credentials = JSON.parse(
+      String(await CredentialStorage.getCredentials()),
+    );
+
+    const csrfToken = String(await this.getCSRFToken());
+
+    try {
+      console.log('Network request to', endpoint);
+      const response = await fetch(this.baseUrl + endpoint, {
+        method: 'POST',
+        headers: {
+          'Content-type': 'application/json',
+          'x-csrf-token': csrfToken,
+          Authorization:
+            'Basic ' +
+            base64.encode(credentials.username + ':' + credentials.password),
+        },
+        body: JSON.stringify(data),
+      });
+
+      const result = await response.json();
+
+      if (result.type && result.message) {
+        const error = {
+          status: result.status,
+          errorName: result.type,
+          errorMessage: result.message,
+        };
+        console.log(
+          `RequestGateway::post Response Error: ${error.status}-${error.errorName} message: ${error.errorMessage}`,
+        );
+        return error;
+      } else {
+        const response = {data: result};
+        return {
+          result: response as T,
+        };
+      }
+    } catch (error) {
+      const _e = error as Error;
+      console.log(
+        `RequestGateway::post Error: ${_e.name} message: ${_e.message}`,
+      );
+      return {
+        errorName: _e.name,
+        errorMessage: _e.message,
+      };
+    }
+  }
+
+  private async getCSRFToken(): Promise<string | void | null> {
+    //TODO: this.get(), credentials from credential storage
+
+    return await fetch(this.baseUrl + '/mdata', {
+      method: 'GET',
+      headers: {
+        'x-csrf-token': 'Fetch',
+        Authorization:
+          'Basic ' + base64.encode('FILKOZ' + ':' + 'COMPO2SITION4'),
+      },
+    })
+      .then(response => {
+        if (response.status === 200) {
+          return response.headers.get('x-csrf-token');
+        } else if (response.status === 401) {
+          throw new Error('Λάθος όνομα χρήστη/κωδικός πρόσβασης');
+        } else if (response.status === 500) {
+          throw new Error('SAP Server is down');
+        } else {
+          throw new Error('Unhandled HTTP response');
+        }
+      })
+      .catch(error => {
+        //console.log(error);
+      });
   }
 
   private async processRequest() {
