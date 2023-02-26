@@ -15,12 +15,12 @@ export interface StorageLocation {
   description: string;
 }
 
-export interface MaterialDocument {
+export interface GoodsMovement {
   goodsMovementCode: string;
-  items: MaterialDocumentItem[];
+  items: GoodsMovementItem[];
 }
 
-export interface MaterialDocumentItem {
+export interface GoodsMovementItem {
   count: number;
   materialNumber: string;
   batch: string;
@@ -36,4 +36,20 @@ export interface Label {
   materialNumber: string;
   batch: string;
   quantity: number;
+}
+
+export interface MaterialDocument {
+  materialDocumentNumber: string;
+  items: MaterialDocumentItem[];
+}
+
+export interface MaterialDocumentItem {
+  count: number;
+  materialNumber: string;
+  batch: string;
+  quantity: number;
+  storageLocationIn: string;
+  storageLocationOut: string;
+  movementType: string;
+  productionOrder: string;
 }
