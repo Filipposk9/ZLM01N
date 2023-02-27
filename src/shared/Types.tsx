@@ -54,4 +54,13 @@ export interface MaterialDocumentItem {
   productionOrder: string;
 }
 
+export interface GoodsMovementQueue {
+  goodsMovementCode: string;
+  scannedLabels: Label[];
+  storageLocationIn: string;
+  storageLocationOut: string;
+  movementType: string;
+  productionOrder: string;
+}
+
 //TODO: add date and time and unit of measure in materialdocumentresponse

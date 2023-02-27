@@ -17,6 +17,8 @@ import {
   PRODUCTION_ORDER,
 } from '../../shared/Constants';
 import ManualLabelInputModal from './components/ManualLabelInputModal';
+import NetInfo from '@react-native-community/netinfo';
+import {setGoodsMovementQueue} from '../../redux/actions/GoodsMovementQueueActions';
 
 function TransferPosting({navigation}: {navigation: any}): JSX.Element {
   const dispatcher = useAppDispatch();
@@ -72,22 +74,46 @@ function TransferPosting({navigation}: {navigation: any}): JSX.Element {
     }
   };
 
+  const getConnectionDetails = () => {
+    async function getConnectionDetails() {
+      return await NetInfo.fetch().then(async state => {
+        return state.details;
+      });
+    }
+    getConnectionDetails();
+  };
+
   const submitGoodsMovement = (scannedLabels: Label[]) => {
     //TODO: add current user param
+    //TODO: send queue to repository at intervals?
 
     const submitGoodsMovement = async () => {
-      const materialDocument = await Repository.createGoodsMovement(
-        GOODS_MOVEMENT_CODE.TRANSFER_POSTING,
-        scannedLabels,
-        storageLocationIn,
-        storageLocationOut,
-        MOVEMENT_TYPE.TRANSFER_POSTING,
-        PRODUCTION_ORDER.BLANK,
-      );
+      const connectionDetails = getConnectionDetails();
 
-      if (materialDocument !== undefined) {
-        dispatcher(setGoodsMovementLog([materialDocument]));
-        return materialDocument;
+      if (connectionDetails.strength >= 50) {
+        const materialDocument = await Repository.createGoodsMovement(
+          GOODS_MOVEMENT_CODE.TRANSFER_POSTING,
+          scannedLabels,
+          storageLocationIn,
+          storageLocationOut,
+          MOVEMENT_TYPE.TRANSFER_POSTING,
+          PRODUCTION_ORDER.BLANK,
+        );
+
+        if (materialDocument !== undefined) {
+          dispatcher(setGoodsMovementLog([materialDocument]));
+          return materialDocument;
+        }
+      } else {
+        const goodsMovement = {
+          goodsMovementCode: GOODS_MOVEMENT_CODE.TRANSFER_POSTING,
+          scannedLabels,
+          storageLocationIn,
+          storageLocationOut,
+          movementType: MOVEMENT_TYPE.TRANSFER_POSTING,
+          productionOrder: PRODUCTION_ORDER.BLANK,
+        };
+        dispatcher(setGoodsMovementQueue([goodsMovement]));
       }
     };
 
