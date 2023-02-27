@@ -1,5 +1,5 @@
-import {User} from '../src/shared/Types';
-import {MaterialDocument} from '../src/shared/Types';
+import {User} from '../shared/Types';
+import {MaterialDocument} from '../shared/Types';
 
 export interface ActionMap<T> {
   id: string;
