@@ -2,10 +2,12 @@ import React from 'react';
 import {configureStore} from '@reduxjs/toolkit';
 import {Provider, useDispatch} from 'react-redux';
 import {userReducer} from './reducers/UserReducer';
+import {goodsMovementLogReducer} from './reducers/GoodsMovementLogReducer';
 
 export const store = configureStore({
   reducer: {
     user: userReducer,
+    goodsMovementLog: goodsMovementLogReducer,
   },
 });
 
