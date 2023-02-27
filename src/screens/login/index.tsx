@@ -9,11 +9,12 @@ import HorizontalRotation from '../../animations/HorizontalRotation';
 import Spinner from 'react-native-loading-spinner-overlay';
 import {ThemeContext} from '../../styles/ThemeContext';
 
-import {RootState, useAppDispatch} from '../../redux/Store';
+import {useAppDispatch} from '../../redux/Store';
 import {setCurrentUser} from '../../redux/actions/UserActions';
 import {useSelector} from 'react-redux';
 import Repository from '../../data/Repository';
 import {User} from '../../shared/Types';
+import {UserState} from '../../redux/ReduxTypes';
 
 function Login({navigation}: {navigation: any}): JSX.Element {
   const {theme} = useContext(ThemeContext);
@@ -30,7 +31,7 @@ function Login({navigation}: {navigation: any}): JSX.Element {
 
   const dispatch = useAppDispatch();
 
-  const currentUser = useSelector((state: RootState) => state.user);
+  const currentUser = useSelector((state: UserState) => state.user);
 
   useEffect((): void => {
     async function fetchUsers() {
