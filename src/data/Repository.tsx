@@ -88,6 +88,8 @@ class Repository {
 
     if (materialDocument) {
       return materialDocument;
+    } else {
+      //TODO: send to redux
     }
   }
 }
