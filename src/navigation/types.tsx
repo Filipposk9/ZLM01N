@@ -1,12 +1,12 @@
 export type RootStackParamList = {
-  Login: undefined;
-  MainMenu: undefined;
-  TransferPosting: undefined;
-  TransferPostingLog: undefined;
-  TransferPostingHistory: undefined;
-  Picking: undefined;
-  GoodsIssues: undefined;
-  StorageLocationList: undefined;
+  Login: JSX.Element;
+  MainMenu: JSX.Element;
+  TransferPosting: JSX.Element;
+  TransferPostingLog: JSX.Element;
+  History: JSX.Element;
+  Picking: JSX.Element;
+  GoodsIssues: JSX.Element;
+  StorageLocationList: JSX.Element;
 };
 
 //TODO: add types
