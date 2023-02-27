@@ -12,7 +12,5 @@ export const goodsMovementLogReducer = createReducer(initialState, builder => {
         goodsMovementLog: state.goodsMovementLog.concat(action.payload),
       };
     }
-    state.goodsMovementLog = action.payload;
-    return state;
   });
 });
