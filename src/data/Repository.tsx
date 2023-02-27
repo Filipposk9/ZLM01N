@@ -9,7 +9,7 @@ import {
   Material,
   MaterialDocument,
   Label,
-} from '../src/shared/Types';
+} from '../shared/Types';
 
 class Repository {
   async getUsers(): Promise<User[] | undefined> {
