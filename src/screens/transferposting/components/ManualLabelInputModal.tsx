@@ -1,19 +1,13 @@
 import React, {useContext, useState} from 'react';
-import {
-  View,
-  Text,
-  TextInput,
-  Pressable,
-  Modal,
-  StyleSheet,
-} from 'react-native';
+import {View, Text, TextInput, Pressable, StyleSheet} from 'react-native';
+import Modal from 'react-native-modal';
 
 import {GlobalStyles} from '../../../styles/GlobalStyles';
 import {ThemeContext} from '../../../styles/ThemeContext';
 
 interface ManualLabelInputModalProps {
   visibility: boolean;
-  onSubmit: () => void;
+  onSubmit: (scannedBarcode: string) => void;
 }
 
 function ManualLabelInputModal(props: ManualLabelInputModalProps): JSX.Element {
@@ -21,37 +15,44 @@ function ManualLabelInputModal(props: ManualLabelInputModalProps): JSX.Element {
 
   const {theme} = useContext(ThemeContext);
 
-  const [materialNumber, setMaterialNumber] = useState();
-  const [batch, setBatch] = useState();
-  const [quantity, setQuantity] = useState();
+  const [materialNumber, setMaterialNumber] = useState<string>('210000521');
+  const [batch, setBatch] = useState<string>('11112CU123');
+  const [quantity, setQuantity] = useState<string>('123');
+  const [barcode, setBarcode] = useState<string>('');
+
+  //TODO: barcodeIsValid should be set in props
+  //TODO: onSubmit should return textinput values
 
   const barcodeIsValid = () => {
-    let matnrRegex = new RegExp('^(1[0]|2[0-2]|30|4[0-2])[0-9]{7}$');
-    let chargRegex = new RegExp(
+    const matnrRegex = new RegExp('^(1[0]|2[0-2]|30|4[0-2])[0-9]{7}$');
+    const chargRegex = new RegExp(
       '^(0{2}[0-9]{8}|[0-9]{5}(X|F)[0-9]{4}|[0-9]{5}((BS(A|B|C|D)[0-9]{2})|(C(B|I|P|S|T|U|X|Y)[0-9]{3})|(M(B|C|P|U)[0-9]{3})|(XPD(B|C))[0-9]{1}|(DS|KS|EU|KC|KD)[0-9]{3}))',
     );
-    let mengeRegex = new RegExp('^[0-9]+');
+    const mengeRegex = new RegExp('^[0-9]+');
 
-    if (!matnrRegex.test(this.state.matnr)) {
+    if (!matnrRegex.test(materialNumber)) {
       throw new Error('Λάθος κωδικός υλικού');
     }
 
-    if (!chargRegex.test(this.state.charg)) {
+    if (!chargRegex.test(batch)) {
       throw new Error('Λάθος παρτίδα');
     }
 
-    if (!mengeRegex.test(this.state.menge)) {
+    if (!mengeRegex.test(quantity.toString())) {
       throw new Error('Λάθος ποσότητα');
     }
 
-    this.state.barcode =
-      this.state.matnr + '-' + this.state.charg + '-' + this.state.menge;
+    setBarcode(materialNumber + '-' + batch + '-' + quantity);
 
     return true;
   };
 
   return (
-    <Modal visible={visibility}>
+    <Modal
+      isVisible={visibility}
+      onBackdropPress={() => {
+        onSubmit('');
+      }}>
       <View style={styles(theme).popupContainer}>
         <View style={styles(theme).popupHeaderContainer}>
           <Text style={styles(theme).popupHeaderText}>
@@ -63,71 +64,67 @@ function ManualLabelInputModal(props: ManualLabelInputModalProps): JSX.Element {
           <TextInput
             style={styles(theme).popupBodyText}
             onFocus={() => {
-              if (this.state.matnr === 'Κωδικός Υλικού') {
-                this.setState({matnr: ''});
+              if (materialNumber === 'Κωδικός Υλικού') {
+                setMaterialNumber('');
               }
             }}
             onBlur={() => {
-              if (this.state.matnr === '') {
-                this.setState({matnr: 'Κωδικός Υλικού'});
+              if (materialNumber === '') {
+                setMaterialNumber('Κωδικός Υλικού');
               }
             }}
-            onChangeText={newText => this.setState({matnr: newText})}
-            value={this.state.matnr}
+            onChangeText={newText => setMaterialNumber(newText)}
+            value={materialNumber}
           />
 
           <TextInput
             style={styles(theme).popupBodyText}
             onFocus={() => {
-              if (this.state.charg === 'Παρτίδα') {
-                this.setState({charg: ''});
+              if (batch === 'Παρτίδα') {
+                setBatch('');
               }
             }}
             onBlur={() => {
-              if (this.state.charg === '') {
-                this.setState({charg: 'Παρτίδα'});
+              if (batch === '') {
+                setBatch('Παρτίδα');
               }
             }}
-            onChangeText={newText => this.setState({charg: newText})}
-            value={this.state.charg}
+            onChangeText={newText => setBatch(newText)}
+            value={batch}
           />
 
           <TextInput
             style={styles(theme).popupBodyText}
             onFocus={() => {
-              if (this.state.menge === 'Ποσότητα') {
-                this.setState({menge: ''});
+              if (quantity === 'Ποσότητα') {
+                setQuantity('');
               }
             }}
             onBlur={() => {
-              if (this.state.menge === '') {
-                this.setState({menge: 'Ποσότητα'});
+              if (quantity === '') {
+                setQuantity('Ποσότητα');
               }
             }}
-            onChangeText={newText => this.setState({menge: newText})}
-            value={this.state.menge}
+            onChangeText={newText => setQuantity(newText)}
+            value={quantity}
           />
         </View>
 
-        <View title="Footer" style={styles(theme).popupFooterContainer}>
+        <View style={styles(theme).popupFooterContainer}>
           <Pressable
             style={styles(theme).popupSubmitBtn}
             onPress={() => {
               try {
-                if (this.barcodeIsValid()) {
-                  this.props.onSubmit();
-
-                  this.setState({
-                    matnr: 'Κωδικός Υλικού',
-                    charg: 'Παρτίδα',
-                    menge: 'Ποσότητα',
-                  });
+                if (barcodeIsValid()) {
+                  setMaterialNumber('Κωδικός Υλικού');
+                  setBatch('Παρτίδα');
+                  setQuantity('Ποσότητα');
+                  onSubmit(materialNumber + '-' + batch + '-' + quantity);
                 }
               } catch (error) {
-                alert(error);
+                console.log('err');
               }
-
-              this.setState({visibility: false});
+              onSubmit('');
             }}
             android_ripple={GlobalStyles(theme).rippleColor}>
             <Text style={styles(theme).popupSubmitBtnText}>Προσθήκη</Text>
