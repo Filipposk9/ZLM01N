@@ -1,6 +1,6 @@
 import {MaterialResponse} from '../model/MaterialModel';
 import {StorageLocationResponse} from '../model/StorageLocationModel';
-import {Material, StorageLocation} from '../../../shared/Types';
+import {Material, StorageLocation} from '../../../src/shared/Types';
 import RequestGateway, {isError} from '../RequestGateway';
 import {
   materialModelToMaterial,

@@ -6,7 +6,7 @@ import {
   MaterialDocument,
   MaterialDocumentItem,
   Label,
-} from '../../shared/Types';
+} from '../../src/shared/Types';
 import {MaterialModel} from './model/MaterialModel';
 import {StorageLocationModel} from './model/StorageLocationModel';
 import {MaterialDocumentModel} from './model/MaterialDocumentModel';

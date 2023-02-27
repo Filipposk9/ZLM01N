@@ -7,10 +7,10 @@
 
 import React from 'react';
 import {NavigationContainer} from '@react-navigation/native';
-import {withAppStore} from './redux/Store';
-import {ThemeProvider} from './styles/ThemeContext';
+import {withAppStore} from './src/redux/Store';
+import {ThemeProvider} from './src/styles/ThemeContext';
 
-import AppNavigation from './navigation';
+import AppNavigation from './src/navigation/index';
 
 function AppStack(): JSX.Element {
   return (

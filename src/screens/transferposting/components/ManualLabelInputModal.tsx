@@ -1,4 +1,4 @@
-import React, {useContext} from 'react';
+import React, {useContext, useState} from 'react';
 import {
   View,
   Text,
@@ -21,6 +21,10 @@ function ManualLabelInputModal(props: ManualLabelInputModalProps): JSX.Element {
 
   const {theme} = useContext(ThemeContext);
 
+  const [materialNumber, setMaterialNumber] = useState();
+  const [batch, setBatch] = useState();
+  const [quantity, setQuantity] = useState();
+
   const barcodeIsValid = () => {
     let matnrRegex = new RegExp('^(1[0]|2[0-2]|30|4[0-2])[0-9]{7}$');
     let chargRegex = new RegExp(
@@ -30,17 +34,14 @@ function ManualLabelInputModal(props: ManualLabelInputModalProps): JSX.Element {
 
     if (!matnrRegex.test(this.state.matnr)) {
       throw new Error('Λάθος κωδικός υλικού');
-      return false;
     }
 
     if (!chargRegex.test(this.state.charg)) {
       throw new Error('Λάθος παρτίδα');
-      return false;
     }
 
     if (!mengeRegex.test(this.state.menge)) {
       throw new Error('Λάθος ποσότητα');
-      return false;
     }
 
     this.state.barcode =
@@ -52,13 +53,13 @@ function ManualLabelInputModal(props: ManualLabelInputModalProps): JSX.Element {
   return (
     <Modal visible={visibility}>
       <View style={styles(theme).popupContainer}>
-        <View title="Header" style={styles(theme).popupHeaderContainer}>
+        <View style={styles(theme).popupHeaderContainer}>
           <Text style={styles(theme).popupHeaderText}>
             Χειροκίνητη Καταχώριση
           </Text>
         </View>
 
-        <View title="Body" style={styles(theme).popupBodyContainer}>
+        <View style={styles(theme).popupBodyContainer}>
           <TextInput
             style={styles(theme).popupBodyText}
             onFocus={() => {

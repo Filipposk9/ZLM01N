@@ -1,4 +1,4 @@
-import {Label, MaterialDocument} from '../../../shared/Types';
+import {Label, MaterialDocument} from '../../../src/shared/Types';
 import {
   labelToGoodsMovement,
   materialDocumentModelToMaterialDocument,

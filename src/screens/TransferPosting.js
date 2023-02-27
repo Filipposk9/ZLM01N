@@ -12,18 +12,18 @@ import {storeLog} from '../redux/actions/StoreGoodsMovementLogAction.js';
 import {storeQueue} from '../redux/actions/StoreTransferPostingQueueAction.js';
 import {useSelector} from 'react-redux';
 
-import SapRequestHandler from '../sap/SapRequestHandler.js';
+import SapRequestHandler from '../src/sap/SapRequestHandler.js';
 
 import Spinner from 'react-native-loading-spinner-overlay';
-import StorageLocationSelectList from '../components/StorageLocationSelectList.js';
-import Label from '../components/Label2.js';
-import TypedLabelInserterPopup from '../components/TypedLabelInserterPopup.js';
+import StorageLocationSelectList from '../src/components/StorageLocationSelectList.js.js';
+import Label from '../src/components/Label2.js.js';
+import TypedLabelInserterPopup from '../src/components/TypedLabelInserterPopup.js.js';
 
-import {styles} from '../styles/TransferPostingStyles.js';
-import {GlobalStyles} from '../styles/GlobalStyles';
-import {ThemeContext} from '../styles/ThemeContext.js';
+import {styles} from '../src/styles/TransferPostingStyles.js';
+import {GlobalStyles} from '../src/styles/GlobalStyles';
+import {ThemeContext} from '../src/styles/ThemeContext.js';
 
-import GoodsMovementLog from '../objects/GoodsMovementLog.js';
+import GoodsMovementLog from '../src/objects/GoodsMovementLog.js.js';
 
 import NetInfo from '@react-native-community/netinfo';
 
