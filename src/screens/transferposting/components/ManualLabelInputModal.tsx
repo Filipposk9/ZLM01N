@@ -15,9 +15,10 @@ function ManualLabelInputModal(props: ManualLabelInputModalProps): JSX.Element {
 
   const {theme} = useContext(ThemeContext);
 
-  const [materialNumber, setMaterialNumber] = useState<string>('210000521');
-  const [batch, setBatch] = useState<string>('11112CU123');
-  const [quantity, setQuantity] = useState<string>('123');
+  const [materialNumber, setMaterialNumber] =
+    useState<string>('Κωδικός Υλικού');
+  const [batch, setBatch] = useState<string>('Παρτίδα');
+  const [quantity, setQuantity] = useState<string>('Ποσότητα');
   const [barcode, setBarcode] = useState<string>('');
 
   //TODO: barcodeIsValid should be set in props

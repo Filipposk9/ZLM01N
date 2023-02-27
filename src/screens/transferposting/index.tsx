@@ -74,7 +74,6 @@ function TransferPosting({navigation}: {navigation: any}): JSX.Element {
 
   const submitGoodsMovement = (scannedLabels: Label[]) => {
     //TODO: add current user param
-    //TODO: Repository should hold the log in queue
 
     const submitGoodsMovement = async () => {
       const materialDocument = await Repository.createGoodsMovement(
@@ -88,9 +87,8 @@ function TransferPosting({navigation}: {navigation: any}): JSX.Element {
 
       if (materialDocument !== undefined) {
         dispatcher(setGoodsMovementLog([materialDocument]));
-      } else {
+        return materialDocument;
       }
-      return materialDocument;
     };
 
     if (storageLocationIn && storageLocationOut) {
