@@ -5,7 +5,7 @@ import {createNativeStackNavigator} from '@react-navigation/native-stack';
 import Login from '../screens/login/index';
 import MainMenu from '../screens/mainmenu/index';
 import TransferPosting from '../screens/transferposting/index';
-import TransferPostingLog from '../screens/TransferPostingLog';
+import TransferPostingLog from '../screens/transferpostinglog/index';
 import TransferPostingHistory from '../screens/TransferPostingHistory';
 import Picking from '../screens/Picking';
 import GoodsIssues from '../screens/GoodsIssues';

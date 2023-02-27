@@ -1,40 +1,21 @@
 import React, {useContext} from 'react';
-
 import {ScrollView, View, Text} from 'react-native';
-import {styles} from '../styles/TransferPostingLogStyles';
-import {ThemeContext} from '../styles/ThemeContext';
+import {styles} from '../../styles/TransferPostingLogStyles';
+import {ThemeContext} from '../../styles/ThemeContext';
 
-export default TransferPostingLog = ({route, navigation}) => {
-  const {dark, theme, toggle} = useContext(ThemeContext);
-
-  const {useRealm, useQuery, useObject} = UserContext;
-  const realm = useRealm();
+function TransferPostingLog({
+  route,
+  navigation,
+}: {
+  route: any;
+  navigation: any;
+}): JSX.Element {
+  const {theme} = useContext(ThemeContext);
 
   const goodsMovementLog = route.params[0];
 
-  let lgortIn = route.params[1];
-  let lgortOut = route.params[2];
-
-  let lgortInDescription = realm.objectForPrimaryKey(
-    'StorageLocation',
-    route.params[1],
-  );
-
-  let lgortOutDescription = realm.objectForPrimaryKey(
-    'StorageLocation',
-    route.params[2],
-  );
-
-  if (lgortInDescription !== undefined) {
-    lgortIn =
-      lgortInDescription.storageLocation +
-      ' - ' +
-      lgortInDescription.description;
-    lgortOut =
-      lgortOutDescription.storageLocation +
-      ' - ' +
-      lgortInDescription.description;
-  }
+  const storageLocationIn = route.params[1];
+  const storageLocationout = route.params[2];
 
   return (
     <View>
@@ -46,7 +27,7 @@ export default TransferPostingLog = ({route, navigation}) => {
             </Text>
           </View>
           <View>
-            <Text style={{textAlign: 'right'}}>{lgortIn}</Text>
+            <Text style={{textAlign: 'right'}}>{storageLocationIn}</Text>
           </View>
         </View>
         <View style={styles(theme).transferPostingLogHeaderLine}>
@@ -56,7 +37,7 @@ export default TransferPostingLog = ({route, navigation}) => {
             </Text>
           </View>
           <View>
-            <Text style={{textAlign: 'right'}}>{lgortOut}</Text>
+            <Text style={{textAlign: 'right'}}>{storageLocationout}</Text>
           </View>
         </View>
       </View>
@@ -116,4 +97,6 @@ export default TransferPostingLog = ({route, navigation}) => {
       </ScrollView>
     </View>
   );
-};
+}
+
+export default React.memo(TransferPostingLog);
