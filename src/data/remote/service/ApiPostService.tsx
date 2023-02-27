@@ -1,4 +1,4 @@
-import {Label, MaterialDocument} from '../../../src/shared/Types';
+import {Label, MaterialDocument, GoodsMovement} from '../../../shared/Types';
 import {
   labelToGoodsMovement,
   materialDocumentModelToMaterialDocument,
@@ -15,7 +15,7 @@ class ApiPostService {
     movementType: string,
     productionOrder: string,
   ): Promise<MaterialDocument | undefined> {
-    const materialDocument = labelToGoodsMovement(
+    const materialDocument: GoodsMovement = labelToGoodsMovement(
       goodsMovementCode,
       scannedLabels,
       storageLocationIn,
@@ -25,6 +25,7 @@ class ApiPostService {
     );
 
     //TODO: /transfer_posting to /goods_movement
+    //TODO: timeout in post RequestGateway.post(params, timeOut = 3) or check signal >=50
 
     const response = await RequestGateway.post<MaterialDocumentResponse>(
       '/transfer_posting',
