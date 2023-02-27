@@ -1,5 +1,5 @@
 import {User} from '../shared/Types';
-import {MaterialDocument} from '../shared/Types';
+import {MaterialDocument, GoodsMovement} from '../shared/Types';
 
 export interface ActionMap<T> {
   id: string;
@@ -12,4 +12,8 @@ export interface UserState {
 
 export interface GoodsMovementLogState {
   goodsMovementLog: MaterialDocument[];
+}
+
+export interface GoodsMovementQueueState {
+  goodsMovementQueue: GoodsMovement[];
 }
