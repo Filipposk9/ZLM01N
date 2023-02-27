@@ -53,3 +53,5 @@ export interface MaterialDocumentItem {
   movementType: string;
   productionOrder: string;
 }
+
+//TODO: add date and time and unit of measure in materialdocumentresponse
