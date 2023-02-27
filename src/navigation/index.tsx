@@ -6,7 +6,7 @@ import Login from '../screens/login/index';
 import MainMenu from '../screens/mainmenu/index';
 import TransferPosting from '../screens/transferposting/index';
 import TransferPostingLog from '../screens/transferpostinglog/index';
-import TransferPostingHistory from '../screens/TransferPostingHistory';
+import History from '../screens/history/index';
 import Picking from '../screens/Picking';
 import GoodsIssues from '../screens/GoodsIssues';
 import StorageLocationList from '../screens/StorageLocationList';
@@ -43,9 +43,9 @@ function AppNavigation(): JSX.Element {
         options={{title: 'TransferPostingLog'}}
       />
       <AppStack.Screen
-        name="TransferPostingHistory"
-        component={TransferPostingHistory}
-        options={{title: 'TransferPostingHistory'}}
+        name="History"
+        component={History}
+        options={{title: 'History'}}
       />
       <AppStack.Screen
         name="Picking"
