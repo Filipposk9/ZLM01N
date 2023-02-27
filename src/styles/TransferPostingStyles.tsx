@@ -10,7 +10,7 @@ export const styles = (theme: any) =>
     //bottom panel container
     bottomPanelContainer: {
       flexDirection: 'row',
-      marginTop: '65%',
+      marginTop: '15%',
       margin: '3%',
     },
     //history button
