@@ -1,6 +1,9 @@
 import {createReducer} from '@reduxjs/toolkit';
 import {GoodsMovementQueueState} from '../ReduxTypes';
-import {setGoodsMovementQueue} from '../actions/GoodsMovementQueueActions';
+import {
+  setGoodsMovementQueue,
+  resetGoodsMovementQueue,
+} from '../actions/GoodsMovementQueueActions';
 
 const initialState: GoodsMovementQueueState = {goodsMovementQueue: []};
 
@@ -14,6 +17,10 @@ export const goodsMovementQueueReducer = createReducer(
           goodsMovementQueue: state.goodsMovementQueue.concat(action.payload),
         };
       }
+    });
+
+    builder.addCase(resetGoodsMovementQueue, () => {
+      return initialState;
     });
   },
 );

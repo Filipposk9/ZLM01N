@@ -9,3 +9,7 @@ export const setGoodsMovementQueue = createAction(
   'SET_GOODS_MOVEMENT_QUEUE',
   withPayloadType<GoodsMovementQueueState['goodsMovementQueue']>(),
 );
+
+export const resetGoodsMovementQueue = createAction(
+  'RESET_GOODS_MOVEMENT_QUEUE',
+);
