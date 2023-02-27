@@ -3,12 +3,11 @@ import {TextInput} from 'react-native';
 
 interface BarcodeScannerProps {
   scannedText: string;
-  focused: boolean;
   onScan: (scannedBarcode: string) => void;
 }
 
 function BarcodeScanner(props: BarcodeScannerProps): JSX.Element {
-  const {scannedText, focused, onScan} = props;
+  const {scannedText, onScan} = props;
 
   return (
     <TextInput
@@ -19,7 +18,7 @@ function BarcodeScanner(props: BarcodeScannerProps): JSX.Element {
       caretHidden={true}
       style={{opacity: 0, height: 0}}
       value={scannedText}
-      onChangeText={onScan}
+      onChangeText={() => onScan(scannedText)}
     />
   );
 }
