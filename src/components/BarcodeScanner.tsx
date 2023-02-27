@@ -1,14 +1,14 @@
-import React from 'react';
+import React, {useEffect, createRef} from 'react';
 import {TextInput} from 'react-native';
 
 interface BarcodeScannerProps {
-  //ref: React.Ref<any>;
   scannedText: string;
+  focused: boolean;
   onScan: (scannedBarcode: string) => void;
 }
 
 function BarcodeScanner(props: BarcodeScannerProps): JSX.Element {
-  const {scannedText, onScan} = props;
+  const {scannedText, focused, onScan} = props;
 
   return (
     <TextInput
