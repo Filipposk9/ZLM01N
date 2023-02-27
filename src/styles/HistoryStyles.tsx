@@ -2,36 +2,36 @@ import {StyleSheet} from 'react-native';
 
 export const styles = (theme: any) =>
   StyleSheet.create({
-    transferPostingHistoryContainer: {
+    historyContainer: {
       backgroundColor: theme.backgroundColor,
       height: '100%',
     },
-    transferPostingHistoryHeader: {
+    historyHeader: {
       margin: '5%',
     },
-    transferPostingHistoryHeaderText: {
+    historyHeaderText: {
       fontWeight: 'bold',
       fontSize: 18,
     },
-    transferPostingHistoryItemSuccess: {
+    historyItemSuccess: {
       borderRadius: 20,
       borderColor: theme.borderColor,
       borderWidth: 1,
       backgroundColor: theme.foregroundColor,
       margin: '2%',
     },
-    transferPostingHistoryItemFailure: {
+    historyItemFailure: {
       borderRadius: 20,
       borderColor: theme.borderColor,
       borderWidth: 1,
       backgroundColor: theme.secondaryForegroundColor,
       margin: '2%',
     },
-    transferPostingHistoryItemText: {
+    historyItemText: {
       marginLeft: '5%',
       fontWeight: 'bold',
     },
-    transferPostingHistoryItemMaktx: {
+    historyItemMaktx: {
       marginLeft: '5%',
     },
   });
