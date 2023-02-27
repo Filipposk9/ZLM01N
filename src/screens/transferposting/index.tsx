@@ -95,10 +95,9 @@ function TransferPosting({navigation}: {navigation: any}): JSX.Element {
 
       if (materialDocument !== undefined) {
         dispatcher(setGoodsMovementLog([materialDocument]));
-        return materialDocument;
       } else {
-        return undefined;
       }
+      return materialDocument;
     };
 
     if (storageLocationIn && storageLocationOut) {
@@ -129,7 +128,11 @@ function TransferPosting({navigation}: {navigation: any}): JSX.Element {
         onChange={onStorageLocationOutChange}
       />
 
-      <BarcodeScanner scannedText={lastScannedBarcode} onScan={addLabel} />
+      <BarcodeScanner
+        scannedText={lastScannedBarcode}
+        focused={true}
+        onScan={addLabel}
+      />
 
       <ScrollView
         contentInsetAdjustmentBehavior="automatic"
@@ -149,6 +152,7 @@ function TransferPosting({navigation}: {navigation: any}): JSX.Element {
                   }
                   validity={false}
                   onDeletePressed={() => {
+                    //TODO: implement delete label
                     console.log('a');
                   }}
                 />
@@ -163,7 +167,7 @@ function TransferPosting({navigation}: {navigation: any}): JSX.Element {
         <View style={styles(theme).historyButtonContainer}>
           <Pressable
             onPress={() => {
-              navigation.navigate('TransferPostingHistory');
+              navigation.navigate('History');
             }}
             style={styles(theme).historyButton}
             android_ripple={GlobalStyles(theme).rippleColor}>
@@ -202,7 +206,6 @@ function TransferPosting({navigation}: {navigation: any}): JSX.Element {
             setIsLoading(false);
 
             if (goodsMovementLog) {
-              //console.log(goodsMovementLog);
               navigation.navigate('TransferPostingLog', [
                 goodsMovementLog,
                 storageLocationIn,
