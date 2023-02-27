@@ -58,13 +58,6 @@ function TransferPosting({navigation}: {navigation: any}): JSX.Element {
     setStorageLocationOut(storageLocationOut);
   };
 
-  const focusBarcodeScanner = (e: any) => {
-    e.preventDefault();
-    /*if (barcodeScannerRef.current) {
-      barcodeScannerRef.current.focus();
-    }*/
-  };
-
   const addLabel = (lastScannedBarcode: string) => {
     if (lastScannedBarcode !== '') {
       setScannedLabels([
@@ -112,7 +105,7 @@ function TransferPosting({navigation}: {navigation: any}): JSX.Element {
   };
 
   return (
-    <View onTouchStart={focusBarcodeScanner}>
+    <View>
       <Spinner
         visible={isLoading}
         textContent={'Πραγματοποιείται ενδοδιακίνιση...'}
@@ -128,11 +121,7 @@ function TransferPosting({navigation}: {navigation: any}): JSX.Element {
         onChange={onStorageLocationOutChange}
       />
 
-      <BarcodeScanner
-        scannedText={lastScannedBarcode}
-        focused={true}
-        onScan={addLabel}
-      />
+      <BarcodeScanner scannedText={lastScannedBarcode} onScan={addLabel} />
 
       <ScrollView
         contentInsetAdjustmentBehavior="automatic"
@@ -142,13 +131,9 @@ function TransferPosting({navigation}: {navigation: any}): JSX.Element {
               return (
                 <LabelComponent
                   key={i}
-                  count={scannedLabels[i].count}
+                  count={item.count}
                   barcode={
-                    scannedLabels[i].materialNumber +
-                    '-' +
-                    scannedLabels[i].batch +
-                    '-' +
-                    scannedLabels[i].quantity
+                    item.materialNumber + '-' + item.batch + '-' + item.quantity
                   }
                   validity={false}
                   onDeletePressed={() => {
