@@ -22,8 +22,6 @@ function TransferPosting({navigation}: {navigation: any}): JSX.Element {
   const dispatcher = useAppDispatch();
 
   const {theme} = useContext(ThemeContext);
-
-  //goodsMovementLog in redux
   //transferPostingQueue in redux-persist?
 
   const [isLoading, setIsLoading] = useState(false);
@@ -83,6 +81,7 @@ function TransferPosting({navigation}: {navigation: any}): JSX.Element {
 
   const submitGoodsMovement = (scannedLabels: Label[]) => {
     //TODO: add current user param
+    //TODO: Repository should hold the log in queue
 
     const submitGoodsMovement = async () => {
       const materialDocument = await Repository.createGoodsMovement(
@@ -93,16 +92,18 @@ function TransferPosting({navigation}: {navigation: any}): JSX.Element {
         MOVEMENT_TYPE.TRANSFER_POSTING,
         PRODUCTION_ORDER.BLANK,
       );
+
       if (materialDocument !== undefined) {
         dispatcher(setGoodsMovementLog([materialDocument]));
+        return materialDocument;
+      } else {
+        return undefined;
       }
     };
 
     if (storageLocationIn && storageLocationOut) {
       if (scannedLabels.length > 0) {
-        submitGoodsMovement();
-
-        navigation.navigate('TransferPostingLog');
+        return submitGoodsMovement();
       } else {
         Alert.alert('Άδειο παραστατικό');
       }
@@ -195,8 +196,19 @@ function TransferPosting({navigation}: {navigation: any}): JSX.Element {
       <View style={styles(theme).submitButtonContainer}>
         <Pressable
           style={styles(theme).submitButton}
-          onPress={() => {
-            submitGoodsMovement(scannedLabels);
+          onPress={async () => {
+            setIsLoading(true);
+            const goodsMovementLog = await submitGoodsMovement(scannedLabels);
+            setIsLoading(false);
+
+            if (goodsMovementLog) {
+              //console.log(goodsMovementLog);
+              navigation.navigate('TransferPostingLog', [
+                goodsMovementLog,
+                storageLocationIn,
+                storageLocationOut,
+              ]);
+            }
           }}
           android_ripple={GlobalStyles(theme).rippleColor}>
           <Text style={styles(theme).submitButtonText}>Καταχώριση</Text>

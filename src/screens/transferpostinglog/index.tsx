@@ -1,7 +1,8 @@
-import React, {useContext} from 'react';
+import React, {useContext, useEffect} from 'react';
 import {ScrollView, View, Text} from 'react-native';
 import {styles} from '../../styles/TransferPostingLogStyles';
 import {ThemeContext} from '../../styles/ThemeContext';
+import {MaterialDocument, MaterialDocumentItem} from '../../shared/Types';
 
 function TransferPostingLog({
   route,
@@ -12,10 +13,29 @@ function TransferPostingLog({
 }): JSX.Element {
   const {theme} = useContext(ThemeContext);
 
-  const goodsMovementLog = route.params[0];
+  const goodsMovementLog: MaterialDocument = route.params[0];
 
   const storageLocationIn = route.params[1];
   const storageLocationout = route.params[2];
+
+  //console.log(goodsMovementLog, 'log');
+
+  //TODO: get material texts
+  //TODO: split in 2 arrays, (needs validity indicator from backend)
+
+  useEffect(() => {
+    // const { validMaterialDocument, invalidMaterialDocument } = items.reduce(
+    //     (acc, item) => {
+    //       if (item.category === "A") {
+    //         acc.validMaterialDocument.push(item);
+    //       } else {
+    //         acc.invalidMaterialDocument.push(item);
+    //       }
+    //       return acc;
+    //     },
+    //     { validMaterialDocument: [], invalidMaterialDocument: [] }
+    // )
+  }, []);
 
   return (
     <View>
@@ -52,20 +72,20 @@ function TransferPostingLog({
             Επιτυχημένες ενδοδιακινήσεις
           </Text>
 
-          {goodsMovementLog.lineItems
-            ? goodsMovementLog.lineItems.map((key, i) => {
-                if (key.validity) {
+          {goodsMovementLog.materialDocumentNumber !== ''
+            ? goodsMovementLog.items.map(
+                (item: MaterialDocumentItem, i: number) => {
                   return (
                     <View key={i} style={styles(theme).transferPostingLogItem}>
                       <Text style={{fontWeight: 'bold'}}>
-                        {key.count}. {key.maktx}
+                        {item.count}. {item.materialNumber}
                       </Text>
-                      <Text>Παρτίδα: {key.charg}</Text>
-                      <Text>Ποσότητα: {key.menge}</Text>
+                      <Text>Παρτίδα: {item.batch}</Text>
+                      <Text>Ποσότητα: {item.quantity}</Text>
                     </View>
                   );
-                }
-              })
+                },
+              )
             : null}
         </View>
 
@@ -78,20 +98,20 @@ function TransferPostingLog({
             Αποτυχημένες ενδοδιακινήσεις
           </Text>
 
-          {goodsMovementLog.lineItems
-            ? goodsMovementLog.lineItems.map((key, i) => {
-                if (!key.validity) {
+          {goodsMovementLog.materialDocumentNumber === ''
+            ? goodsMovementLog.items.map(
+                (item: MaterialDocumentItem, i: number) => {
                   return (
                     <View key={i} style={styles(theme).transferPostingLogItem}>
                       <Text style={{fontWeight: 'bold'}}>
-                        {key.count}. {key.maktx}
+                        {item.count}. {item.materialNumber}
                       </Text>
-                      <Text>Παρτίδα: {key.charg}</Text>
-                      <Text>Ποσότητα: {key.menge}</Text>
+                      <Text>Παρτίδα: {item.batch}</Text>
+                      <Text>Ποσότητα: {item.quantity}</Text>
                     </View>
                   );
-                }
-              })
+                },
+              )
             : null}
         </View>
       </ScrollView>
