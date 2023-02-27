@@ -49,6 +49,9 @@ function TransferPosting({navigation}: {navigation: any}): JSX.Element {
     },
   ]);
 
+  const [manualLabelInputVisibility, setManualLabelInputVisibility] =
+    useState(false);
+
   const onStorageLocationInChange = (storageLocationIn: string) => {
     setStorageLocationIn(storageLocationIn);
   };
@@ -65,18 +68,20 @@ function TransferPosting({navigation}: {navigation: any}): JSX.Element {
   };
 
   const addLabel = (lastScannedBarcode: string) => {
-    setScannedLabels([
-      ...scannedLabels,
-      {
-        count: scannedLabels.length + 1,
-        materialNumber: lastScannedBarcode.split('-')[0],
-        batch: lastScannedBarcode.split('-')[1],
-        quantity: Number(lastScannedBarcode.split('-')[2]),
-      },
-    ]);
+    if (lastScannedBarcode !== '') {
+      setScannedLabels([
+        ...scannedLabels,
+        {
+          count: scannedLabels.length + 1,
+          materialNumber: lastScannedBarcode.split('-')[0],
+          batch: lastScannedBarcode.split('-')[1],
+          quantity: Number(lastScannedBarcode.split('-')[2]),
+        },
+      ]);
+    }
   };
 
-  const submitMaterialDocument = (scannedLabels: Label[]) => {
+  const submitGoodsMovement = (scannedLabels: Label[]) => {
     //TODO: add current user param
 
     const submitGoodsMovement = async () => {
@@ -125,13 +130,15 @@ function TransferPosting({navigation}: {navigation: any}): JSX.Element {
 
       <BarcodeScanner scannedText={lastScannedBarcode} onScan={addLabel} />
 
-      <ScrollView contentInsetAdjustmentBehavior="automatic">
+      <ScrollView
+        contentInsetAdjustmentBehavior="automatic"
+        style={{height: '45%'}}>
         {scannedLabels.length > 0
           ? scannedLabels.map((item, i) => {
               return (
                 <LabelComponent
                   key={i}
-                  count={scannedLabels.length}
+                  count={scannedLabels[i].count}
                   barcode={
                     scannedLabels[i].materialNumber +
                     '-' +
@@ -167,8 +174,7 @@ function TransferPosting({navigation}: {navigation: any}): JSX.Element {
         <View style={styles(theme).addLabelButtonContainer}>
           <Pressable
             onPress={() => {
-              console.log('a');
-              //typedLabelInserterRef.current.setState({visibility: true});
+              setManualLabelInputVisibility(true);
             }}
             style={styles(theme).addLabelButton}
             android_ripple={GlobalStyles(theme).rippleColor}>
@@ -178,9 +184,10 @@ function TransferPosting({navigation}: {navigation: any}): JSX.Element {
       </View>
 
       <ManualLabelInputModal
-        visibility={false}
-        onSubmit={() => {
-          addLabel('a');
+        visibility={manualLabelInputVisibility}
+        onSubmit={barcode => {
+          addLabel(barcode);
+          setManualLabelInputVisibility(false);
         }}
       />
 
@@ -189,7 +196,7 @@ function TransferPosting({navigation}: {navigation: any}): JSX.Element {
         <Pressable
           style={styles(theme).submitButton}
           onPress={() => {
-            submitMaterialDocument(scannedLabels);
+            submitGoodsMovement(scannedLabels);
           }}
           android_ripple={GlobalStyles(theme).rippleColor}>
           <Text style={styles(theme).submitButtonText}>Καταχώριση</Text>
