@@ -5,6 +5,8 @@ import {
 } from '../Mappers';
 import {MaterialDocumentResponse} from '../model/MaterialDocumentModel';
 import RequestGateway, {isError} from '../RequestGateway';
+import NetInfo from '@react-native-community/netinfo';
+import {setGoodsMovementQueue} from '../../../redux/actions/GoodsMovementQueueActions';
 
 class ApiPostService {
   async createGoodsMovement(
@@ -25,17 +27,24 @@ class ApiPostService {
     );
 
     //TODO: /transfer_posting to /goods_movement
-    //TODO: timeout in post RequestGateway.post(params, timeOut = 3) or check signal >=50
 
-    const response = await RequestGateway.post<MaterialDocumentResponse>(
-      '/transfer_posting',
-      materialDocument,
-    );
+    const connectionState = await NetInfo.fetch().then(async state => {
+      return state;
+    });
 
-    if (isError(response)) {
-      return undefined;
+    if (connectionState.details.strength >= 50) {
+      const response = await RequestGateway.post<MaterialDocumentResponse>(
+        '/transfer_posting',
+        materialDocument,
+      );
+
+      if (isError(response)) {
+        return undefined;
+      } else {
+        return materialDocumentModelToMaterialDocument(response.result.data);
+      }
     } else {
-      return materialDocumentModelToMaterialDocument(response.result.data);
+      //TODO: send to redux
     }
   }
 }
