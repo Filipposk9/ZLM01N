@@ -74,7 +74,7 @@ function LabelComponent(props: LabelProps): JSX.Element {
           <TextInput
             style={styles(theme).labelItem}
             editable={false}
-            value={barcode + '\n' + materialDescription}
+            value={count + '. ' + barcode + '\n' + materialDescription}
             multiline={true}
           />
           <Icon
