@@ -5,7 +5,7 @@ export const styles = (theme: any) =>
     //main container
     transferPostingContainer: {
       backgroundColor: theme.backgroundColor,
-      height: '100%',
+      flex: 1,
     },
     //bottom panel container
     bottomPanelContainer: {
