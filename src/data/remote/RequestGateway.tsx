@@ -15,7 +15,6 @@ class RequestGateway {
     this.baseUrl = baseUrl;
   }
 
-  //TODO: async get<T>(endpoint: string, params: {}): Promise<...
   async get<T>(
     endpoint: string,
     params: any,
