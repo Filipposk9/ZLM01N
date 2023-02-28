@@ -34,7 +34,6 @@ function TransferPosting({navigation}: {navigation: any}): JSX.Element {
   const [isLoading, setIsLoading] = useState(false);
 
   const barcodeScannerRef = useRef();
-  const [lastScannedBarcode, setLastScannedBarcode] = useState('');
 
   const [storageLocationIn, setStorageLocationIn] = useState('');
   const [storageLocationOut, setStorageLocationOut] = useState('');
@@ -69,6 +68,18 @@ function TransferPosting({navigation}: {navigation: any}): JSX.Element {
     setStorageLocationOut(storageLocationOut);
   };
 
+  const storageLocationsAreValid = () => {
+    if (storageLocationIn && storageLocationOut) {
+      if (storageLocationIn !== storageLocationOut) {
+        return true;
+      } else {
+        return false;
+      }
+    } else {
+      return false;
+    }
+  };
+
   const addLabel = (lastScannedBarcode: string) => {
     if (lastScannedBarcode !== '') {
       setScannedLabels([
@@ -81,6 +92,23 @@ function TransferPosting({navigation}: {navigation: any}): JSX.Element {
         },
       ]);
     }
+  };
+
+  const removeLabel = (i: number) => {
+    let currentScannedLabels: Label[] = scannedLabels;
+    let j = 1;
+
+    currentScannedLabels.splice(i, 1);
+
+    console.log(currentScannedLabels);
+
+    for (const label of currentScannedLabels) {
+      label.count = j++;
+    }
+
+    //FIXME: state doesnt update, material texts dont slide
+
+    setScannedLabels(currentScannedLabels);
   };
 
   const getConnectionDetails = () => {
@@ -99,7 +127,6 @@ function TransferPosting({navigation}: {navigation: any}): JSX.Element {
     storageLocationOut: string,
   ) => {
     //TODO: add current user param
-    //TODO: send queue to repository at intervals?
 
     const submitGoodsMovement = async (): Promise<
       MaterialDocument | undefined
@@ -122,14 +149,16 @@ function TransferPosting({navigation}: {navigation: any}): JSX.Element {
       }
     };
 
-    if (storageLocationIn && storageLocationOut) {
+    if (storageLocationsAreValid()) {
       if (scannedLabels.length > 0) {
         return submitGoodsMovement();
       } else {
         Alert.alert('Άδειο παραστατικό');
+        return undefined;
       }
     } else {
       Alert.alert('Εισάγετε αποθηκευτικό χώρο');
+      return undefined;
     }
   };
 
@@ -139,22 +168,22 @@ function TransferPosting({navigation}: {navigation: any}): JSX.Element {
     if (materialDocument !== undefined) {
       dispatcher(setGoodsMovementLog([materialDocument]));
     } else {
-      const goodsMovement = {
-        goodsMovementCode: GOODS_MOVEMENT_CODE.TRANSFER_POSTING,
-        scannedLabels,
-        storageLocationIn,
-        storageLocationOut,
-        movementType: MOVEMENT_TYPE.TRANSFER_POSTING,
-        productionOrder: PRODUCTION_ORDER.BLANK,
-      };
-      dispatcher(setGoodsMovementQueue([goodsMovement]));
+      if (storageLocationsAreValid()) {
+        const goodsMovement = {
+          goodsMovementCode: GOODS_MOVEMENT_CODE.TRANSFER_POSTING,
+          scannedLabels,
+          storageLocationIn,
+          storageLocationOut,
+          movementType: MOVEMENT_TYPE.TRANSFER_POSTING,
+          productionOrder: PRODUCTION_ORDER.BLANK,
+        };
+        dispatcher(setGoodsMovementQueue([goodsMovement]));
+      }
     }
   };
 
   const handleQueueEntries = async () => {
     let newGoodsMovementQueue: GoodsMovementQueue[] = [];
-
-    // console.log(goodsMovementQueue, 'before');
 
     if (goodsMovementQueue.goodsMovementQueue.length > 0) {
       for (const goodsMovementLog of goodsMovementQueue.goodsMovementQueue) {
@@ -174,14 +203,12 @@ function TransferPosting({navigation}: {navigation: any}): JSX.Element {
       dispatcher(resetGoodsMovementQueue());
       dispatcher(setGoodsMovementQueue(newGoodsMovementQueue));
     }
-
-    // console.log(goodsMovementQueue, 'after');
   };
 
   const unsubscribe = NetInfo.addEventListener(state => {
     //FIXME: determine queue handling interval
     if (state.details.strength >= 60) {
-      handleQueueEntries();
+      //handleQueueEntries();
     }
   });
 
@@ -221,10 +248,7 @@ function TransferPosting({navigation}: {navigation: any}): JSX.Element {
                     item.materialNumber + '-' + item.batch + '-' + item.quantity
                   }
                   validity={false}
-                  onDeletePressed={() => {
-                    //TODO: implement delete label
-                    console.log('a');
-                  }}
+                  onDeletePressed={() => removeLabel(i)}
                 />
               );
             })
@@ -288,11 +312,11 @@ function TransferPosting({navigation}: {navigation: any}): JSX.Element {
                 storageLocationOut,
               ]);
             } else {
-              navigation.navigate('TransferPostingLog', [
-                undefined,
-                storageLocationIn,
-                storageLocationOut,
-              ]);
+              if (storageLocationsAreValid()) {
+                Alert.alert(
+                  'Αδυναμία Σύνδεσης. Το παραστατικό προστέθηκε στην ουρά',
+                );
+              }
             }
           }}
           android_ripple={GlobalStyles(theme).rippleColor}>
