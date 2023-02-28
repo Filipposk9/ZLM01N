@@ -88,38 +88,6 @@ class SapRequestHandler {
     );
   }
 
-  static async getOutboundDeliveryData(outboundDelivery) {
-    const credentials = JSON.parse(await CredentialStorage.getCredentials());
-
-    return await fetch(
-      SapRequestHandler.baseUrl + '/mdata' + '?vbeln=' + outboundDelivery,
-      {
-        method: 'GET',
-        headers: {
-          'Content-type': 'application/json',
-          'x-csrf-token': credentials.token,
-          Authorization:
-            'Basic ' +
-            base64.encode(credentials.username + ':' + credentials.password),
-        },
-      },
-    )
-      .then(async response => {
-        if (response.status === 200) {
-          return await response.json();
-        } else if (response.status === 401) {
-          throw new Error('Λάθος όνομα χρήστη/κωδικός πρόσβασης');
-        } else if (response.status === 500) {
-          throw new Error('SAP Server is down');
-        } else {
-          throw new Error('Unhandled HTTP response');
-        }
-      })
-      .catch(error => {
-        alert(error);
-      });
-  }
-
   static async getHandlingUnitData(handlingUnit) {
     const credentials = JSON.parse(await CredentialStorage.getCredentials());
 
