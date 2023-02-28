@@ -29,4 +29,7 @@ export const styles = (theme: any) =>
     transferPostingLogItem: {
       margin: '5%',
     },
+    transferPostingLogMessage: {
+      margin: '5%',
+    },
   });
