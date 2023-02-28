@@ -72,7 +72,7 @@ function TransferPostingLog({
             Επιτυχημένες ενδοδιακινήσεις
           </Text>
 
-          {goodsMovementLog.materialDocumentNumber !== ''
+          {goodsMovementLog !== undefined
             ? goodsMovementLog.items.map(
                 (item: MaterialDocumentItem, i: number) => {
                   return (
@@ -98,7 +98,7 @@ function TransferPostingLog({
             Αποτυχημένες ενδοδιακινήσεις
           </Text>
 
-          {goodsMovementLog.materialDocumentNumber === ''
+          {goodsMovementLog !== undefined
             ? goodsMovementLog.items.map(
                 (item: MaterialDocumentItem, i: number) => {
                   return (
@@ -113,6 +113,12 @@ function TransferPostingLog({
                 },
               )
             : null}
+        </View>
+
+        <View>
+          <Text style={styles(theme).transferPostingLogMessage}>
+            Ανεπαρκές σήμα. Το παραστατικό προστέθηκε στην ουρά
+          </Text>
         </View>
       </ScrollView>
     </View>
