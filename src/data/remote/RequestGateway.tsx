@@ -1,5 +1,3 @@
-import CredentialStorage from '../../credentials/CredentialStorage';
-import base64 from 'react-native-base64';
 import {
   ErrorResponse,
   SuccessResponse,
@@ -18,26 +16,26 @@ class RequestGateway {
   }
 
   //TODO: async get<T>(endpoint: string, params: {}): Promise<...
-  async get<T>(endpoint: string): Promise<SuccessResponse<T> | ErrorResponse> {
-    const credentials = JSON.parse(
-      String(await CredentialStorage.getCredentials()),
-    );
-
+  async get<T>(
+    endpoint: string,
+    params: any,
+  ): Promise<SuccessResponse<T> | ErrorResponse> {
     try {
       //await this.processRequest();
+
       console.log('Network request to', endpoint);
       const response = await fetch(this.baseUrl + endpoint, {
         method: 'GET',
-        headers: {
-          'Content-type': 'application/json',
-          'x-csrf-token': credentials.token,
-          Authorization:
-            'Basic ' +
-            base64.encode(credentials.username + ':' + credentials.password),
-        },
+        headers: params,
       });
 
-      const result = await response.json();
+      let result;
+
+      if (params['x-csrf-token'] === 'Fetch' && response.status === 200) {
+        result = response.headers.get('x-csrf-token');
+      } else {
+        result = await response.json();
+      }
 
       if (result.type && result.message) {
         const error = {
@@ -67,28 +65,16 @@ class RequestGateway {
     }
   }
 
-  //TODO: body datatype
   async post<T>(
     endpoint: string,
+    params: any,
     data: any,
   ): Promise<SuccessResponse<T> | ErrorResponse> {
-    const credentials = JSON.parse(
-      String(await CredentialStorage.getCredentials()),
-    );
-
-    const csrfToken = String(await this.getCSRFToken());
-
     try {
       console.log('Network request to', endpoint);
       const response = await fetch(this.baseUrl + endpoint, {
         method: 'POST',
-        headers: {
-          'Content-type': 'application/json',
-          'x-csrf-token': csrfToken,
-          Authorization:
-            'Basic ' +
-            base64.encode(credentials.username + ':' + credentials.password),
-        },
+        headers: params,
         body: JSON.stringify(data),
       });
 
@@ -120,33 +106,6 @@ class RequestGateway {
         errorMessage: _e.message,
       };
     }
-  }
-
-  private async getCSRFToken(): Promise<string | void | null> {
-    //TODO: USE this.get(), credentials from credential storage
-
-    return await fetch(this.baseUrl + '/mdata', {
-      method: 'GET',
-      headers: {
-        'x-csrf-token': 'Fetch',
-        Authorization:
-          'Basic ' + base64.encode('FILKOZ' + ':' + 'COMPO2SITION4'),
-      },
-    })
-      .then(response => {
-        if (response.status === 200) {
-          return response.headers.get('x-csrf-token');
-        } else if (response.status === 401) {
-          throw new Error('Λάθος όνομα χρήστη/κωδικός πρόσβασης');
-        } else if (response.status === 500) {
-          throw new Error('SAP Server is down');
-        } else {
-          throw new Error('Unhandled HTTP response');
-        }
-      })
-      .catch(error => {
-        //console.log(error);
-      });
   }
 
   private async processRequest() {
