@@ -25,6 +25,7 @@ import {ThemeContext} from '../../styles/ThemeContext';
 import {styles} from '../../styles/TransferPostingStyles';
 import {GlobalStyles} from '../../styles/GlobalStyles';
 
+//TODO: props: TransferPostingProps
 function TransferPosting({navigation}: {navigation: any}): JSX.Element {
   const dispatcher = useAppDispatch();
 
@@ -32,8 +33,6 @@ function TransferPosting({navigation}: {navigation: any}): JSX.Element {
   //TODO: transferPostingQueue in redux-persist?
 
   const [isLoading, setIsLoading] = useState(false);
-
-  const barcodeScannerRef = useRef();
 
   const [storageLocationIn, setStorageLocationIn] = useState('');
   const [storageLocationOut, setStorageLocationOut] = useState('');
@@ -318,6 +317,7 @@ function TransferPosting({navigation}: {navigation: any}): JSX.Element {
                 );
               }
             }
+            //TODO: delete screen after submit
           }}
           android_ripple={GlobalStyles(theme).rippleColor}>
           <Text style={styles(theme).submitButtonText}>Καταχώριση</Text>
