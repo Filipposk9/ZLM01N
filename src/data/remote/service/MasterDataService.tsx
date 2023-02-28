@@ -12,27 +12,15 @@ import {
   outboundDeliveryModelToOutboundDelivery,
   storageLocationModelToStorageLocation,
 } from '../Mappers';
+import SapRequestParameters from '../SapRequestParameters';
 
 class MasterDataService {
-  /*async getMaterials(): Promise<Material[]> {
-    const response = await RequestGateway.get<MaterialResponse>(
-      '/mdata?matnr=1&charg=&menge=&lgort_in=',
-    );
-
-    if (isError(response)) {
-      return [];
-    } else {
-      const materials: Material[] = response.result.data.map(item =>
-        materialModelToMaterial(item),
-      );
-
-      return materials;
-    }
-  }*/
-
   async getStorageLocations(): Promise<StorageLocation[]> {
+    const sapRequestHeaders = await SapRequestParameters.getSapRequestHeaders();
+
     const response = await RequestGateway.get<StorageLocationResponse>(
       '/mdata?lgort=1',
+      sapRequestHeaders,
     );
 
     if (isError(response)) {
@@ -47,8 +35,11 @@ class MasterDataService {
   async getMaterialBasicData(
     materialNumber: string,
   ): Promise<Material | undefined> {
+    const sapRequestHeaders = await SapRequestParameters.getSapRequestHeaders();
+
     const response = await RequestGateway.get<MaterialResponse>(
       '/mdata?matnr=' + materialNumber,
+      sapRequestHeaders,
     );
 
     if (isError(response)) {
@@ -61,8 +52,10 @@ class MasterDataService {
   async getOutboundDelivery(
     outboundDeliveryNumber: string,
   ): Promise<OutboundDelivery | undefined> {
+    const sapRequestHeaders = await SapRequestParameters.getSapRequestHeaders();
     const response = await RequestGateway.get<OutboundDeliveryResponse>(
       '/mdata?vbeln=' + outboundDeliveryNumber,
+      sapRequestHeaders,
     );
 
     if (isError(response)) {

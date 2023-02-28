@@ -5,6 +5,7 @@ import {
 } from '../Mappers';
 import {MaterialDocumentResponse} from '../model/MaterialDocumentModel';
 import RequestGateway, {isError} from '../RequestGateway';
+import SapRequestParameters from '../SapRequestParameters';
 
 class ApiPostService {
   async createGoodsMovement(
@@ -26,8 +27,11 @@ class ApiPostService {
 
     //TODO: /transfer_posting to /goods_movement
 
+    const sapRequestHeaders = await SapRequestParameters.getSapRequestHeaders();
+
     const response = await RequestGateway.post<MaterialDocumentResponse>(
       '/transfer_posting',
+      sapRequestHeaders,
       materialDocument,
     );
 
