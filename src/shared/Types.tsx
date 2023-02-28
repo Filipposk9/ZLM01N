@@ -63,4 +63,38 @@ export interface GoodsMovementQueue {
   productionOrder: string;
 }
 
+export interface OutboundDelivery {
+  header: OutboundDeliveryHeader;
+  items: OutboundDeliveryItem[];
+}
+
+export interface OutboundDeliveryHeader {
+  outboundDeliveryNumber: string;
+  customerNumber: string;
+  customerName: string;
+  shipToPartyNumber: string;
+  shipToPartyName: string;
+  status: string;
+}
+
+export interface OutboundDeliveryItem {
+  outboundDeliveryNumber: string;
+  positionNumber: number;
+  materialNumber: string;
+  materialText: string;
+  pickedQuantity: number;
+  requirementQuantity: number;
+  unitOfMeasure: string;
+  handlingUnits: HandlingUnit[];
+}
+
+export interface HandlingUnit {
+  sscc: string;
+  handlingUnitNumber: string;
+  batch: string;
+  quantity: number;
+  unitOfMeasure: string;
+  storageLocation: string;
+}
+
 //TODO: add date and time and unit of measure in materialdocumentresponse
