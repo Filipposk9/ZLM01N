@@ -1,4 +1,4 @@
-import {StorageLocation} from '../../../src/shared/Types';
+import {StorageLocation} from '../../../shared/Types';
 import {SCHEMA_NAME} from '../SchemaName';
 import BaseDao from './BaseDao';
 

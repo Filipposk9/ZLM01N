@@ -1,4 +1,4 @@
-import {Material} from '../../../src/shared/Types';
+import {Material} from '../../../shared/Types';
 import {SCHEMA_NAME} from '../SchemaName';
 import BaseDao from './BaseDao';
 
