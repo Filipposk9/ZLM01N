@@ -1,30 +1,35 @@
 import React, {useContext, useRef, useState} from 'react';
 import {View, Text, ScrollView, Pressable, Alert} from 'react-native';
+import NetInfo from '@react-native-community/netinfo';
 import Spinner from 'react-native-loading-spinner-overlay/lib';
 import BarcodeScanner from '../../components/BarcodeScanner';
 import StorageLocationDropdown from './components/StorageLocationDropdown';
 import LabelComponent from './components/LabelComponent';
+import ManualLabelInputModal from './components/ManualLabelInputModal';
 import {useAppDispatch} from '../../redux/Store';
+import {useSelector} from 'react-redux';
 import {setGoodsMovementLog} from '../../redux/actions/GoodsMovementLogActions';
-import {ThemeContext} from '../../styles/ThemeContext';
-import {styles} from '../../styles/TransferPostingStyles';
-import {GlobalStyles} from '../../styles/GlobalStyles';
+import {
+  setGoodsMovementQueue,
+  resetGoodsMovementQueue,
+} from '../../redux/actions/GoodsMovementQueueActions';
 import Repository from '../../data/Repository';
-import {Label} from '../../shared/Types';
+import {GoodsMovementQueue, Label, MaterialDocument} from '../../shared/Types';
+import {GoodsMovementQueueState} from '../../redux/ReduxTypes';
 import {
   GOODS_MOVEMENT_CODE,
   MOVEMENT_TYPE,
   PRODUCTION_ORDER,
 } from '../../shared/Constants';
-import ManualLabelInputModal from './components/ManualLabelInputModal';
-import NetInfo from '@react-native-community/netinfo';
-import {setGoodsMovementQueue} from '../../redux/actions/GoodsMovementQueueActions';
+import {ThemeContext} from '../../styles/ThemeContext';
+import {styles} from '../../styles/TransferPostingStyles';
+import {GlobalStyles} from '../../styles/GlobalStyles';
 
 function TransferPosting({navigation}: {navigation: any}): JSX.Element {
   const dispatcher = useAppDispatch();
 
   const {theme} = useContext(ThemeContext);
-  //transferPostingQueue in redux-persist?
+  //TODO: transferPostingQueue in redux-persist?
 
   const [isLoading, setIsLoading] = useState(false);
 
@@ -33,6 +38,10 @@ function TransferPosting({navigation}: {navigation: any}): JSX.Element {
 
   const [storageLocationIn, setStorageLocationIn] = useState('');
   const [storageLocationOut, setStorageLocationOut] = useState('');
+
+  const goodsMovementQueue = useSelector(
+    (state: GoodsMovementQueueState) => state.goodsMovementQueue,
+  );
 
   const [scannedLabels, setScannedLabels] = useState<Label[]>([
     {
@@ -68,7 +77,7 @@ function TransferPosting({navigation}: {navigation: any}): JSX.Element {
           count: scannedLabels.length + 1,
           materialNumber: lastScannedBarcode.split('-')[0],
           batch: lastScannedBarcode.split('-')[1],
-          quantity: Number(lastScannedBarcode.split('-')[2]),
+          quantity: Number(lastScannedBarcode.split('-')[2].replace(',', '.')),
         },
       ]);
     }
@@ -80,17 +89,24 @@ function TransferPosting({navigation}: {navigation: any}): JSX.Element {
         return state.details;
       });
     }
-    getConnectionDetails();
+
+    return getConnectionDetails();
   };
 
-  const submitGoodsMovement = (scannedLabels: Label[]) => {
+  const submitGoodsMovement = (
+    scannedLabels: Label[],
+    storageLocationIn: string,
+    storageLocationOut: string,
+  ) => {
     //TODO: add current user param
     //TODO: send queue to repository at intervals?
 
-    const submitGoodsMovement = async () => {
-      const connectionDetails = getConnectionDetails();
+    const submitGoodsMovement = async (): Promise<
+      MaterialDocument | undefined
+    > => {
+      const connectionDetails = await getConnectionDetails();
 
-      if (connectionDetails.strength >= 50) {
+      if (connectionDetails.strength >= 60) {
         const materialDocument = await Repository.createGoodsMovement(
           GOODS_MOVEMENT_CODE.TRANSFER_POSTING,
           scannedLabels,
@@ -100,20 +116,9 @@ function TransferPosting({navigation}: {navigation: any}): JSX.Element {
           PRODUCTION_ORDER.BLANK,
         );
 
-        if (materialDocument !== undefined) {
-          dispatcher(setGoodsMovementLog([materialDocument]));
-          return materialDocument;
-        }
+        return materialDocument;
       } else {
-        const goodsMovement = {
-          goodsMovementCode: GOODS_MOVEMENT_CODE.TRANSFER_POSTING,
-          scannedLabels,
-          storageLocationIn,
-          storageLocationOut,
-          movementType: MOVEMENT_TYPE.TRANSFER_POSTING,
-          productionOrder: PRODUCTION_ORDER.BLANK,
-        };
-        dispatcher(setGoodsMovementQueue([goodsMovement]));
+        return undefined;
       }
     };
 
@@ -127,6 +132,60 @@ function TransferPosting({navigation}: {navigation: any}): JSX.Element {
       Alert.alert('Εισάγετε αποθηκευτικό χώρο');
     }
   };
+
+  const handleGoodsMovementResponse = (
+    materialDocument: MaterialDocument | undefined,
+  ): void => {
+    if (materialDocument !== undefined) {
+      dispatcher(setGoodsMovementLog([materialDocument]));
+    } else {
+      const goodsMovement = {
+        goodsMovementCode: GOODS_MOVEMENT_CODE.TRANSFER_POSTING,
+        scannedLabels,
+        storageLocationIn,
+        storageLocationOut,
+        movementType: MOVEMENT_TYPE.TRANSFER_POSTING,
+        productionOrder: PRODUCTION_ORDER.BLANK,
+      };
+      dispatcher(setGoodsMovementQueue([goodsMovement]));
+    }
+  };
+
+  const handleQueueEntries = async () => {
+    let newGoodsMovementQueue: GoodsMovementQueue[] = [];
+
+    // console.log(goodsMovementQueue, 'before');
+
+    if (goodsMovementQueue.goodsMovementQueue.length > 0) {
+      for (const goodsMovementLog of goodsMovementQueue.goodsMovementQueue) {
+        const materialDocument = await submitGoodsMovement(
+          goodsMovementLog.scannedLabels,
+          goodsMovementLog.storageLocationIn,
+          goodsMovementLog.storageLocationOut,
+        );
+
+        if (materialDocument === undefined) {
+          newGoodsMovementQueue.push(goodsMovementLog);
+        } else {
+          dispatcher(setGoodsMovementLog([materialDocument]));
+        }
+      }
+
+      dispatcher(resetGoodsMovementQueue());
+      dispatcher(setGoodsMovementQueue(newGoodsMovementQueue));
+    }
+
+    // console.log(goodsMovementQueue, 'after');
+  };
+
+  const unsubscribe = NetInfo.addEventListener(state => {
+    //FIXME: determine queue handling interval
+    if (state.details.strength >= 60) {
+      handleQueueEntries();
+    }
+  });
+
+  unsubscribe();
 
   return (
     <View>
@@ -145,11 +204,13 @@ function TransferPosting({navigation}: {navigation: any}): JSX.Element {
         onChange={onStorageLocationOutChange}
       />
 
-      <BarcodeScanner scannedText={lastScannedBarcode} onScan={addLabel} />
+      <BarcodeScanner
+        onScan={lastScannedBarcode => addLabel(lastScannedBarcode)}
+      />
 
       <ScrollView
         contentInsetAdjustmentBehavior="automatic"
-        style={{height: '45%'}}>
+        style={{height: '40%'}}>
         {scannedLabels.length > 0
           ? scannedLabels.map((item, i) => {
               return (
@@ -211,12 +272,24 @@ function TransferPosting({navigation}: {navigation: any}): JSX.Element {
           style={styles(theme).submitButton}
           onPress={async () => {
             setIsLoading(true);
-            const goodsMovementLog = await submitGoodsMovement(scannedLabels);
+            const goodsMovementLog = await submitGoodsMovement(
+              scannedLabels,
+              storageLocationIn,
+              storageLocationOut,
+            );
             setIsLoading(false);
+
+            handleGoodsMovementResponse(goodsMovementLog);
 
             if (goodsMovementLog) {
               navigation.navigate('TransferPostingLog', [
                 goodsMovementLog,
+                storageLocationIn,
+                storageLocationOut,
+              ]);
+            } else {
+              navigation.navigate('TransferPostingLog', [
+                undefined,
                 storageLocationIn,
                 storageLocationOut,
               ]);
