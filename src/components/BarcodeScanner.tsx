@@ -1,24 +1,60 @@
-import React, {useEffect, createRef} from 'react';
+import React, {useEffect, useRef} from 'react';
 import {TextInput} from 'react-native';
 
 interface BarcodeScannerProps {
-  scannedText: string;
   onScan: (scannedBarcode: string) => void;
 }
 
 function BarcodeScanner(props: BarcodeScannerProps): JSX.Element {
-  const {scannedText, onScan} = props;
+  const {onScan} = props;
+
+  const inputRef = useRef<TextInput>(null);
+
+  useEffect(() => {
+    const onFocus = () => {
+      if (inputRef.current) {
+        inputRef.current.focus();
+      }
+    };
+
+    const onBlur = () => {
+      if (inputRef.current) {
+        inputRef.current.focus();
+      }
+    };
+
+    // Set focus on the input when the component mounts and after every re-render
+    if (inputRef.current) {
+      inputRef.current.focus();
+    }
+
+    // Add event listeners to set focus on the input when it loses focus
+    inputRef.current?.setNativeProps({
+      onFocus,
+      onBlur,
+    });
+
+    // Remove event listeners when the component unmounts
+    return () => {
+      inputRef.current?.setNativeProps({
+        onFocus: null,
+        onBlur: null,
+      });
+    };
+  }, []);
 
   return (
     <TextInput
+      ref={inputRef}
       showSoftInputOnFocus={false}
       autoFocus={true}
       autoCorrect={false}
       autoComplete={'off'}
       caretHidden={true}
       style={{opacity: 0, height: 0}}
-      value={scannedText}
-      onChangeText={() => onScan(scannedText)}
+      onChangeText={scannedText => {
+        onScan(scannedText);
+      }}
     />
   );
 }
