@@ -1,29 +1,39 @@
-import {MaterialModel} from './MaterialModel';
-
 export interface OutboundDeliveryModel {
-  header: OutboundDeliveryHeader;
-  items: OutboundDeliveryItem[];
-  handlingUnits: HandlingUnitModel;
+  HEADER: OutboundDeliveryHeader;
+  ITEMS: OutboundDeliveryItem[];
 }
 
 //TODO: associated sales order?
 
 interface OutboundDeliveryHeader {
-  outboundDeliveryNumber: string;
-  customerNumber: string;
-  customerName: string;
-  shipToPartyNumber: string;
-  shipToPartyName: string;
-  status: string;
+  OUTBOUNDDELIVERYNUMBER: string;
+  CUSTOMERNUMBER: string;
+  CUSTOMERNAME: string;
+  SHIPTOPARTYNUMBER: string;
+  SHIPTOPARTYNAME: string;
+  STATUS: string;
 }
 
 interface OutboundDeliveryItem {
-  positionNumber: number;
-  material: MaterialModel;
+  OUTBOUNDDELIVERYNUMBER: string;
+  POSITIONNUMBER: number;
+  MATERIALNUMBER: string;
+  MATERIALTEXT: string;
+  PICKEDQUANTITY: number;
+  REQUIREMENTQUANTITY: number;
+  UNITOFMEASURE: string;
+  HANDLINGUNITS: HandlingUnit[];
 }
 
-interface HandlingUnitModel {
-  handlingUnitNumber: string;
-  sscc: string;
-  packedMaterials: MaterialModel[];
+interface HandlingUnit {
+  SSCC: string;
+  HANDLINGUNITNUMBER: string;
+  BATCH: string;
+  QUANTITY: number;
+  UNITOFMEASURE: string;
+  STORAGELOCATION: string;
+}
+
+export interface OutboundDeliveryResponse {
+  data: OutboundDeliveryModel;
 }

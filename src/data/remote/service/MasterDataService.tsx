@@ -1,9 +1,15 @@
 import {MaterialResponse} from '../model/MaterialModel';
 import {StorageLocationResponse} from '../model/StorageLocationModel';
-import {Material, StorageLocation} from '../../../shared/Types';
+import {OutboundDeliveryResponse} from '../model/OutboundDeliveryModel';
+import {
+  Material,
+  OutboundDelivery,
+  StorageLocation,
+} from '../../../shared/Types';
 import RequestGateway, {isError} from '../RequestGateway';
 import {
   materialModelToMaterial,
+  outboundDeliveryModelToOutboundDelivery,
   storageLocationModelToStorageLocation,
 } from '../Mappers';
 
@@ -49,6 +55,20 @@ class MasterDataService {
       return undefined;
     } else {
       return materialModelToMaterial(response.result.data);
+    }
+  }
+
+  async getOutboundDelivery(
+    outboundDeliveryNumber: string,
+  ): Promise<OutboundDelivery | undefined> {
+    const response = await RequestGateway.get<OutboundDeliveryResponse>(
+      '/mdata?vbeln=' + outboundDeliveryNumber,
+    );
+
+    if (isError(response)) {
+      return undefined;
+    } else {
+      return outboundDeliveryModelToOutboundDelivery(response.result.data);
     }
   }
 }

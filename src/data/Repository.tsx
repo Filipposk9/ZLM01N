@@ -9,6 +9,7 @@ import {
   Material,
   MaterialDocument,
   Label,
+  OutboundDelivery,
 } from '../shared/Types';
 
 class Repository {
@@ -88,6 +89,18 @@ class Repository {
 
     if (materialDocument) {
       return materialDocument;
+    }
+  }
+
+  async getOutboundDelivery(
+    outboundDeliveryNumber: string,
+  ): Promise<OutboundDelivery | undefined> {
+    const outboundDelivery = await MasterDataService.getOutboundDelivery(
+      outboundDeliveryNumber,
+    );
+
+    if (outboundDelivery) {
+      return outboundDelivery;
     }
   }
 }

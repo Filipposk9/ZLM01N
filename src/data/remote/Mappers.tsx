@@ -6,10 +6,14 @@ import {
   MaterialDocument,
   MaterialDocumentItem,
   Label,
+  OutboundDelivery,
+  OutboundDeliveryItem,
+  HandlingUnit,
 } from '../../shared/Types';
 import {MaterialModel} from './model/MaterialModel';
 import {StorageLocationModel} from './model/StorageLocationModel';
 import {MaterialDocumentModel} from './model/MaterialDocumentModel';
+import {OutboundDeliveryModel} from './model/OutboundDeliveryModel';
 
 export const materialModelToMaterial = (
   materialModel: MaterialModel,
@@ -78,6 +82,63 @@ export const labelToGoodsMovement = (
 
   return Object.freeze({
     goodsMovementCode: goodsMovementCode,
+    items: items,
+  });
+};
+
+export const outboundDeliveryModelToOutboundDelivery = (
+  outboundDeliveryModel: OutboundDeliveryModel,
+): OutboundDelivery => {
+  const items: OutboundDeliveryItem[] = outboundDeliveryModel.ITEMS.map(
+    item => {
+      const handlingUnits: HandlingUnit[] = item.HANDLINGUNITS.map(
+        handlingUnit => {
+          return Object.freeze({
+            sscc: handlingUnit.SSCC,
+            handlingUnitNumber: handlingUnit.HANDLINGUNITNUMBER,
+            batch: handlingUnit.BATCH,
+            quantity: handlingUnit.QUANTITY,
+            unitOfMeasure: handlingUnit.UNITOFMEASURE,
+            storageLocation: handlingUnit.STORAGELOCATION,
+          });
+        },
+      );
+
+      return Object.freeze({
+        outboundDeliveryNumber: item.OUTBOUNDDELIVERYNUMBER,
+        positionNumber: item.POSITIONNUMBER,
+        materialNumber: item.MATERIALNUMBER,
+        materialText: item.MATERIALTEXT,
+        pickedQuantity: item.PICKEDQUANTITY,
+        requirementQuantity: item.REQUIREMENTQUANTITY,
+        unitOfMeasure: item.UNITOFMEASURE,
+        handlingUnits: handlingUnits,
+
+        // handlingUnits: item.HANDLINGUNITS.map(handlingUnit => {
+        //   return Object.freeze({
+        //     sscc: handlingUnit.SSCC,
+        //     handlingUnitNumber: handlingUnit.HANDLINGUNITNUMBER,
+        //     batch: handlingUnit.BATCH,
+        //     quantity: handlingUnit.QUANTITY,
+        //     unitOfMeasure: handlingUnit.UNITOFMEASURE,
+        //     storageLocation: handlingUnit.STORAGELOCATION,
+        //   });
+        // }),
+      });
+    },
+  );
+
+  const header = Object.freeze({
+    outboundDeliveryNumber: outboundDeliveryModel.HEADER.OUTBOUNDDELIVERYNUMBER,
+    customerNumber: outboundDeliveryModel.HEADER.CUSTOMERNUMBER,
+    customerName: outboundDeliveryModel.HEADER.CUSTOMERNAME,
+    shipToPartyNumber: outboundDeliveryModel.HEADER.SHIPTOPARTYNUMBER,
+    shipToPartyName: outboundDeliveryModel.HEADER.SHIPTOPARTYNAME,
+    status: outboundDeliveryModel.HEADER.STATUS,
+  });
+
+  return Object.freeze({
+    header: header,
     items: items,
   });
 };
