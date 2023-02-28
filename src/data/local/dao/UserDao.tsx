@@ -1,4 +1,4 @@
-import {User} from '../../../src/shared/Types';
+import {User} from '../../../shared/Types';
 import {SCHEMA_NAME} from '../SchemaName';
 import BaseDao from './BaseDao';
 
