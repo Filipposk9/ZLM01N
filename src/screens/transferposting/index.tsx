@@ -126,6 +126,7 @@ function TransferPosting({navigation}: {navigation: any}): JSX.Element {
     storageLocationOut: string,
   ) => {
     //TODO: add current user param
+    //TODO: get all material texts and cache them
 
     const submitGoodsMovement = async (): Promise<
       MaterialDocument | undefined
@@ -214,7 +215,7 @@ function TransferPosting({navigation}: {navigation: any}): JSX.Element {
   unsubscribe();
 
   return (
-    <View>
+    <View style={styles(theme).transferPostingContainer}>
       <Spinner
         visible={isLoading}
         textContent={'Πραγματοποιείται ενδοδιακίνιση...'}
