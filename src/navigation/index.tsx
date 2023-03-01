@@ -10,7 +10,6 @@ import History from '../screens/history/index';
 import Picking from '../screens/picking/index';
 import GoodsIssues from '../screens/goodsissues/index';
 import StorageLocationList from '../screens/StorageLocationList';
-
 import {RootStackParamList} from './types';
 
 const AppStack = createNativeStackNavigator<RootStackParamList>();
