@@ -38,6 +38,8 @@ export interface Label {
   quantity: number;
 }
 
+//TODO: add date and time and unit of measure in materialdocumentresponse
+
 export interface MaterialDocument {
   materialDocumentNumber: string;
   items: MaterialDocumentItem[];
@@ -97,4 +99,13 @@ export interface HandlingUnit {
   storageLocation: string;
 }
 
-//TODO: add date and time and unit of measure in materialdocumentresponse
+export interface PickingRequest {
+  outboundDeliveryNumber: string;
+  sscc: string;
+}
+
+export interface Picking {
+  code: number;
+  message: string;
+  positionNumberHandled: number;
+}
