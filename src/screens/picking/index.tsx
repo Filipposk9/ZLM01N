@@ -17,7 +17,7 @@ function Picking({navigation}: {navigation: any}): JSX.Element {
   >();
   const [expanded, setExpanded] = useState<boolean[]>([]);
 
-  const inputRef = useRef<TextInput>(null);
+  const scannerRef = useRef<TextInput>(null);
 
   const validateOutboundDelivery = (outboundDeliveryNumber: string) => {
     let outboundDeliveryRegex = new RegExp('^80[0-9]{6}$');
@@ -58,8 +58,8 @@ function Picking({navigation}: {navigation: any}): JSX.Element {
       } else {
         Alert.alert('Λάθος αριθμός παράδοσης');
 
-        if (inputRef.current) {
-          inputRef.current.focus();
+        if (scannerRef.current) {
+          scannerRef.current.focus();
         }
       }
     };
@@ -68,15 +68,13 @@ function Picking({navigation}: {navigation: any}): JSX.Element {
   };
 
   const pickLabel = (lastScannedBarcode: string) => {
-    console.log(lastScannedBarcode);
-
     const pickLabel = async () => {
       if (lastScannedBarcode !== '') {
         if (outboundDeliveryData?.header.status === 'C') {
           Alert.alert('To picking έχει ήδη ολοκληρωθεί');
 
-          if (inputRef.current) {
-            inputRef.current.focus();
+          if (scannerRef.current) {
+            scannerRef.current.focus();
           }
         } else {
           setLoading(true);
@@ -105,8 +103,8 @@ function Picking({navigation}: {navigation: any}): JSX.Element {
             } else {
               Alert.alert(response.message);
 
-              if (inputRef.current) {
-                inputRef.current.focus();
+              if (scannerRef.current) {
+                scannerRef.current.focus();
               }
             }
           }
@@ -143,8 +141,8 @@ function Picking({navigation}: {navigation: any}): JSX.Element {
             onSubmitEditing={() => {
               getOutboundDeliveryData();
 
-              if (inputRef.current) {
-                inputRef.current.focus();
+              if (scannerRef.current) {
+                scannerRef.current.focus();
               }
             }}
             value={outboundDelivery}></TextInput>
@@ -233,7 +231,7 @@ function Picking({navigation}: {navigation: any}): JSX.Element {
       </View>
 
       <BarcodeScanner
-        reference={inputRef}
+        reference={scannerRef}
         onScan={lastScannedBarcode => pickLabel(lastScannedBarcode)}
       />
     </View>
