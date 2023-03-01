@@ -2,11 +2,12 @@ import React, {useEffect, useRef, useState} from 'react';
 import {TextInput} from 'react-native';
 
 interface BarcodeScannerProps {
+  reference: React.Ref<TextInput>;
   onScan: (scannedBarcode: string) => void;
 }
 
 function BarcodeScanner(props: BarcodeScannerProps): JSX.Element {
-  const {onScan} = props;
+  const {reference, onScan} = props;
 
   const inputRef = useRef<TextInput>(null);
 
@@ -47,7 +48,7 @@ function BarcodeScanner(props: BarcodeScannerProps): JSX.Element {
 
   return (
     <TextInput
-      ref={inputRef}
+      ref={reference}
       showSoftInputOnFocus={false}
       autoFocus={true}
       autoCorrect={false}
