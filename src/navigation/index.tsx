@@ -8,7 +8,7 @@ import TransferPosting from '../screens/transferposting/index';
 import TransferPostingLog from '../screens/transferpostinglog/index';
 import History from '../screens/history/index';
 import Picking from '../screens/picking/index';
-import GoodsIssues from '../screens/GoodsIssues';
+import GoodsIssues from '../screens/goodsissues/index';
 import StorageLocationList from '../screens/StorageLocationList';
 
 import {RootStackParamList} from './types';
