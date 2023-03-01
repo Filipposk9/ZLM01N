@@ -37,6 +37,8 @@ function TransferPosting({navigation}: {navigation: any}): JSX.Element {
   const [storageLocationIn, setStorageLocationIn] = useState('');
   const [storageLocationOut, setStorageLocationOut] = useState('');
 
+  const scannerRef = useRef(null);
+
   const goodsMovementQueue = useSelector(
     (state: GoodsMovementQueueState) => state.goodsMovementQueue,
   );
@@ -232,6 +234,7 @@ function TransferPosting({navigation}: {navigation: any}): JSX.Element {
       />
 
       <BarcodeScanner
+        reference={scannerRef}
         onScan={lastScannedBarcode => addLabel(lastScannedBarcode)}
       />
 
