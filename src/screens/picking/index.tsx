@@ -140,10 +140,6 @@ function Picking({navigation}: {navigation: any}): JSX.Element {
             }}
             onSubmitEditing={() => {
               getOutboundDeliveryData();
-
-              if (scannerRef.current) {
-                scannerRef.current.focus();
-              }
             }}
             value={outboundDelivery}></TextInput>
         </View>
