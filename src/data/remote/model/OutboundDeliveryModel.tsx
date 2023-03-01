@@ -3,8 +3,6 @@ export interface OutboundDeliveryModel {
   ITEMS: OutboundDeliveryItem[];
 }
 
-//TODO: associated sales order?
-
 interface OutboundDeliveryHeader {
   OUTBOUNDDELIVERYNUMBER: string;
   CUSTOMERNUMBER: string;
