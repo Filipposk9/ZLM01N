@@ -1,7 +1,6 @@
 import React, {useContext, useState, useRef} from 'react';
 
 import {View, Text, TextInput, Pressable} from 'react-native';
-import SapRequestHandler from '../sap/SapRequestHandler';
 
 import ProductionOrder from '../components/ProductionOrder';
 

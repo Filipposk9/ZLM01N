@@ -13,8 +13,6 @@ import Modal from 'react-native-modal';
 
 import Icon from 'react-native-vector-icons/AntDesign';
 
-import SapRequestHandler from '../sap/SapRequestHandler';
-
 import {styles} from '../styles/GoodsIssuesStyles';
 import {GlobalStyles} from '../styles/GlobalStyles';
 import {ThemeContext} from '../styles/ThemeContext';

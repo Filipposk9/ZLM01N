@@ -1,7 +1,6 @@
 import React, {useContext, useEffect, useState} from 'react';
 
 import {ScrollView, View, Text} from 'react-native';
-import SapRequestHandler from '../sap/SapRequestHandler';
 
 import {styles} from '../styles/StorageLocationListStyles';
 import {ThemeContext} from '../styles/ThemeContext';
