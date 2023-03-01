@@ -24,11 +24,6 @@ export const styles = (theme: any) =>
       fontSize: 16,
       width: 190,
     },
-    invisibleInputContainer: {
-      height: 0,
-      alignItems: 'center',
-      justifyContent: 'center',
-    },
     outboundDeliveryContainer: {
       backgroundColor: theme.foregroundColor,
       margin: '4%',
