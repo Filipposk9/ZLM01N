@@ -10,6 +10,7 @@ import {
   MaterialDocument,
   Label,
   OutboundDelivery,
+  Picking,
 } from '../shared/Types';
 
 class Repository {
@@ -101,6 +102,20 @@ class Repository {
 
     if (outboundDelivery) {
       return outboundDelivery;
+    }
+  }
+
+  async createPickingRequest(
+    outboundDeliveryNumber: string,
+    sscc: string,
+  ): Promise<Picking | undefined> {
+    const picking = await ApiPostService.createPickingRequest(
+      outboundDeliveryNumber,
+      sscc,
+    );
+
+    if (picking) {
+      return picking;
     }
   }
 }
