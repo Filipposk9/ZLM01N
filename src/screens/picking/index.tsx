@@ -182,7 +182,7 @@ function Picking({navigation}: {navigation: any}): JSX.Element {
                     {item.unitOfMeasure}
                   </Text>
                   <Text style={styles(theme).outboundDeliveryLinesText}>
-                    Scanned: {0} PAL
+                    Scanned: {item.handlingUnits.length} PAL
                   </Text>
                 </Pressable>
                 <View
