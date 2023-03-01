@@ -8,12 +8,14 @@ import {
   Label,
   OutboundDelivery,
   OutboundDeliveryItem,
-  HandlingUnit,
+  PickingRequest,
+  Picking,
 } from '../../shared/Types';
 import {MaterialModel} from './model/MaterialModel';
 import {StorageLocationModel} from './model/StorageLocationModel';
 import {MaterialDocumentModel} from './model/MaterialDocumentModel';
 import {OutboundDeliveryModel} from './model/OutboundDeliveryModel';
+import {PickingModel} from './model/PickingModel';
 
 export const materialModelToMaterial = (
   materialModel: MaterialModel,
@@ -125,5 +127,23 @@ export const outboundDeliveryModelToOutboundDelivery = (
   return Object.freeze({
     header: header,
     items: items,
+  });
+};
+
+export const handlingUnitToPickingRequest = (
+  outboundDeliveryNumber: string,
+  sscc: string,
+): PickingRequest => {
+  return Object.freeze({
+    outboundDeliveryNumber: outboundDeliveryNumber,
+    sscc: sscc,
+  });
+};
+
+export const pickingModelToPicking = (pickingModel: PickingModel): Picking => {
+  return Object.freeze({
+    code: pickingModel.CODE,
+    message: pickingModel.MESSAGE,
+    positionNumberHandled: pickingModel.POSITIONNUMBERHANDLED,
   });
 };
