@@ -53,6 +53,7 @@ class MasterDataService {
     outboundDeliveryNumber: string,
   ): Promise<OutboundDelivery | undefined> {
     const sapRequestHeaders = await SapRequestParameters.getSapRequestHeaders();
+
     const response = await RequestGateway.get<OutboundDeliveryResponse>(
       '/mdata?vbeln=' + outboundDeliveryNumber,
       sapRequestHeaders,
