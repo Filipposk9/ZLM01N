@@ -7,6 +7,8 @@ const themes = {
     foregroundColor: '#29313a',
     secondaryForegroundColor: '#29313a',
 
+    buttonBackgroundColor: '#5070F4',
+
     borderColor: '#ffffff',
     buttonBorderColor: '#ffffff',
 
@@ -21,6 +23,8 @@ const themes = {
     foregroundColor: '#95aa9d',
     secondaryForegroundColor: '#6c8776',
     //secondaryForegroundColor: '#EDC9AF',
+
+    buttonBackgroundColor: '#95aa9d',
 
     borderColor: '#777777',
     buttonBorderColor: '#ffffff',

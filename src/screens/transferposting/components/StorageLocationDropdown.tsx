@@ -47,7 +47,7 @@ function StorageLocationDropdown(
       }}
       save="key"
       search={false}
-      arrowicon={<Text />}
+      //arrowicon={<Text />}
       closeicon={<Text />}
       placeholder={placeholder}
       boxStyles={styles(theme).dropDownBox}
@@ -55,6 +55,7 @@ function StorageLocationDropdown(
       dropdownTextStyles={styles(theme).dropDownText}
       data={dropDownData.selectListData}
     />
+    //TODO: arrowicon white
   );
 }
 
@@ -64,7 +65,7 @@ const styles = (theme: any) =>
       backgroundColor: theme.foregroundColor,
       margin: '3%',
       borderColor: theme.borderColor,
-      borderRadius: 20,
+      borderRadius: 15,
     },
     dropDownInput: {
       color: theme.buttonTextColor,
@@ -72,6 +73,7 @@ const styles = (theme: any) =>
     },
     dropDownText: {
       margin: '2%',
+      color: theme.textColor,
     },
   });
 

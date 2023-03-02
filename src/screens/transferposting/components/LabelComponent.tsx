@@ -113,7 +113,7 @@ const styles = (theme: any) =>
       borderWidth: 1,
       borderColor: theme.borderColor,
       backgroundColor: theme.secondaryForegroundColor,
-      borderRadius: 20,
+      borderRadius: 15,
       margin: '3%',
       alignItems: 'center',
       flexDirection: 'row',

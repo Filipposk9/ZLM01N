@@ -7,6 +7,19 @@ export const styles = (theme: any) =>
       backgroundColor: theme.backgroundColor,
       flex: 1,
     },
+    labelListHeader: {margin: '5%'},
+    labelListHeaderText: {
+      color: theme.textColor,
+      fontWeight: 'bold',
+      fontSize: 24,
+    },
+    labelList: {
+      height: '35%',
+      backgroundColor: theme.foregroundColor,
+      borderRadius: 20,
+      marginLeft: '3%',
+      marginRight: '3%',
+    },
     //bottom panel container
     bottomPanelContainer: {
       flexDirection: 'row',
@@ -47,24 +60,30 @@ export const styles = (theme: any) =>
       fontSize: 26,
       color: theme.buttonTextColor,
     },
-    //submit transfer posting button
-    submitButtonContainer: {
-      borderRadius: 20,
-      borderWidth: 1,
-      borderColor: theme.borderColor,
-      backgroundColor: theme.foregroundColor,
+    bottomContainer: {
+      flex: 1,
+      flexDirection: 'row',
       alignItems: 'center',
       justifyContent: 'center',
-      margin: '3%',
+    },
+    //submit transfer posting button
+    submitButtonContainer: {
+      borderRadius: 30,
+      borderColor: theme.borderColor,
+      backgroundColor: theme.buttonBackgroundColor,
+      alignItems: 'center',
+      justifyContent: 'center',
+      flex: 0.7,
     },
     submitButton: {
       height: 60,
-      width: '100%',
       alignItems: 'center',
       justifyContent: 'center',
+      width: '100%',
     },
     submitButtonText: {
-      fontSize: 16,
+      fontSize: 18,
+      fontWeight: 'bold',
       color: theme.buttonTextColor,
     },
   });

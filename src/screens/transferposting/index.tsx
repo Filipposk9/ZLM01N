@@ -233,14 +233,20 @@ function TransferPosting({navigation}: {navigation: any}): JSX.Element {
         onChange={onStorageLocationOutChange}
       />
 
-      <BarcodeScanner
-        reference={scannerRef}
-        onScan={lastScannedBarcode => addLabel(lastScannedBarcode)}
-      />
+      <View style={{height: 0}}>
+        <BarcodeScanner
+          reference={scannerRef}
+          onScan={lastScannedBarcode => addLabel(lastScannedBarcode)}
+        />
+      </View>
+
+      <View style={styles(theme).labelListHeader}>
+        <Text style={styles(theme).labelListHeaderText}>Λίστα ετικετών</Text>
+      </View>
 
       <ScrollView
         contentInsetAdjustmentBehavior="automatic"
-        style={{height: '40%'}}>
+        style={styles(theme).labelList}>
         {scannedLabels.length > 0
           ? scannedLabels.map((item, i) => {
               return (
@@ -261,6 +267,7 @@ function TransferPosting({navigation}: {navigation: any}): JSX.Element {
       {/* Bottom panel */}
       <View style={styles(theme).bottomPanelContainer}>
         {/*Transfer Posting History Button */}
+        {/* //TODO: move to top panel */}
         <View style={styles(theme).historyButtonContainer}>
           <Pressable
             onPress={() => {
@@ -271,7 +278,6 @@ function TransferPosting({navigation}: {navigation: any}): JSX.Element {
             <Text style={styles(theme).historyButtonText}>Ιστορικό</Text>
           </Pressable>
         </View>
-
         {/*Add Label Manually Button*/}
         <View style={styles(theme).addLabelButtonContainer}>
           <Pressable
@@ -294,38 +300,40 @@ function TransferPosting({navigation}: {navigation: any}): JSX.Element {
       />
 
       {/* Submit form to SAP */}
-      <View style={styles(theme).submitButtonContainer}>
-        <Pressable
-          style={styles(theme).submitButton}
-          onPress={async () => {
-            setIsLoading(true);
-            const goodsMovementLog = await submitGoodsMovement(
-              scannedLabels,
-              storageLocationIn,
-              storageLocationOut,
-            );
-            setIsLoading(false);
-
-            handleGoodsMovementResponse(goodsMovementLog);
-
-            if (goodsMovementLog) {
-              navigation.navigate('TransferPostingLog', [
-                goodsMovementLog,
+      <View style={styles(theme).bottomContainer}>
+        <View style={styles(theme).submitButtonContainer}>
+          <Pressable
+            style={styles(theme).submitButton}
+            onPress={async () => {
+              setIsLoading(true);
+              const goodsMovementLog = await submitGoodsMovement(
+                scannedLabels,
                 storageLocationIn,
                 storageLocationOut,
-              ]);
-            } else {
-              if (storageLocationsAreValid()) {
-                Alert.alert(
-                  'Αδυναμία Σύνδεσης. Το παραστατικό προστέθηκε στην ουρά',
-                );
+              );
+              setIsLoading(false);
+
+              handleGoodsMovementResponse(goodsMovementLog);
+
+              if (goodsMovementLog) {
+                navigation.navigate('TransferPostingLog', [
+                  goodsMovementLog,
+                  storageLocationIn,
+                  storageLocationOut,
+                ]);
+              } else {
+                if (storageLocationsAreValid()) {
+                  Alert.alert(
+                    'Αδυναμία Σύνδεσης. Το παραστατικό προστέθηκε στην ουρά',
+                  );
+                }
               }
-            }
-            //TODO: delete screen after submit
-          }}
-          android_ripple={GlobalStyles(theme).rippleColor}>
-          <Text style={styles(theme).submitButtonText}>Καταχώριση</Text>
-        </Pressable>
+              //TODO: delete screen after submit
+            }}
+            android_ripple={GlobalStyles(theme).rippleColor}>
+            <Text style={styles(theme).submitButtonText}>Καταχώριση</Text>
+          </Pressable>
+        </View>
       </View>
     </View>
   );

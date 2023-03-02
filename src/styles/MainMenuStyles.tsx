@@ -2,6 +2,13 @@ import {StyleSheet} from 'react-native';
 
 export const styles = (theme: any) =>
   StyleSheet.create({
+    mainMenuHeader: {},
+    mainMenuHeaderText: {
+      fontWeight: 'bold',
+      fontSize: 24,
+      margin: '7%',
+      color: theme.textColor,
+    },
     mainMenuContainer: {
       backgroundColor: theme.backgroundColor,
       height: '100%',

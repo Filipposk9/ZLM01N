@@ -29,14 +29,14 @@ export const styles = (theme: any) =>
     },
     loginButtonContainer: {
       borderRadius: 20,
-      borderWidth: 1,
+      //borderWidth: 1,
       borderColor: theme.buttonBorderColor,
       marginTop: '15%',
       width: '60%',
-      height: '6%',
+      height: '5%',
       alignItems: 'center',
       justifyContent: 'center',
-      backgroundColor: theme.foregroundColor,
+      backgroundColor: theme.buttonBackgroundColor,
       margin: '18%',
     },
     loginButton: {
