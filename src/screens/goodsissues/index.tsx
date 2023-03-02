@@ -11,8 +11,8 @@ import {
 } from '../../shared/Types';
 import {styles} from '../../styles/GoodsIssuesStyles';
 import {ThemeContext} from '../../styles/ThemeContext';
-import {GOODS_MOVEMENT_CODE, MOVEMENT_TYPE} from '../../shared/Constants';
 import LabelComponent from '../transferposting/components/LabelComponent';
+import {GOODS_MOVEMENT_CODE, MOVEMENT_TYPE} from '../../shared/Constants';
 //TODO: move label component to ./src/components
 
 function GoodsIssues({navigation}: {navigation: any}): JSX.Element {
