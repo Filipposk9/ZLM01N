@@ -9,7 +9,6 @@ import TransferPostingLog from '../screens/transferpostinglog/index';
 import History from '../screens/history/index';
 import Picking from '../screens/picking/index';
 import GoodsIssues from '../screens/goodsissues/index';
-import StorageLocationList from '../screens/StorageLocationList';
 import {RootStackParamList} from './types';
 
 const AppStack = createNativeStackNavigator<RootStackParamList>();
@@ -55,11 +54,6 @@ function AppNavigation(): JSX.Element {
         name="GoodsIssues"
         component={GoodsIssues}
         options={{title: 'GoodsIssues'}}
-      />
-      <AppStack.Screen
-        name="StorageLocationList"
-        component={StorageLocationList}
-        options={{title: 'StorageLocationList'}}
       />
     </AppStack.Navigator>
   );
