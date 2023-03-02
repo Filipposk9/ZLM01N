@@ -1,19 +1,19 @@
 import React, {useContext, useRef, useState} from 'react';
-import {
-  View,
-  Text,
-  TextInput,
-  Pressable,
-  Alert,
-  ScrollView,
-} from 'react-native';
+import {View, Text, TextInput, Alert, ScrollView} from 'react-native';
 import {FlatList} from 'react-native-gesture-handler';
 import BarcodeScanner from '../../components/BarcodeScanner';
 import Repository from '../../data/Repository';
-import {ProductionOrder, ProductionOrderComponent} from '../../shared/Types';
-import {GlobalStyles} from '../../styles/GlobalStyles';
+import {
+  Label,
+  MaterialDocument,
+  ProductionOrder,
+  ProductionOrderComponent,
+} from '../../shared/Types';
 import {styles} from '../../styles/GoodsIssuesStyles';
 import {ThemeContext} from '../../styles/ThemeContext';
+import {GOODS_MOVEMENT_CODE, MOVEMENT_TYPE} from '../../shared/Constants';
+import LabelComponent from '../transferposting/components/LabelComponent';
+//TODO: move label component to ./src/components
 
 function GoodsIssues({navigation}: {navigation: any}): JSX.Element {
   const {theme} = useContext(ThemeContext);
@@ -36,6 +36,8 @@ function GoodsIssues({navigation}: {navigation: any}): JSX.Element {
   const [byProductsGroup, setByProductsGroup] = useState<
     ProductionOrderComponent[] | undefined
   >([]);
+
+  const [scannedLabels, setScannedLabels] = useState<Label[]>();
 
   const validateProductionOrder = (productionOrder: string) => {
     let productionOrderRegex = new RegExp('^1[0-9]{6}$');
@@ -94,67 +96,73 @@ function GoodsIssues({navigation}: {navigation: any}): JSX.Element {
     getProductionOrderData();
   };
 
-  const issueLabel = (lastScannedBarcode: string) => {
-    console.log(lastScannedBarcode);
-    //   onChangeText={invisibleText => {
-    //     setInvisibleText(invisibleText);
-    //     let splitText = invisibleText.split('-');
-    //     let matnr = splitText[0];
-    //     let found = productionOrderRef.current.lineItems.findIndex(
-    //       lineItem => lineItem.componentMaterialNumber === matnr,
-    //     );
-    //     productionOrderRef.current.scrollViewSizeChanged(
-    //       found * 30,
-    //       invisibleText,
-    //     );
-    //     setInvisibleText('');
-    //   }}
+  const addLabel = (lastScannedBarcode: string) => {
+    if (lastScannedBarcode !== '') {
+      if (scannedLabels !== undefined) {
+        setScannedLabels([
+          ...scannedLabels,
+          {
+            count: scannedLabels.length + 1,
+            materialNumber: lastScannedBarcode.split('-')[0],
+            batch: lastScannedBarcode.split('-')[1],
+            quantity: Number(
+              lastScannedBarcode.split('-')[2].replace(',', '.'),
+            ),
+          },
+        ]);
+      } else {
+        setScannedLabels([
+          {
+            count: 1,
+            materialNumber: lastScannedBarcode.split('-')[0],
+            batch: lastScannedBarcode.split('-')[1],
+            quantity: Number(
+              lastScannedBarcode.split('-')[2].replace(',', '.'),
+            ),
+          },
+        ]);
+      }
+    }
   };
 
-  // scrollViewRef = createRef();
-  // yOffset = 0;
+  const submitGoodsMovement = (
+    scannedLabels: Label[],
+    storageLocationIn: string,
+    storageLocationOut: string,
+  ) => {
+    //TODO: add current user param
+    //TODO: get all material texts and cache them
 
-  // //TODO: materialGroupExists()
+    const submitGoodsMovement = async (): Promise<
+      MaterialDocument | undefined
+    > => {
+      const materialDocument = await Repository.createGoodsMovement(
+        GOODS_MOVEMENT_CODE.GOODS_ISSUE,
+        scannedLabels,
+        //TODO: ask user for storage location or get from BOM?
+        storageLocationIn,
+        storageLocationOut,
+        MOVEMENT_TYPE.GOODS_ISSUE,
+        productionOrder,
+      );
 
-  // isCloseToBottom({layoutMeasurement, contentOffset, contentSize}) {
-  //   return (
-  //     layoutMeasurement.height + contentOffset.y >= contentSize.height - 20
-  //   );
-  // }
+      return materialDocument;
+    };
 
-  // isCloseToTop({layoutMeasurement, contentOffset, contentSize}) {
-  //   return contentOffset.y == 0;
-  // }
+    // if (storageLocationsAreValid()) {
+    if (scannedLabels.length > 0) {
+      return submitGoodsMovement();
+    } else {
+      Alert.alert('Άδειο παραστατικό');
+      return undefined;
+    }
+    // } else {
+    //   Alert.alert('Εισάγετε αποθηκευτικό χώρο');
+    //   return undefined;
+    // }
+  };
 
-  // scrollViewSizeChanged(height, barcode) {
-  //   let splitBarcode, matnr, charg, menge;
-  //   if (barcode !== null && barcode !== undefined) {
-  //     splitBarcode = barcode.split('-');
-  //     matnr = splitBarcode[0];
-  //     charg = splitBarcode[1];
-  //     menge = splitBarcode[2];
-  //   }
-
-  //   if (height !== 0) {
-  //     let elementIndex = height / 30;
-
-  //     const currentState = this.state.elementScanned;
-
-  //     currentState[elementIndex] = true;
-
-  //     //TODO: if not in BOM, get text from collection
-
-  //     this.setState({elementsScanned: currentState});
-  //     this.setState({modalVisibility: true});
-  //     this.setState({
-  //       scannedMaterialText: this.lineItems[elementIndex].componentMaterialText,
-  //       scannedMaterialNumber: matnr,
-  //       scannedMaterialBatch: charg,
-  //       scannedMaterialQuantity: menge,
-  //     });
-  //   }
-  //   this.scrollViewRef.current.scrollTo({y: height, animated: true});
-  // }
+  const removeLabel = (i: number): void => {};
 
   //TODO: storage location list tab, my goods issues tab
 
@@ -173,6 +181,8 @@ function GoodsIssues({navigation}: {navigation: any}): JSX.Element {
           }}
           value={productionOrder}></TextInput>
       </View>
+
+      {/* //TODO: make into 1 component */}
 
       <View style={styles(theme).productionOrderContainer}>
         <View style={styles(theme).productionOrderHeaderContainer}>
@@ -274,167 +284,34 @@ function GoodsIssues({navigation}: {navigation: any}): JSX.Element {
                 )}></FlatList>
             </View>
           )}></FlatList>
-
-        {/* <Pressable
-          onPress={() => {
-            this.scrollViewRef.current.scrollTo({
-              y: this.state.itemsReachedEnd
-                ? this.yOffset - 120
-                : this.yOffset + 120,
-              animated: true,
-            });
-          }}>
-          <View
-            style={{
-              alignItems: 'center',
-            }}>
-            <Icon name={this.state.itemsReachedEnd ? 'up' : 'down'} size={30} />
-          </View>
-        </Pressable> */}
-
-        {/* <Modal
-          isVisible={this.state.modalVisibility}
-          onBackdropPress={() => {
-            this.setState({modalVisibility: false});
-            Keyboard.dismiss();
-          }}
-          animationIn={'fadeIn'}
-          animationInTiming={1000}>
-          <View style={styles(theme).scannedLabelPopup}>
-            <Text style={styles(theme).scannedLabelHeader}>
-              {this.state.scannedMaterialText}
-            </Text>
-            <Text style={styles(theme).scannedLabelText}>
-              Κωδικός Υλικού: {this.state.scannedMaterialNumber}
-            </Text>
-            <Text style={styles(theme).scannedLabelText}>
-              Παρτίδα: {this.state.scannedMaterialBatch}
-            </Text>
-            <Text style={styles(theme).scannedLabelText}>
-              Ποσότητα: {this.state.scannedMaterialQuantity}
-            </Text>
-            <View style={{flexDirection: 'row'}}>
-              <TextInput
-                style={styles(theme).scannedLabelText}
-                keyboardType="numeric"
-                placeholder={'Αποθ. Χώρος Ανάλωσης: '}
-                placeholderTextColor={'grey'}
-                onChangeText={storageLocation => {
-                  this.setState({
-                    goodsIssueStorageLocation: storageLocation,
-                  });
-                }}
-                onSubmitEditing={async () => {
-                  let response = await SapRequestHandler.getStorageLocations(
-                    this.state.goodsIssueStorageLocation,
-                  );
-
-                  this.setState({
-                    goodsIssueStorageLocationText: response[0].LGOBE,
-                  });
-                }}
-                value={this.state.goodsIssueStorageLocation}></TextInput>
-              <Text style={{marginTop: '5%'}}>
-                {this.state.goodsIssueStorageLocationText}
-              </Text>
-            </View>
-          </View>
-          <View style={styles(theme).scannedLabelButtonView}>
-            <Pressable
-              style={styles(theme).scannedLabelButton}
-              onPress={async () => {
-                this.setState({
-                  lastScannedLabel:
-                    this.state.scannedMaterialNumber +
-                    '-' +
-                    this.state.scannedMaterialBatch +
-                    '-' +
-                    this.state.scannedMaterialQuantity,
-                });
-                this.setState({modalVisibility: false});
-                Keyboard.dismiss();
-
-                if (
-                  this.state.goodsIssueStorageLocation !== null &&
-                  this.state.goodsIssueStorageLocation !== undefined &&
-                  this.state.goodsIssueStorageLocation !== ''
-                  //FIXME: check label scanned isNull
-                ) {
-                  let label = [
-                    {
-                      count: 1,
-                      matnr: this.state.scannedMaterialNumber,
-                      charg: this.state.scannedMaterialBatch,
-                      menge: this.state.scannedMaterialQuantity,
-                      validity: true,
-                      movetype: '261',
-                      aufnr: this.header.orderNumber,
-                    },
-                  ];
-
-                  let response = await SapRequestHandler.createGoodsMovement(
-                    this.state.goodsIssueStorageLocation,
-                    '',
-                    label,
-                    '03',
-                  );
-
-                  if (response[0].VALIDITY) {
-                    this.setState({goodsIssued: true});
-                  } else {
-                    this.setState({goodsIssued: false});
-                  }
-
-                  if (this.state.goodsIssued) {
-                    handleGoodsIssued(
-                      this.state.lastScannedLabel + ' αναλώθηκε επιτυχώς',
-                    );
-                  }
-
-                  this.setState({
-                    scannedMaterialNumber: '',
-                    scannedMaterialBatch: '',
-                    scannedMaterialQuantity: 0,
-                    scannedMaterialText: '',
-                    goodsIssueStorageLocation: '',
-                  });
-                } else {
-                  alert('Storage Location invalid');
-                  //FIXME: determine storage location validity
-                  //TODO: show storage location list
-                }
-              }}>
-              <Text style={styles(theme).scannedLabelButtonText}>
-                Επιβεβαίωση
-              </Text>
-            </Pressable>
-          </View>
-        </Modal> */}
       </View>
 
-      {/* <View style={styles(theme).storageLocationListBtnView}>
-        <Pressable
-          onPress={() => {
-            navigation.navigate('StorageLocationList');
-          }}
-          style={styles(theme).storageLocationListBtn}
-          android_ripple={GlobalStyles(theme).rippleColor}>
-          <Text style={styles(theme).storageLocationListBtnText}>
-            Λίστα Αποθηκευτικών Χώρων
-          </Text>
-        </Pressable>
-      </View> */}
+      <View style={{height: 0}}>
+        <BarcodeScanner
+          reference={scannerRef}
+          onScan={lastScannedBarcode => addLabel(lastScannedBarcode)}
+        />
+      </View>
 
-      {/* <View style={styles(theme).logBox}>
-        <Text>
-          Log:{' '}
-          {productionOrderRef.current !== undefined &&
-          productionOrderRef.current !== null
-            ? logState
-            : null}{' '}
-        </Text>
-      </View> */}
-      <BarcodeScanner reference={scannerRef} onScan={issueLabel} />
+      <ScrollView
+        contentInsetAdjustmentBehavior="automatic"
+        style={styles(theme).labelList}>
+        {scannedLabels !== undefined
+          ? scannedLabels.map((item, i) => {
+              return (
+                <LabelComponent
+                  key={i}
+                  count={item.count}
+                  barcode={
+                    item.materialNumber + '-' + item.batch + '-' + item.quantity
+                  }
+                  validity={false}
+                  onDeletePressed={() => removeLabel(i)}
+                />
+              );
+            })
+          : null}
+      </ScrollView>
     </View>
   );
 }
