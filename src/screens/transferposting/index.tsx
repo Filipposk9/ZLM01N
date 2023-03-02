@@ -43,20 +43,7 @@ function TransferPosting({navigation}: {navigation: any}): JSX.Element {
     (state: GoodsMovementQueueState) => state.goodsMovementQueue,
   );
 
-  const [scannedLabels, setScannedLabels] = useState<Label[]>([
-    {
-      count: 1,
-      materialNumber: '210000521',
-      batch: '11111CU123',
-      quantity: 150,
-    },
-    {
-      count: 2,
-      materialNumber: '210000521',
-      batch: '11111CU123',
-      quantity: 150,
-    },
-  ]);
+  const [scannedLabels, setScannedLabels] = useState<Label[]>([]);
 
   const [manualLabelInputVisibility, setManualLabelInputVisibility] =
     useState(false);
@@ -83,33 +70,50 @@ function TransferPosting({navigation}: {navigation: any}): JSX.Element {
 
   const addLabel = (lastScannedBarcode: string) => {
     if (lastScannedBarcode !== '') {
-      setScannedLabels([
-        ...scannedLabels,
-        {
-          count: scannedLabels.length + 1,
-          materialNumber: lastScannedBarcode.split('-')[0],
-          batch: lastScannedBarcode.split('-')[1],
-          quantity: Number(lastScannedBarcode.split('-')[2].replace(',', '.')),
-        },
-      ]);
+      if (scannedLabels !== undefined) {
+        setScannedLabels([
+          ...scannedLabels,
+          {
+            count: scannedLabels.length + 1,
+            materialNumber: lastScannedBarcode.split('-')[0],
+            batch: lastScannedBarcode.split('-')[1],
+            quantity: Number(
+              lastScannedBarcode.split('-')[2].replace(',', '.'),
+            ),
+          },
+        ]);
+      } else {
+        setScannedLabels([
+          {
+            count: 1,
+            materialNumber: lastScannedBarcode.split('-')[0],
+            batch: lastScannedBarcode.split('-')[1],
+            quantity: Number(
+              lastScannedBarcode.split('-')[2].replace(',', '.'),
+            ),
+          },
+        ]);
+      }
     }
   };
 
-  const removeLabel = (i: number) => {
-    let currentScannedLabels: Label[] = scannedLabels;
+  const removeLabel = (index: number) => {
+    // //FIXME: material texts dont slide because state does not update
+
     let j = 1;
 
-    currentScannedLabels.splice(i, 1);
+    const nextState = scannedLabels.map((c, i) => {
+      if (i !== index) {
+        c.count = j++;
+        return c;
+      }
+    });
 
-    console.log(currentScannedLabels);
+    const filteredState = nextState.filter(item => item !== undefined);
 
-    for (const label of currentScannedLabels) {
-      label.count = j++;
+    if (filteredState !== undefined) {
+      setScannedLabels(filteredState);
     }
-
-    //FIXME: state doesnt update, material texts dont slide
-
-    setScannedLabels(currentScannedLabels);
   };
 
   const getConnectionDetails = () => {
