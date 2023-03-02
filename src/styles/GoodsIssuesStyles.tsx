@@ -4,6 +4,7 @@ export const styles = (theme: any) =>
   StyleSheet.create({
     goodsIssuesContainer: {
       backgroundColor: theme.backgroundColor,
+      flex: 1,
     },
     productionOrderInputContainer: {
       flexDirection: 'row',
@@ -15,21 +16,13 @@ export const styles = (theme: any) =>
     },
     productionOrderInputText: {
       color: theme.textColor,
-      fontSize: 18,
+      fontSize: 20,
       fontWeight: 'bold',
     },
     productionOrderInputField: {
       color: theme.textColor,
-      fontSize: 18,
+      fontSize: 20,
       width: '100%',
-    },
-    invisibleInputContainer: {
-      height: 0,
-      alignItems: 'center',
-      justifyContent: 'center',
-    },
-    bodyContainer: {
-      margin: '4%',
     },
     productionOrderContainer: {
       backgroundColor: theme.foregroundColor,
@@ -46,10 +39,15 @@ export const styles = (theme: any) =>
     productionOrderHeaderText: {
       fontWeight: 'bold',
       fontSize: 16,
+      color: theme.textColor,
+    },
+    productionOrderHeaderContent: {
+      color: theme.textColor,
     },
     componentMaterialText: {
       fontSize: 12,
       width: '75%',
+      color: 'white',
     },
     componentQuantity: {
       alignItems: 'flex-end',
@@ -57,9 +55,10 @@ export const styles = (theme: any) =>
     },
     componentCategory: {
       fontWeight: 'bold',
-      fontSize: 18,
+      fontSize: 20,
       marginTop: '2%',
       marginBottom: '2%',
+      color: theme.textColor,
     },
     scannedLabelPopup: {
       backgroundColor: theme.backgroundColor,
