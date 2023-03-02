@@ -18,17 +18,13 @@ export const styles = (theme: any) =>
       justifyContent: 'space-evenly',
     },
     mainMenuItem: {
-      //borderWidth: 1,
       borderColor: theme.borderColor,
       margin: '3%',
       width: '42%',
       borderRadius: 20,
-      //flexDirection: 'column',
     },
     mainMenuBtn: {
-      //borderWidth: 1,
       borderColor: theme.borderColor,
-      //margin: '8%',
       backgroundColor: theme.foregroundColor,
       borderRadius: 20,
       height: 140,
