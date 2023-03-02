@@ -11,6 +11,7 @@ import {
   Label,
   OutboundDelivery,
   Picking,
+  ProductionOrder,
 } from '../shared/Types';
 
 class Repository {
@@ -116,6 +117,18 @@ class Repository {
 
     if (picking) {
       return picking;
+    }
+  }
+
+  async getProductionOrder(
+    productionOrderNumber: string,
+  ): Promise<ProductionOrder | undefined> {
+    const productionOrder = await MasterDataService.getProductionOrder(
+      productionOrderNumber,
+    );
+
+    if (productionOrder) {
+      return productionOrder;
     }
   }
 }

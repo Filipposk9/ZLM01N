@@ -10,7 +10,7 @@ interface ProductionOrderHeader {
   SCHEDULEDSTARTDATE: Date;
   TARGETQUANTITY: number;
   CONFIRMEDYIELD: number;
-  UNITOFMEASURE: number;
+  UNITOFMEASURE: string;
   ASSOCIATEDSALESORDER: string;
   ASSOCIATEDSALESORDERITEM: string;
   CUSTOMERNUMBER: string;

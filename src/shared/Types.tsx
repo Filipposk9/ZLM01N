@@ -109,3 +109,37 @@ export interface Picking {
   message: string;
   positionNumberHandled: number;
 }
+
+export interface ProductionOrder {
+  header: ProductionOrderHeader;
+  components: ProductionOrderComponent[];
+}
+
+export interface ProductionOrderHeader {
+  productionOrderNumber: string;
+  productionOrderMaterial: string;
+  productionOrderMaterialText: string;
+  scheduledStartDate: Date;
+  targetQuantity: number;
+  confirmedYield: number;
+  unitOfMeasure: string;
+  associatedSalesOrder: string;
+  associatedSalesOrderItem: string;
+  customerNumber: string;
+  customerName: string;
+  workCenterDescription: string;
+}
+
+export interface ProductionOrderComponent {
+  reservationNumber: string;
+  reservationPosition: number;
+  materialNumber: string;
+  materialText: string;
+  movementType: string;
+  plant: string;
+  storageLocation: string;
+  issuedQuantity: number;
+  requirementQuantity: number;
+  unitOfMeasure: string;
+  materialGroup: string;
+}

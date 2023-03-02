@@ -10,12 +10,16 @@ import {
   OutboundDeliveryItem,
   PickingRequest,
   Picking,
+  ProductionOrder,
+  ProductionOrderComponent,
+  ProductionOrderHeader,
 } from '../../shared/Types';
 import {MaterialModel} from './model/MaterialModel';
 import {StorageLocationModel} from './model/StorageLocationModel';
 import {MaterialDocumentModel} from './model/MaterialDocumentModel';
 import {OutboundDeliveryModel} from './model/OutboundDeliveryModel';
 import {PickingModel} from './model/PickingModel';
+import {ProductionOrderModel} from './model/ProductionOrderModel';
 
 export const materialModelToMaterial = (
   materialModel: MaterialModel,
@@ -145,5 +149,49 @@ export const pickingModelToPicking = (pickingModel: PickingModel): Picking => {
     code: pickingModel.CODE,
     message: pickingModel.MESSAGE,
     positionNumberHandled: pickingModel.POSITIONNUMBERHANDLED,
+  });
+};
+
+export const productionOrderModelToProductionOrder = (
+  productionOrderModel: ProductionOrderModel,
+): ProductionOrder => {
+  const components: ProductionOrderComponent[] =
+    productionOrderModel.COMPONENTS.map(component => {
+      return Object.freeze({
+        reservationNumber: component.RESERVATIONNUMBER,
+        reservationPosition: component.RESERVATIONPOSITION,
+        materialNumber: component.MATERIALNUMBER,
+        materialText: component.MATERIALTEXT,
+        movementType: component.MOVEMENTTYPE,
+        plant: component.PLANT,
+        storageLocation: component.STORAGELOCATION,
+        issuedQuantity: component.ISSUEDQUANTITY,
+        requirementQuantity: component.REQUIREMENTQUANTITY,
+        unitOfMeasure: component.UNITOFMEASURE,
+        materialGroup: component.MATERIALGROUP,
+      });
+    });
+
+  const header: ProductionOrderHeader = Object.freeze({
+    productionOrderNumber: productionOrderModel.HEADER.PRODUCTIONORDERNUMBER,
+    productionOrderMaterial:
+      productionOrderModel.HEADER.PRODUCTIONORDERMATERIAL,
+    productionOrderMaterialText:
+      productionOrderModel.HEADER.PRODUCTIONORDERMATERIALTEXT,
+    scheduledStartDate: productionOrderModel.HEADER.SCHEDULEDSTARTDATE,
+    targetQuantity: productionOrderModel.HEADER.TARGETQUANTITY,
+    confirmedYield: productionOrderModel.HEADER.CONFIRMEDYIELD,
+    unitOfMeasure: productionOrderModel.HEADER.UNITOFMEASURE,
+    associatedSalesOrder: productionOrderModel.HEADER.ASSOCIATEDSALESORDER,
+    associatedSalesOrderItem:
+      productionOrderModel.HEADER.ASSOCIATEDSALESORDERITEM,
+    customerNumber: productionOrderModel.HEADER.CUSTOMERNUMBER,
+    customerName: productionOrderModel.HEADER.CUSTOMERNAME,
+    workCenterDescription: productionOrderModel.HEADER.WORKCENTERDESCRIPTION,
+  });
+
+  return Object.freeze({
+    header: header,
+    components: components,
   });
 };
