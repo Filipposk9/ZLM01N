@@ -1,29 +1,37 @@
-import {MaterialModel} from './MaterialModel';
-import {SalesOrderModel} from './SalesOrderModel';
-
-//TODO: rework model?
-
 export interface ProductionOrderModel {
-  header: ProductionOrderHeader;
-  components: ProductionOrderComponent[];
+  HEADER: ProductionOrderHeader;
+  COMPONENTS: ProductionOrderComponent[];
 }
 
 interface ProductionOrderHeader {
-  productionOrderNumber: string;
-  producedMaterial: MaterialModel;
-  scheduledStartDate: Date;
-  targetQuantity: number; //REMOVE?
-  confirmedYield: number;
-  unitOfMeasure: number; //REMOVE?
-  associatedSalesOrder: SalesOrderModel; //SD Model or primitive types?
-  workCenter: string;
-  workCenterDescription: string;
+  PRODUCTIONORDERNUMBER: string;
+  PRODUCTIONORDERMATERIAL: string;
+  PRODUCTIONORDERMATERIALTEXT: string;
+  SCHEDULEDSTARTDATE: Date;
+  TARGETQUANTITY: number;
+  CONFIRMEDYIELD: number;
+  UNITOFMEASURE: number;
+  ASSOCIATEDSALESORDER: string;
+  ASSOCIATEDSALESORDERITEM: string;
+  CUSTOMERNUMBER: string;
+  CUSTOMERNAME: string;
+  WORKCENTERDESCRIPTION: string;
 }
 
 interface ProductionOrderComponent {
-  reservationNumber: string;
-  reservationPosition: number;
-  material: MaterialModel;
-  requirementQuantity: number;
-  issuedQuantity: number;
+  RESERVATIONNUMBER: string;
+  RESERVATIONPOSITION: number;
+  MATERIALNUMBER: string;
+  MATERIALTEXT: string;
+  MOVEMENTTYPE: string;
+  PLANT: string;
+  STORAGELOCATION: string;
+  ISSUEDQUANTITY: number;
+  REQUIREMENTQUANTITY: number;
+  UNITOFMEASURE: string;
+  MATERIALGROUP: string;
+}
+
+export interface ProductionOrderResponse {
+  data: ProductionOrderModel;
 }
