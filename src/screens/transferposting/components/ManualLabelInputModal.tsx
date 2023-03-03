@@ -23,6 +23,7 @@ function ManualLabelInputModal(props: ManualLabelInputModalProps): JSX.Element {
 
   //TODO: barcodeIsValid should be set in props
   //TODO: onSubmit should return textinput values
+  //TODO: dismiss keyboard after submit
 
   const barcodeIsValid = () => {
     const matnrRegex = new RegExp('^(1[0]|2[0-2]|30|4[0-2])[0-9]{7}$');
