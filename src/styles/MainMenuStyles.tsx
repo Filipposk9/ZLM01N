@@ -17,25 +17,4 @@ export const styles = (theme: any) =>
       flexDirection: 'row',
       justifyContent: 'space-evenly',
     },
-    mainMenuItem: {
-      borderColor: theme.borderColor,
-      margin: '3%',
-      width: '42%',
-      borderRadius: 20,
-    },
-    mainMenuBtn: {
-      borderColor: theme.borderColor,
-      backgroundColor: theme.foregroundColor,
-      borderRadius: 20,
-      height: 140,
-      alignItems: 'center',
-      justifyContent: 'center',
-    },
-    mainMenuBtnTextContainer: {
-      alignItems: 'center',
-    },
-    mainMenuBtnText: {
-      color: theme.buttonTextColor,
-      fontSize: 20,
-    },
   });
