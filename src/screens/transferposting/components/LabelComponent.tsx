@@ -19,6 +19,8 @@ interface LabelProps {
   onDeletePressed: () => void;
 }
 
+//TODO: add animation fadeIn()
+
 function LabelComponent(props: LabelProps): JSX.Element {
   const {count, barcode, validity, onDeletePressed} = props;
   const {theme} = useContext(ThemeContext);
