@@ -1,6 +1,7 @@
 import React from 'react';
 
 import {createNativeStackNavigator} from '@react-navigation/native-stack';
+import {createMaterialTopTabNavigator} from '@react-navigation/material-top-tabs';
 
 import Login from '../screens/login/index';
 import MainMenu from '../screens/mainmenu/index';
@@ -12,6 +13,16 @@ import GoodsIssues from '../screens/goodsissues/index';
 import {RootStackParamList} from './types';
 
 const AppStack = createNativeStackNavigator<RootStackParamList>();
+const Tab = createMaterialTopTabNavigator();
+
+function TransferPostingTabs(): JSX.Element {
+  return (
+    <Tab.Navigator>
+      <Tab.Screen name="TransferPosting" component={TransferPosting} />
+      {/* <Tab.Screen name="History" component={History} /> */}
+    </Tab.Navigator>
+  );
+}
 
 function AppNavigation(): JSX.Element {
   return (
@@ -30,9 +41,14 @@ function AppNavigation(): JSX.Element {
         component={MainMenu}
         options={{title: 'MainMenu'}}
       />
-      <AppStack.Screen
+      {/* <AppStack.Screen
         name="TransferPosting"
         component={TransferPosting}
+        options={{title: 'TransferPosting'}}
+      /> */}
+      <AppStack.Screen
+        name={'TransferPosting'}
+        component={TransferPostingTabs}
         options={{title: 'TransferPosting'}}
       />
       <AppStack.Screen
