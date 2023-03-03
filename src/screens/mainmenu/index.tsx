@@ -1,10 +1,7 @@
 import React, {useContext} from 'react';
-import {ScrollView, View, Pressable, Text} from 'react-native';
+import {ScrollView, View, Text} from 'react-native';
 import {styles} from '../../styles/MainMenuStyles';
-import {GlobalStyles} from '../../styles/GlobalStyles';
 import {ThemeContext} from '../../styles/ThemeContext';
-import FeatherIcon from 'react-native-vector-icons/Feather';
-import MaterialIcon from 'react-native-vector-icons/MaterialCommunityIcons';
 import MainMenuButton from './components/MainMenuButton';
 
 function MainMenu({navigation}: {navigation: any}): JSX.Element {
@@ -24,14 +21,16 @@ function MainMenu({navigation}: {navigation: any}): JSX.Element {
             navigationLocation={'TransferPosting'}
             icon={'forklift'}
             iconColor={'white'}
-            text={'Ενδοδιακινήσεις'}></MainMenuButton>
+            text={'Ενδοδιακινήσεις'}
+            backgroundColor={'#77dd77'}></MainMenuButton>
 
           <MainMenuButton
             navigation={navigation}
             navigationLocation={'Picking'}
             icon={'truck'}
             iconColor={'white'}
-            text={'Παραδόσεις'}></MainMenuButton>
+            text={'Παραδόσεις'}
+            backgroundColor={'#EFBE7D'}></MainMenuButton>
         </View>
 
         <View style={styles(theme).mainMenuLine}>
@@ -40,14 +39,16 @@ function MainMenu({navigation}: {navigation: any}): JSX.Element {
             navigationLocation={'GoodsIssues'}
             icon={'material-ui'}
             iconColor={'white'}
-            text={'Αναλώσεις'}></MainMenuButton>
+            text={'Αναλώσεις'}
+            backgroundColor={'#E9EC6B'}></MainMenuButton>
 
           <MainMenuButton
             navigation={navigation}
             navigationLocation={''}
             icon={'propane-tank-outline'}
             iconColor={'white'}
-            text={'Χαρακτηριστικά Δεξαμενών'}></MainMenuButton>
+            text={'Χαρακτηριστικά Δεξαμενών'}
+            backgroundColor={'#8BD3E6'}></MainMenuButton>
         </View>
 
         <View style={styles(theme).mainMenuLine}>
@@ -56,14 +57,16 @@ function MainMenu({navigation}: {navigation: any}): JSX.Element {
             navigationLocation={''}
             icon={'trash-2'}
             iconColor={'white'}
-            text={'Λιώματα'}></MainMenuButton>
+            text={'Λιώματα'}
+            backgroundColor={'#43464b'}></MainMenuButton>
 
           <MainMenuButton
             navigation={navigation}
             navigationLocation={''}
             icon={'barcode-scan'}
             iconColor={'white'}
-            text={'Απογραφή'}></MainMenuButton>
+            text={'Απογραφή'}
+            backgroundColor={'#2E1A47'}></MainMenuButton>
         </View>
       </ScrollView>
     </View>
