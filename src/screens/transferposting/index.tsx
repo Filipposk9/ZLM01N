@@ -25,7 +25,6 @@ import {ThemeContext} from '../../styles/ThemeContext';
 import {styles} from '../../styles/TransferPostingStyles';
 import {GlobalStyles} from '../../styles/GlobalStyles';
 
-//TODO: props: TransferPostingProps
 function TransferPosting({navigation}: {navigation: any}): JSX.Element {
   const dispatcher = useAppDispatch();
 
