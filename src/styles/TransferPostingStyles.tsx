@@ -7,47 +7,32 @@ export const styles = (theme: any) =>
       backgroundColor: theme.backgroundColor,
       flex: 1,
     },
-    labelListHeader: {margin: '5%'},
+    middleContainer: {
+      marginLeft: '5%',
+      marginBottom: '2%',
+      //width: '100%',
+      flexDirection: 'row',
+      //backgroundColor: '#ffffff', ////////////////////////////
+    },
     labelListHeaderText: {
       color: theme.textColor,
       fontWeight: 'bold',
       fontSize: 24,
+      width: '82%',
     },
     labelList: {
-      height: '35%',
+      height: '25%',
       backgroundColor: theme.foregroundColor,
       borderRadius: 20,
       marginLeft: '3%',
       marginRight: '3%',
     },
-    //bottom panel container
-    bottomPanelContainer: {
-      flexDirection: 'row',
-      margin: '3%',
-    },
-    //history button
-    historyButtonContainer: {
-      backgroundColor: theme.foregroundColor,
-      borderWidth: 1,
-      borderColor: theme.borderColor,
-      borderRadius: 20,
-      justifyContent: 'center',
-      alignItems: 'center',
-      width: '40%',
-    },
-    historyButton: {
-      alignItems: 'center',
-      width: '100%',
-    },
-    historyButtonText: {
-      color: theme.buttonTextColor,
-    },
     addLabelButtonContainer: {
       borderRadius: 50,
-      borderWidth: 1,
       borderColor: theme.borderColor,
-      backgroundColor: theme.foregroundColor,
-      marginLeft: '45%',
+      backgroundColor: '#ffb347', //theme.foregroundColor,
+      alignItems: 'flex-end',
+      justifyContent: 'flex-end',
     },
     //add label manually button
     addLabelButton: {
@@ -57,12 +42,11 @@ export const styles = (theme: any) =>
       justifyContent: 'center',
     },
     addLabelButtonText: {
-      fontSize: 26,
+      fontSize: 32,
       color: theme.buttonTextColor,
     },
     bottomContainer: {
-      flex: 1,
-      flexDirection: 'row',
+      margin: '2%',
       alignItems: 'center',
       justifyContent: 'center',
     },
@@ -73,7 +57,7 @@ export const styles = (theme: any) =>
       backgroundColor: theme.buttonBackgroundColor,
       alignItems: 'center',
       justifyContent: 'center',
-      flex: 0.7,
+      width: '50%',
     },
     submitButton: {
       height: 60,

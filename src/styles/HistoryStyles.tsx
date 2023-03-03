@@ -11,7 +11,8 @@ export const styles = (theme: any) =>
     },
     historyHeaderText: {
       fontWeight: 'bold',
-      fontSize: 18,
+      fontSize: 24,
+      color: theme.textColor,
     },
     historyItemSuccess: {
       borderRadius: 20,

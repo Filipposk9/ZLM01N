@@ -16,8 +16,6 @@ function History(): JSX.Element {
   let i = 0;
   let j = 0;
 
-  //TODO: implement bottom bar for history
-
   // const animatedData = goodsMovementLogs.goodsMovementLog.map(() => ({
   //   height: new Animated.Value(100),
   // }));

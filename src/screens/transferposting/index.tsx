@@ -47,6 +47,13 @@ function TransferPosting({navigation}: {navigation: any}): JSX.Element {
   const [manualLabelInputVisibility, setManualLabelInputVisibility] =
     useState(false);
 
+  const focusBarcodeScanner = e => {
+    e.preventDefault();
+    if (scannerRef.current) {
+      scannerRef.current.focus();
+    }
+  };
+
   const onStorageLocationInChange = (storageLocationIn: string) => {
     setStorageLocationIn(storageLocationIn);
   };
@@ -220,7 +227,9 @@ function TransferPosting({navigation}: {navigation: any}): JSX.Element {
   unsubscribe();
 
   return (
-    <View style={styles(theme).transferPostingContainer}>
+    <View
+      onTouchStart={focusBarcodeScanner}
+      style={styles(theme).transferPostingContainer}>
       <Spinner
         visible={isLoading}
         textContent={'Πραγματοποιείται ενδοδιακίνιση...'}
@@ -243,8 +252,20 @@ function TransferPosting({navigation}: {navigation: any}): JSX.Element {
         />
       </View>
 
-      <View style={styles(theme).labelListHeader}>
+      <View style={styles(theme).middleContainer}>
         <Text style={styles(theme).labelListHeaderText}>Λίστα ετικετών</Text>
+
+        {/*Add Label Manually Button*/}
+        <View style={styles(theme).addLabelButtonContainer}>
+          <Pressable
+            onPress={() => {
+              setManualLabelInputVisibility(true);
+            }}
+            style={styles(theme).addLabelButton}
+            android_ripple={GlobalStyles(theme).rippleColor}>
+            <Text style={styles(theme).addLabelButtonText}>+</Text>
+          </Pressable>
+        </View>
       </View>
 
       <ScrollView
@@ -266,33 +287,6 @@ function TransferPosting({navigation}: {navigation: any}): JSX.Element {
             })
           : null}
       </ScrollView>
-
-      {/* Bottom panel */}
-      <View style={styles(theme).bottomPanelContainer}>
-        {/*Transfer Posting History Button */}
-        {/* //TODO: move to top panel */}
-        <View style={styles(theme).historyButtonContainer}>
-          <Pressable
-            onPress={() => {
-              navigation.navigate('History');
-            }}
-            style={styles(theme).historyButton}
-            android_ripple={GlobalStyles(theme).rippleColor}>
-            <Text style={styles(theme).historyButtonText}>Ιστορικό</Text>
-          </Pressable>
-        </View>
-        {/*Add Label Manually Button*/}
-        <View style={styles(theme).addLabelButtonContainer}>
-          <Pressable
-            onPress={() => {
-              setManualLabelInputVisibility(true);
-            }}
-            style={styles(theme).addLabelButton}
-            android_ripple={GlobalStyles(theme).rippleColor}>
-            <Text style={styles(theme).addLabelButtonText}>+</Text>
-          </Pressable>
-        </View>
-      </View>
 
       <ManualLabelInputModal
         visibility={manualLabelInputVisibility}

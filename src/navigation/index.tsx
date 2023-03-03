@@ -1,4 +1,4 @@
-import React from 'react';
+import React, {useContext} from 'react';
 
 import {createNativeStackNavigator} from '@react-navigation/native-stack';
 import {createMaterialTopTabNavigator} from '@react-navigation/material-top-tabs';
@@ -11,15 +11,43 @@ import History from '../screens/history/index';
 import Picking from '../screens/picking/index';
 import GoodsIssues from '../screens/goodsissues/index';
 import {RootStackParamList} from './types';
+import {ThemeContext} from '../styles/ThemeContext';
 
 const AppStack = createNativeStackNavigator<RootStackParamList>();
 const Tab = createMaterialTopTabNavigator();
 
 function TransferPostingTabs(): JSX.Element {
+  const {theme} = useContext(ThemeContext);
+
   return (
-    <Tab.Navigator>
-      <Tab.Screen name="TransferPosting" component={TransferPosting} />
-      {/* <Tab.Screen name="History" component={History} /> */}
+    <Tab.Navigator
+      screenOptions={{
+        tabBarActiveTintColor: theme.textColor,
+        tabBarInactiveTintColor: '#7a7a7a',
+        tabBarPressColor: '#33333330',
+        tabBarStyle: {
+          backgroundColor: theme.backgroundColor,
+        },
+        tabBarIndicatorStyle: {
+          backgroundColor: '#ffffff',
+          borderRadius: 3,
+        },
+        tabBarLabelStyle: {
+          fontSize: 16,
+          fontWeight: 'bold',
+          textTransform: 'none',
+        },
+      }}>
+      <Tab.Screen
+        name="TransferPostingMain"
+        component={TransferPosting}
+        options={{title: 'Ενδοδιακινήσεις'}}
+      />
+      <Tab.Screen
+        name="History"
+        component={History}
+        options={{title: 'Ιστορικό'}}
+      />
     </Tab.Navigator>
   );
 }
