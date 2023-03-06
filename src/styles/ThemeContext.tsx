@@ -26,10 +26,10 @@ const themes = {
 
     buttonBackgroundColor: '#95aa9d',
 
-    borderColor: '#777777',
+    borderColor: '#7a7a7a',
     buttonBorderColor: '#ffffff',
 
-    textColor: '#000000',
+    textColor: '#7a7a7a',
     buttonTextColor: '#ffffff',
     secondaryTextColor: '#444444',
 

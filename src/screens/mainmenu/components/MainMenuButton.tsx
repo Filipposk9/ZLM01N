@@ -94,7 +94,7 @@ const styles = (theme: any) =>
       alignItems: 'center',
     },
     mainMenuButtonText: {
-      color: theme.buttonTextColor,
+      color: theme.textColor,
       fontSize: 20,
     },
   });
