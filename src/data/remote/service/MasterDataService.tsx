@@ -3,6 +3,7 @@ import {StorageLocationResponse} from '../model/StorageLocationModel';
 import {OutboundDeliveryResponse} from '../model/OutboundDeliveryModel';
 import {ProductionOrderResponse} from '../model/ProductionOrderModel';
 import {
+  Batch,
   Material,
   OutboundDelivery,
   ProductionOrder,
@@ -10,12 +11,14 @@ import {
 } from '../../../shared/Types';
 import RequestGateway, {isError} from '../RequestGateway';
 import {
+  batchModelToBatch,
   materialModelToMaterial,
   outboundDeliveryModelToOutboundDelivery,
   productionOrderModelToProductionOrder,
   storageLocationModelToStorageLocation,
 } from '../Mappers';
 import SapRequestParameters from '../SapRequestParameters';
+import {BatchResponse} from '../model/BatchModel';
 
 class MasterDataService {
   async getStorageLocations(): Promise<StorageLocation[]> {
@@ -49,6 +52,30 @@ class MasterDataService {
       return undefined;
     } else {
       return materialModelToMaterial(response.result.data);
+    }
+  }
+
+  async getBatchData(
+    materialNumber: string,
+    batch: string,
+    storageLocation: string,
+  ): Promise<Batch | undefined> {
+    const sapRequestHeaders = await SapRequestParameters.getSapRequestHeaders();
+
+    const response = await RequestGateway.get<BatchResponse>(
+      '/mdata?matnr=' +
+        materialNumber +
+        '&charg=' +
+        batch +
+        '&lgortIn=' +
+        storageLocation,
+      sapRequestHeaders,
+    );
+
+    if (isError(response)) {
+      return undefined;
+    } else {
+      return batchModelToBatch(response.result.data);
     }
   }
 

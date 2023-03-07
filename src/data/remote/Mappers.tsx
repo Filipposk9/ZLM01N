@@ -13,6 +13,7 @@ import {
   ProductionOrder,
   ProductionOrderComponent,
   ProductionOrderHeader,
+  Batch,
 } from '../../shared/Types';
 import {MaterialModel} from './model/MaterialModel';
 import {StorageLocationModel} from './model/StorageLocationModel';
@@ -20,6 +21,7 @@ import {MaterialDocumentModel} from './model/MaterialDocumentModel';
 import {OutboundDeliveryModel} from './model/OutboundDeliveryModel';
 import {PickingModel} from './model/PickingModel';
 import {ProductionOrderModel} from './model/ProductionOrderModel';
+import {BatchModel} from './model/BatchModel';
 
 export const materialModelToMaterial = (
   materialModel: MaterialModel,
@@ -29,6 +31,14 @@ export const materialModelToMaterial = (
     description: materialModel.DESCRIPTION,
     materialGroup: materialModel.MATERIALGROUP,
     unitOfMeasure: materialModel.UNITOFMEASURE,
+  });
+};
+
+export const batchModelToBatch = (batchModel: BatchModel): Batch => {
+  return Object.freeze({
+    materialNumber: batchModel.MATERIALNUMBER,
+    batch: batchModel.BATCH,
+    quantity: batchModel.QUANTITY,
   });
 };
 

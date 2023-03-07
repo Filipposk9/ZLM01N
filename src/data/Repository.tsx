@@ -12,6 +12,7 @@ import {
   OutboundDelivery,
   Picking,
   ProductionOrder,
+  Batch,
 } from '../shared/Types';
 
 class Repository {
@@ -69,6 +70,22 @@ class Repository {
       );
 
       return localMaterialBasicData;
+    }
+  }
+
+  async getBatchData(
+    materialNumber: string,
+    batch: string,
+    storageLocation: string,
+  ): Promise<Batch | undefined> {
+    const batchData = await MasterDataService.getBatchData(
+      materialNumber,
+      batch,
+      storageLocation,
+    );
+
+    if (batchData) {
+      return batchData;
     }
   }
 
