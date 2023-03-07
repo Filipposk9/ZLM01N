@@ -21,6 +21,7 @@ export const styles = (theme: any) =>
       width: '82%',
     },
     labelList: {
+      elevation: 50,
       height: '25%',
       backgroundColor: theme.foregroundColor,
       borderRadius: 20,
@@ -28,9 +29,9 @@ export const styles = (theme: any) =>
       marginRight: '3%',
     },
     addLabelButtonContainer: {
+      elevation: 50,
       borderRadius: 50,
-      borderColor: theme.borderColor,
-      backgroundColor: '#ffb347', //theme.foregroundColor,
+      backgroundColor: theme.buttonSecondaryBackgroundColor,
       alignItems: 'flex-end',
       justifyContent: 'flex-end',
     },
@@ -52,6 +53,7 @@ export const styles = (theme: any) =>
     },
     //submit transfer posting button
     submitButtonContainer: {
+      elevation: 50,
       borderRadius: 30,
       borderColor: theme.borderColor,
       backgroundColor: theme.buttonBackgroundColor,
