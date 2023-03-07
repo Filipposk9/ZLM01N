@@ -10,6 +10,12 @@ export interface Material {
   unitOfMeasure: string;
 }
 
+export interface Batch {
+  materialNumber: string;
+  batch: string;
+  quantity: number;
+}
+
 export interface StorageLocation {
   storageLocation: string;
   description: string;
@@ -36,6 +42,7 @@ export interface Label {
   materialNumber: string;
   batch: string;
   quantity: number;
+  validity: boolean;
 }
 
 //TODO: add date and time and unit of measure in materialdocumentresponse
