@@ -3,6 +3,7 @@ import {Text, StyleSheet} from 'react-native';
 import {SelectList} from 'react-native-dropdown-select-list';
 import {ThemeContext} from '../../../styles/ThemeContext';
 import Repository from '../../../data/Repository';
+import Icon from '../../../assets/Icon';
 
 interface StorageLocationDropdownProps {
   placeholder: string;
@@ -47,7 +48,7 @@ function StorageLocationDropdown(
       }}
       save="key"
       search={false}
-      //arrowicon={<Text />}
+      arrowicon={<Icon name={'down'} color={'white'} size={20} />}
       closeicon={<Text />}
       placeholder={placeholder}
       boxStyles={styles(theme).dropDownBox}
@@ -55,20 +56,19 @@ function StorageLocationDropdown(
       dropdownTextStyles={styles(theme).dropDownText}
       data={dropDownData.selectListData}
     />
-    //TODO: arrowicon white
   );
 }
 
 const styles = (theme: any) =>
   StyleSheet.create({
     dropDownBox: {
+      elevation: 50,
       backgroundColor: theme.foregroundColor,
       margin: '3%',
-      borderColor: theme.borderColor,
       borderRadius: 15,
     },
     dropDownInput: {
-      color: theme.buttonTextColor,
+      color: theme.textColor,
       margin: '2%',
     },
     dropDownText: {
