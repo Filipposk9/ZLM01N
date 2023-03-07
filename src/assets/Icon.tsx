@@ -2,6 +2,7 @@ import React from 'react';
 import {Text} from 'react-native';
 import IconFeather from 'react-native-vector-icons/Feather';
 import IconMaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityIcons';
+import IconAntDesign from 'react-native-vector-icons/AntDesign';
 
 type IconProps = {
   name: string;
@@ -24,6 +25,8 @@ function Icon(props: IconProps): JSX.Element {
       return <IconFeather {...otherProps} name={name} />;
     case 'barcode-scan':
       return <IconMaterialCommunityIcons {...otherProps} name={name} />;
+    case 'down':
+      return <IconAntDesign {...otherProps} name={name} />;
     default:
       return <Text> </Text>;
   }
