@@ -1,4 +1,4 @@
-import React, {useEffect, useRef, useState} from 'react';
+import React, {useState} from 'react';
 import {TextInput} from 'react-native';
 
 interface BarcodeScannerProps {
@@ -9,42 +9,7 @@ interface BarcodeScannerProps {
 function BarcodeScanner(props: BarcodeScannerProps): JSX.Element {
   const {reference, onScan} = props;
 
-  const inputRef = useRef<TextInput>(null);
-
   const [scannedText, setScannedText] = useState<string>();
-
-  useEffect(() => {
-    const onFocus = () => {
-      if (inputRef.current) {
-        inputRef.current.focus();
-      }
-    };
-
-    const onBlur = () => {
-      if (inputRef.current) {
-        inputRef.current.focus();
-      }
-    };
-
-    // Set focus on the input when the component mounts and after every re-render
-    if (inputRef.current) {
-      inputRef.current.focus();
-    }
-
-    // Add event listeners to set focus on the input when it loses focus
-    inputRef.current?.setNativeProps({
-      onFocus,
-      onBlur,
-    });
-
-    // Remove event listeners when the component unmounts
-    return () => {
-      inputRef.current?.setNativeProps({
-        onFocus: null,
-        onBlur: null,
-      });
-    };
-  }, []);
 
   return (
     <TextInput
@@ -54,13 +19,14 @@ function BarcodeScanner(props: BarcodeScannerProps): JSX.Element {
       autoCorrect={false}
       autoComplete={'off'}
       caretHidden={true}
-      style={{opacity: 0, height: 0}}
+      style={{height: 0, opacity: 0}}
       value={scannedText}
       onChangeText={scannedText => {
         setScannedText(scannedText);
         onScan(scannedText);
         setScannedText('');
       }}
+      blurOnSubmit={false}
     />
   );
 }
