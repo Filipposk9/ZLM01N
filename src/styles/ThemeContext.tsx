@@ -5,11 +5,15 @@ const themes = {
   dark: {
     backgroundColor: '#1c2228',
     foregroundColor: '#29313a',
-    secondaryForegroundColor: '#29313a',
+    secondaryForegroundColor: '#4a525b',
 
     buttonBackgroundColor: '#5070F4',
+    buttonSecondaryBackgroundColor: '#ED8B00',
 
-    borderColor: '#ffffff',
+    borderColor: '#7a7a7a',
+
+    iconColor: '#ffffff',
+
     buttonBorderColor: '#ffffff',
 
     textColor: '#ffffff',
@@ -17,6 +21,8 @@ const themes = {
     secondaryTextColor: '#ffffff',
 
     rippleColor: '#344b5f',
+
+    tabBorderColor: '#5070F4',
   },
   light: {
     backgroundColor: '#ffffff',
@@ -25,13 +31,19 @@ const themes = {
     //secondaryForegroundColor: '#EDC9AF',
 
     buttonBackgroundColor: '#95aa9d',
+    buttonSecondaryBackgroundColor: '#95aa9d',
 
     borderColor: '#7a7a7a',
+
+    iconColor: '#7a7a7a',
+
     buttonBorderColor: '#ffffff',
 
     textColor: '#7a7a7a',
     buttonTextColor: '#ffffff',
     secondaryTextColor: '#444444',
+
+    tabBorderColor: '#95aa9d',
 
     rippleColor: '#a0c4c2',
   },
