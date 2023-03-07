@@ -19,6 +19,12 @@ const Tab = createMaterialTopTabNavigator();
 function TransferPostingTabs(): JSX.Element {
   const {theme} = useContext(ThemeContext);
 
+  //TODO: try changing Navigator lib, check if focus gets fixed
+
+  React.useEffect(() => {
+    console.log('in navigator tab');
+  });
+
   return (
     <Tab.Navigator
       screenOptions={{
@@ -29,13 +35,18 @@ function TransferPostingTabs(): JSX.Element {
           backgroundColor: theme.backgroundColor,
         },
         tabBarIndicatorStyle: {
-          backgroundColor: '#ffffff',
-          borderRadius: 3,
+          borderRadius: 20,
+          borderWidth: 1,
+          borderColor: theme.tabBorderColor,
+          height: 20,
+          backgroundColor: '#00000000',
+          marginBottom: '3%',
         },
         tabBarLabelStyle: {
           fontSize: 16,
           fontWeight: 'bold',
           textTransform: 'none',
+          borderColor: theme.tabBorderColor,
         },
       }}>
       <Tab.Screen
@@ -69,16 +80,16 @@ function AppNavigation(): JSX.Element {
         component={MainMenu}
         options={{title: 'MainMenu'}}
       />
-      {/* <AppStack.Screen
+      <AppStack.Screen
         name="TransferPosting"
         component={TransferPosting}
         options={{title: 'TransferPosting'}}
-      /> */}
-      <AppStack.Screen
+      />
+      {/* <AppStack.Screen
         name={'TransferPosting'}
         component={TransferPostingTabs}
         options={{title: 'TransferPosting'}}
-      />
+      /> */}
       <AppStack.Screen
         name="TransferPostingLog"
         component={TransferPostingLog}
