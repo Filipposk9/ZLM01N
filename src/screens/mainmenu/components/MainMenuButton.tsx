@@ -100,7 +100,7 @@ const styles = (theme: any) =>
       borderColor: theme.borderColor,
       backgroundColor: theme.foregroundColor,
       borderRadius: 20,
-      height: 90,
+      height: 120,
       alignItems: 'center',
       justifyContent: 'center',
     },
