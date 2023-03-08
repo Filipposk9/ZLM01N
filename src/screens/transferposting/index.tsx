@@ -43,6 +43,8 @@ function TransferPosting({navigation}: {navigation: any}): JSX.Element {
 
   const [storageLocationIn, setStorageLocationIn] = useState('');
   const [storageLocationOut, setStorageLocationOut] = useState('');
+  const [storageLocationInKey, setStorageLocationInKey] = useState(99999);
+  const [storageLocationOutKey, setStorageLocationOutKey] = useState(0);
 
   const scannerRef = useRef<TextInput>(null);
 
@@ -54,6 +56,29 @@ function TransferPosting({navigation}: {navigation: any}): JSX.Element {
 
   const [manualLabelInputVisibility, setManualLabelInputVisibility] =
     useState(false);
+
+  // useEffect(() => {
+  //   //FIXME: this runs even if i go back TO this screen,
+  //   //FIXME: should only work when i go back FROM this csreen
+
+  //   const handleBackPress = (): boolean => {
+  //     console.log(goodsMovementQueue);
+  //     if (goodsMovementQueue.goodsMovementQueue.length > 0) {
+  //       Alert.alert(
+  //         'Υπάρχουν κινήσεις στην ούρα οι οποίες δεν έχουν πραγματοποιηθεί, παρακαλώ...',
+  //       );
+  //     }
+  //     navigation.goBack();
+
+  //     return true;
+  //   };
+
+  //   BackHandler.addEventListener('hardwareBackPress', handleBackPress);
+
+  //   return () => {
+  //     BackHandler.removeEventListener('hardwareBackPress', handleBackPress);
+  //   };
+  // }, []);
 
   useFocusEffect(() => {
     scannerRef.current?.focus();
@@ -74,7 +99,9 @@ function TransferPosting({navigation}: {navigation: any}): JSX.Element {
         storageLocation,
       );
 
-      editLabelValidity(batchData, count);
+      if (batchData) {
+        editLabelValidity(batchData, count);
+      }
     };
 
     const editLabelValidity = (batchdata: any, count: number) => {
@@ -172,6 +199,12 @@ function TransferPosting({navigation}: {navigation: any}): JSX.Element {
     }
   };
 
+  const resetScreenComponents = () => {
+    setScannedLabels([]);
+    setStorageLocationInKey(storageLocationInKey - 1);
+    setStorageLocationOutKey(storageLocationOutKey + 1);
+  };
+
   const getConnectionDetails = () => {
     async function getConnectionDetails() {
       return await NetInfo.fetch().then(async state => {
@@ -183,24 +216,25 @@ function TransferPosting({navigation}: {navigation: any}): JSX.Element {
   };
 
   const submitGoodsMovement = (
-    scannedLabels: Label[],
-    storageLocationIn: string,
-    storageLocationOut: string,
+    labels: Label[],
+    stgLocIn: string,
+    stgLocOut: string,
   ) => {
     //TODO: add current user param
-    //TODO: get all material texts and cache them
 
-    const submitGoodsMovement = async (): Promise<
-      MaterialDocument | undefined
-    > => {
+    const submitGoodsMovement = async (
+      labels: Label[],
+      stgLocIn: string,
+      stgLocOut: string,
+    ): Promise<MaterialDocument | undefined> => {
       const connectionDetails = await getConnectionDetails();
 
       if (connectionDetails.strength >= 60) {
         const materialDocument = await Repository.createGoodsMovement(
           GOODS_MOVEMENT_CODE.TRANSFER_POSTING,
-          scannedLabels,
-          storageLocationIn,
-          storageLocationOut,
+          labels,
+          stgLocIn,
+          stgLocOut,
           MOVEMENT_TYPE.TRANSFER_POSTING,
           PRODUCTION_ORDER.BLANK,
         );
@@ -213,18 +247,20 @@ function TransferPosting({navigation}: {navigation: any}): JSX.Element {
 
     if (storageLocationsAreValid()) {
       if (scannedLabels.length > 0) {
-        return submitGoodsMovement();
+        return submitGoodsMovement(labels, stgLocIn, stgLocOut);
       } else {
         Alert.alert('Άδειο παραστατικό');
         return undefined;
       }
     } else {
-      Alert.alert('Εισάγετε αποθηκευτικό χώρο');
-      return undefined;
+      if (goodsMovementQueue.goodsMovementQueue.length > 0) {
+        return submitGoodsMovement(labels, stgLocIn, stgLocOut);
+      } else {
+        Alert.alert('Εισάγετε αποθηκευτικό χώρο');
+        return undefined;
+      }
     }
   };
-
-  //TODO: put into queue INSTANTLY onSubmit(), dont rely on current storageLocationIn&Out
 
   const handleGoodsMovementResponse = (
     materialDocument: MaterialDocument | undefined,
@@ -242,12 +278,18 @@ function TransferPosting({navigation}: {navigation: any}): JSX.Element {
           productionOrder: PRODUCTION_ORDER.BLANK,
         };
         dispatcher(setGoodsMovementQueue([goodsMovement]));
+        console.log('added to queue');
       }
     }
   };
 
   const handleQueueEntries = async () => {
     let newGoodsMovementQueue: GoodsMovementQueue[] = [];
+
+    let handledItems = 0;
+    let startingLength = goodsMovementQueue.goodsMovementQueue.length;
+
+    //TODO: turn to promise.all();
 
     if (goodsMovementQueue.goodsMovementQueue.length > 0) {
       for (const goodsMovementLog of goodsMovementQueue.goodsMovementQueue) {
@@ -259,9 +301,15 @@ function TransferPosting({navigation}: {navigation: any}): JSX.Element {
 
         if (materialDocument === undefined) {
           newGoodsMovementQueue.push(goodsMovementLog);
+          handledItems++;
         } else {
           dispatcher(setGoodsMovementLog([materialDocument]));
+          handledItems++;
         }
+      }
+
+      if (handledItems === startingLength) {
+        console.log('queue handled');
       }
 
       dispatcher(resetGoodsMovementQueue());
@@ -271,8 +319,15 @@ function TransferPosting({navigation}: {navigation: any}): JSX.Element {
 
   const unsubscribe = NetInfo.addEventListener(state => {
     //FIXME: determine queue handling interval
+    //FIXME: onTouchStart causes queue to be touches times
+    //FIXME: do it on network state change, lock the queue with a boolean
+    //FIXME: make queue handler service
+    //FIXME: unlock it when queue is empty
+    //FIXME: edit they wont be considered, they will be on the next iteration because for is synchronous
+    //TODO: run only on this screen, warn if user leaves screen
     if (state.details.strength >= 60) {
       //handleQueueEntries();
+      console.log('good signal');
     }
   });
 
@@ -280,7 +335,11 @@ function TransferPosting({navigation}: {navigation: any}): JSX.Element {
 
   return (
     <View
-      onTouchStart={handleQueueEntries}
+      onTouchStart={() => {
+        if (goodsMovementQueue.goodsMovementQueue.length > 0) {
+          handleQueueEntries();
+        }
+      }}
       style={styles(theme).transferPostingContainer}>
       <Spinner
         visible={isLoading}
@@ -289,10 +348,12 @@ function TransferPosting({navigation}: {navigation: any}): JSX.Element {
       />
 
       <StorageLocationDropdown
+        key={storageLocationInKey}
         placeholder={'Αποθηκευτικός χώρος προέλευσης'}
         onChange={onStorageLocationInChange}
       />
       <StorageLocationDropdown
+        key={storageLocationOutKey}
         placeholder={'Αποθηκευτικός χώρος προορισμού'}
         onChange={onStorageLocationOutChange}
       />
@@ -373,13 +434,11 @@ function TransferPosting({navigation}: {navigation: any}): JSX.Element {
                   storageLocationOut,
                 ]);
               } else {
-                if (storageLocationsAreValid()) {
-                  Alert.alert(
-                    'Αδυναμία Σύνδεσης. Το παραστατικό προστέθηκε στην ουρά',
-                  );
-                }
+                Alert.alert(
+                  'Αδυναμία Σύνδεσης. Το παραστατικό προστέθηκε στην ουρά',
+                );
               }
-              //TODO: delete screen after submit
+              resetScreenComponents();
             }}
             android_ripple={GlobalStyles(theme).rippleColor}>
             <Text style={styles(theme).submitButtonText}>Καταχώριση</Text>
