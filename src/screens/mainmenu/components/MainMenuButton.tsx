@@ -12,7 +12,7 @@ interface MainMenuButtonProps {
   icon: string;
   iconColor: string;
   text: string;
-  backgroundColor: string | number;
+  backgroundColor: string;
 }
 
 function MainMenuButton(props: MainMenuButtonProps): JSX.Element {
@@ -27,36 +27,49 @@ function MainMenuButton(props: MainMenuButtonProps): JSX.Element {
     backgroundColor,
   } = props;
 
-  // function addValuesToColor(color: string | number): string {
-  //   if (typeof color === 'number') {
-  //     color = color.toString(16); // Convert number to hex string
-  //   }
-  //   let newColor = '#';
-  //   for (let i = 1; i < color.length; i += 2) {
-  //     let colorValue = parseInt(color.slice(i, i + 2), 16); // Extract two digits at a time and convert to number
-  //     if (colorValue !== 0) {
-  //       colorValue += 0x48; // Add 0x48 to non-zero colors
-  //       if (colorValue > 0xff) {
-  //         colorValue -= 0xff; // Reset value to 00 after FF is reached
-  //       }
-  //       newColor += colorValue.toString(16).padStart(2, '0').toUpperCase(); // Convert back to hex string and uppercase
-  //     } else {
-  //       newColor += color.slice(i, i + 2).toUpperCase(); // Leave zero colors as they are
-  //     }
-  //   }
-  //   return newColor;
-  // }
+  function modifyHexColor(hexColor: string): string {
+    // Convert the hex string to RGB values
+    const red = parseInt(hexColor.substring(1, 3), 16);
+    const green = parseInt(hexColor.substring(3, 5), 16);
+    const blue = parseInt(hexColor.substring(5, 7), 16);
 
-  //TODO: adjustGradientEndColor = newColor = color += 0x48. if newColor = FF, add half of 0x48 instead until its <=FF
+    // Modify the RGB values by adding 0x48 to each
+    let newRed = 0,
+      newGreen = 0,
+      newBlue = 0;
+    let additionFactor = 0x48;
 
-  // const gradientColor: string = adjustColor(backgroundColor);
-  // console.log('new');
-  // console.log(gradientColor);
+    if (red > 0) {
+      newRed = red + additionFactor;
+    }
+    if (green > 0) {
+      newGreen = green + additionFactor;
+    }
+    if (blue > 0) {
+      newBlue = blue + additionFactor;
+    }
+
+    // Check if any value overflows and adjust if needed
+    while (newRed > 255 || newGreen > 255 || newBlue > 255) {
+      newRed = red + additionFactor;
+      newGreen = green + additionFactor;
+      newBlue = blue + additionFactor;
+
+      additionFactor /= 0x2;
+    }
+
+    // Convert the modified RGB values back to hex
+    const newHexColor = `#${[newRed, newGreen, newBlue]
+      .map(c => c.toString(16).padStart(2, '0'))
+      .join('')}`;
+
+    return newHexColor;
+  }
 
   return (
     <View style={{width: '50%', padding: '4%'}}>
       <LinearGradient
-        colors={[backgroundColor, backgroundColor]}
+        colors={[modifyHexColor(backgroundColor), backgroundColor]}
         style={styles(theme).mainMenuButtonContainer}>
         <Pressable
           style={styles(theme).mainMenuButton}
@@ -64,7 +77,7 @@ function MainMenuButton(props: MainMenuButtonProps): JSX.Element {
             navigation.navigate(navigationLocation);
           }}
           android_ripple={GlobalStyles(theme).rippleColor}>
-          <Icon name={icon} color={iconColor} size={100} />
+          <Icon name={icon} color={iconColor} size={80} />
         </Pressable>
       </LinearGradient>
       <View style={styles(theme).mainMenuButtonTextContainer}>
@@ -81,12 +94,13 @@ const styles = (theme: any) =>
     mainMenuButtonContainer: {
       borderColor: theme.borderColor,
       borderRadius: 20,
+      elevation: 5,
     },
     mainMenuButton: {
       borderColor: theme.borderColor,
       backgroundColor: theme.foregroundColor,
       borderRadius: 20,
-      height: 140,
+      height: 90,
       alignItems: 'center',
       justifyContent: 'center',
     },
