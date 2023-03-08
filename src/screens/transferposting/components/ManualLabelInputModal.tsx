@@ -1,5 +1,13 @@
 import React, {useContext, useState} from 'react';
-import {View, Text, TextInput, Pressable, StyleSheet} from 'react-native';
+import {
+  View,
+  Text,
+  TextInput,
+  Pressable,
+  StyleSheet,
+  Keyboard,
+  Alert,
+} from 'react-native';
 import Modal from 'react-native-modal';
 
 import {GlobalStyles} from '../../../styles/GlobalStyles';
@@ -29,6 +37,7 @@ function ManualLabelInputModal(props: ManualLabelInputModalProps): JSX.Element {
     const matnrRegex = new RegExp('^(1[0]|2[0-2]|30|4[0-2])[0-9]{7}$');
     const chargRegex = new RegExp(
       '^(0{2}[0-9]{8}|[0-9]{5}(X|F)[0-9]{4}|[0-9]{5}((BS(A|B|C|D)[0-9]{2})|(C(B|I|P|S|T|U|X|Y)[0-9]{3})|(M(B|C|P|U)[0-9]{3})|(XPD(B|C))[0-9]{1}|(DS|KS|EU|KC|KD)[0-9]{3}))',
+      'i',
     );
     const mengeRegex = new RegExp('^[0-9]+');
 
@@ -125,8 +134,10 @@ function ManualLabelInputModal(props: ManualLabelInputModalProps): JSX.Element {
                 }
               } catch (error) {
                 console.log('err');
+                Alert.alert('Λάθος κατά την καταχώριση');
               }
               onSubmit('');
+              Keyboard.dismiss();
             }}
             android_ripple={GlobalStyles(theme).rippleColor}>
             <Text style={styles(theme).popupSubmitBtnText}>Προσθήκη</Text>
@@ -141,8 +152,6 @@ export const styles = (theme: any) =>
   StyleSheet.create({
     popupContainer: {
       borderRadius: 20,
-      borderColor: theme.borderColor,
-      borderWidth: 1,
       backgroundColor: theme.backgroundColor,
     },
     popupHeaderContainer: {
@@ -153,23 +162,17 @@ export const styles = (theme: any) =>
     popupHeaderText: {
       color: theme.secondaryTextColor,
       fontSize: 20,
+      fontWeight: 'bold',
     },
-    popupBodyContainer: {
-      borderTopWidth: 1,
-      borderTopColor: theme.borderColor,
-    },
+    popupBodyContainer: {},
     popupBodyText: {
       color: theme.secondaryTextColor,
     },
     popupFooterContainer: {
       borderTopWidth: 1,
       borderTopColor: theme.borderColor,
-      backgroundColor: theme.foregroundColor,
-      borderBottomLeftWidth: 1,
-      borderBottomLeftColor: theme.borderColor,
+      backgroundColor: theme.buttonBackgroundColor,
       borderBottomLeftRadius: 20,
-      borderBottomRightWidth: 1,
-      borderBottomRightColor: theme.borderColor,
       borderBottomRightRadius: 20,
     },
     popupSubmitBtn: {
@@ -179,7 +182,8 @@ export const styles = (theme: any) =>
     },
     popupSubmitBtnText: {
       color: theme.buttonTextColor,
-      fontSize: 16,
+      fontSize: 18,
+      fontWeight: 'bold',
     },
   });
 
