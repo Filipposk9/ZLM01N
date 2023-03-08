@@ -1,5 +1,4 @@
 import Realm from 'realm';
-
 import {MaterialSchema} from './schema/MaterialSchema';
 import {StorageLocationSchema} from './schema/StorageLocationSchema';
 import {UserSchema} from './schema/UserSchema';

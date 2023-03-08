@@ -6,5 +6,5 @@ export interface MaterialModel {
 }
 
 export interface MaterialResponse {
-  data: MaterialModel;
+  data: MaterialModel[];
 }

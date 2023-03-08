@@ -21,6 +21,10 @@ class MaterialDao {
   async createMaterial(material: Material) {
     BaseDao.createObject(SCHEMA_NAME.MATERIAL, material);
   }
+
+  async createMaterials(materials: Material[]) {
+    BaseDao.createObjects(SCHEMA_NAME.MATERIAL, materials);
+  }
 }
 
 export default new MaterialDao();

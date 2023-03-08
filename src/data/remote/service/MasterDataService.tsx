@@ -44,14 +44,29 @@ class MasterDataService {
     const sapRequestHeaders = await SapRequestParameters.getSapRequestHeaders();
 
     const response = await RequestGateway.get<MaterialResponse>(
-      '/mdata?matnr=' + materialNumber,
+      '/materials?matnr=' + materialNumber,
       sapRequestHeaders,
     );
 
     if (isError(response)) {
       return undefined;
     } else {
-      return materialModelToMaterial(response.result.data);
+      return materialModelToMaterial(response.result.data[0]);
+    }
+  }
+
+  async getMaterials(): Promise<Material[] | undefined> {
+    const sapRequestHeaders = await SapRequestParameters.getSapRequestHeaders();
+
+    const response = await RequestGateway.get<MaterialResponse>(
+      '/materials?matnr=1',
+      sapRequestHeaders,
+    );
+
+    if (isError(response)) {
+      return [];
+    } else {
+      return response.result.data.map(item => materialModelToMaterial(item));
     }
   }
 
@@ -63,7 +78,7 @@ class MasterDataService {
     const sapRequestHeaders = await SapRequestParameters.getSapRequestHeaders();
 
     const response = await RequestGateway.get<BatchResponse>(
-      '/mdata?matnr=' +
+      '/materials?matnr=' +
         materialNumber +
         '&charg=' +
         batch +

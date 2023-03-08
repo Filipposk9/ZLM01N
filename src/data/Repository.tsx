@@ -16,6 +16,14 @@ import {
 } from '../shared/Types';
 
 class Repository {
+  async initLocalDB(): Promise<void> {
+    const remoteMaterialList = await MasterDataService.getMaterials();
+
+    if (remoteMaterialList && remoteMaterialList.length > 0) {
+      await MaterialDao.createMaterials(remoteMaterialList);
+    }
+  }
+
   async getUsers(): Promise<User[] | undefined> {
     const localUsers = await UserDao.getUsers();
 
@@ -68,6 +76,8 @@ class Repository {
       const localMaterialBasicData = await MaterialDao.getMaterialBasicData(
         materialNumber,
       );
+
+      console.log(localMaterialBasicData, 'local db');
 
       return localMaterialBasicData;
     }

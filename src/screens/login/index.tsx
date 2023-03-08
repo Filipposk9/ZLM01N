@@ -96,13 +96,14 @@ function Login({navigation}: {navigation: any}): JSX.Element {
       <View style={styles(theme).loginButtonContainer}>
         <Pressable
           style={styles(theme).loginButton}
-          onPress={() => {
+          onPress={async () => {
             setIsLoading(true);
 
             if (checkUserValidity(username, password)) {
               dispatch(
                 setCurrentUser({username: username, password: password}),
               );
+              await Repository.initLocalDB();
               navigation.navigate('MainMenu');
             } else {
               Alert.alert('Λάθος όνομα/κωδικός χρήστη');
