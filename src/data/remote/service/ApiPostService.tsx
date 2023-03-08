@@ -34,12 +34,10 @@ class ApiPostService {
       productionOrder,
     );
 
-    //TODO: /transfer_posting to /goods_movement
-
     const sapRequestHeaders = await SapRequestParameters.getSapRequestHeaders();
 
     const response = await RequestGateway.post<MaterialDocumentResponse>(
-      '/transfer_posting',
+      '/goodsmovement',
       sapRequestHeaders,
       materialDocument,
     );
