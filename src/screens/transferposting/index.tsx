@@ -1,5 +1,12 @@
 import React, {useContext, useRef, useState} from 'react';
-import {View, Text, ScrollView, Pressable, Alert} from 'react-native';
+import {
+  View,
+  Text,
+  ScrollView,
+  Pressable,
+  Alert,
+  TextInput,
+} from 'react-native';
 import NetInfo from '@react-native-community/netinfo';
 import Spinner from 'react-native-loading-spinner-overlay/lib';
 import BarcodeScanner from '../../components/BarcodeScanner';
@@ -24,6 +31,7 @@ import {
 import {ThemeContext} from '../../styles/ThemeContext';
 import {styles} from '../../styles/TransferPostingStyles';
 import {GlobalStyles} from '../../styles/GlobalStyles';
+import {useFocusEffect} from '@react-navigation/native';
 
 function TransferPosting({navigation}: {navigation: any}): JSX.Element {
   const dispatcher = useAppDispatch();
@@ -36,7 +44,7 @@ function TransferPosting({navigation}: {navigation: any}): JSX.Element {
   const [storageLocationIn, setStorageLocationIn] = useState('');
   const [storageLocationOut, setStorageLocationOut] = useState('');
 
-  const scannerRef = useRef(null);
+  const scannerRef = useRef<TextInput>(null);
 
   const goodsMovementQueue = useSelector(
     (state: GoodsMovementQueueState) => state.goodsMovementQueue,
@@ -47,15 +55,53 @@ function TransferPosting({navigation}: {navigation: any}): JSX.Element {
   const [manualLabelInputVisibility, setManualLabelInputVisibility] =
     useState(false);
 
-  const focusBarcodeScanner = e => {
-    e.preventDefault();
-    if (scannerRef.current) {
-      scannerRef.current.focus();
-    }
-  };
+  useFocusEffect(() => {
+    scannerRef.current?.focus();
+  });
 
   const onStorageLocationInChange = (storageLocationIn: string) => {
     setStorageLocationIn(storageLocationIn);
+
+    const fetchBatchData = async (
+      materialNumber: string,
+      batch: string,
+      storageLocation: string,
+      count: number,
+    ) => {
+      const batchData = await Repository.getBatchData(
+        materialNumber,
+        batch,
+        storageLocation,
+      );
+
+      editLabelValidity(batchData, count);
+    };
+
+    const editLabelValidity = (batchdata: any, count: number) => {
+      const nextState: Label[] = scannedLabels.map((c, i) => {
+        if (i === count - 1) {
+          if (batchdata.quantity > 0) {
+            c.validity = true;
+          } else {
+            c.validity = false;
+          }
+        }
+        if (c !== undefined) {
+          return c;
+        }
+      });
+
+      setScannedLabels(nextState);
+    };
+
+    for (const label of scannedLabels) {
+      fetchBatchData(
+        label.materialNumber,
+        label.batch,
+        storageLocationIn,
+        label.count,
+      );
+    }
   };
 
   const onStorageLocationOutChange = (storageLocationOut: string) => {
@@ -74,6 +120,8 @@ function TransferPosting({navigation}: {navigation: any}): JSX.Element {
     }
   };
 
+  //TODO: get initial stock value
+
   const addLabel = (lastScannedBarcode: string) => {
     if (lastScannedBarcode !== '') {
       if (scannedLabels !== undefined) {
@@ -86,6 +134,7 @@ function TransferPosting({navigation}: {navigation: any}): JSX.Element {
             quantity: Number(
               lastScannedBarcode.split('-')[2].replace(',', '.'),
             ),
+            validity: false,
           },
         ]);
       } else {
@@ -97,6 +146,7 @@ function TransferPosting({navigation}: {navigation: any}): JSX.Element {
             quantity: Number(
               lastScannedBarcode.split('-')[2].replace(',', '.'),
             ),
+            validity: false,
           },
         ]);
       }
@@ -115,7 +165,7 @@ function TransferPosting({navigation}: {navigation: any}): JSX.Element {
       }
     });
 
-    const filteredState = nextState.filter(item => item !== undefined);
+    const filteredState: Label[] = nextState.filter(item => item !== undefined);
 
     if (filteredState !== undefined) {
       setScannedLabels(filteredState);
@@ -174,6 +224,8 @@ function TransferPosting({navigation}: {navigation: any}): JSX.Element {
     }
   };
 
+  //TODO: put into queue INSTANTLY onSubmit(), dont rely on current storageLocationIn&Out
+
   const handleGoodsMovementResponse = (
     materialDocument: MaterialDocument | undefined,
   ): void => {
@@ -228,7 +280,7 @@ function TransferPosting({navigation}: {navigation: any}): JSX.Element {
 
   return (
     <View
-      onTouchStart={focusBarcodeScanner}
+      onTouchStart={handleQueueEntries}
       style={styles(theme).transferPostingContainer}>
       <Spinner
         visible={isLoading}
@@ -248,7 +300,9 @@ function TransferPosting({navigation}: {navigation: any}): JSX.Element {
       <View style={{height: 0}}>
         <BarcodeScanner
           reference={scannerRef}
-          onScan={lastScannedBarcode => addLabel(lastScannedBarcode)}
+          onScan={lastScannedBarcode => {
+            addLabel(lastScannedBarcode);
+          }}
         />
       </View>
 
@@ -280,7 +334,7 @@ function TransferPosting({navigation}: {navigation: any}): JSX.Element {
                   barcode={
                     item.materialNumber + '-' + item.batch + '-' + item.quantity
                   }
-                  validity={false}
+                  validity={scannedLabels[i].validity}
                   onDeletePressed={() => removeLabel(i)}
                 />
               );
