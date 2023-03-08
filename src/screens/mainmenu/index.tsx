@@ -12,6 +12,7 @@ function MainMenu({navigation}: {navigation: any}): JSX.Element {
       <View style={styles(theme).mainMenuHeader}>
         <Text style={styles(theme).mainMenuHeaderText}>Main Menu</Text>
       </View>
+
       <ScrollView
         contentContainerStyle={{alignItems: 'center', justifyContent: 'center'}}
         contentInsetAdjustmentBehavior="automatic">
@@ -56,9 +57,9 @@ function MainMenu({navigation}: {navigation: any}): JSX.Element {
             navigation={navigation}
             navigationLocation={''}
             icon={'trash-2'}
-            iconColor={'white'}
+            iconColor={'#222222'}
             text={'Λιώματα'}
-            backgroundColor={'#43464b'}></MainMenuButton>
+            backgroundColor={'#676a6f'}></MainMenuButton>
 
           <MainMenuButton
             navigation={navigation}
