@@ -22,7 +22,7 @@ function MainMenu({navigation}: {navigation: any}): JSX.Element {
             icon={'forklift'}
             iconColor={'white'}
             text={'Ενδοδιακινήσεις'}
-            backgroundColor={'#77dd77'}></MainMenuButton>
+            backgroundColor={'#14AE5C'}></MainMenuButton>
 
           <MainMenuButton
             navigation={navigation}
@@ -30,17 +30,17 @@ function MainMenu({navigation}: {navigation: any}): JSX.Element {
             icon={'truck'}
             iconColor={'white'}
             text={'Παραδόσεις'}
-            backgroundColor={'#EFBE7D'}></MainMenuButton>
+            backgroundColor={'#ED8B00'}></MainMenuButton>
         </View>
 
         <View style={styles(theme).mainMenuLine}>
           <MainMenuButton
             navigation={navigation}
             navigationLocation={'GoodsIssues'}
-            icon={'material-ui'}
+            icon={'issue-reopened'}
             iconColor={'white'}
             text={'Αναλώσεις'}
-            backgroundColor={'#E9EC6B'}></MainMenuButton>
+            backgroundColor={'#D22730'}></MainMenuButton>
 
           <MainMenuButton
             navigation={navigation}
@@ -48,7 +48,7 @@ function MainMenu({navigation}: {navigation: any}): JSX.Element {
             icon={'propane-tank-outline'}
             iconColor={'white'}
             text={'Χαρακτηριστικά Δεξαμενών'}
-            backgroundColor={'#8BD3E6'}></MainMenuButton>
+            backgroundColor={'#0f52ba'}></MainMenuButton>
         </View>
 
         <View style={styles(theme).mainMenuLine}>
