@@ -77,8 +77,6 @@ class Repository {
         materialNumber,
       );
 
-      console.log(localMaterialBasicData, 'local db');
-
       return localMaterialBasicData;
     }
   }
