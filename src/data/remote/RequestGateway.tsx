@@ -14,7 +14,7 @@ class RequestGateway {
   ) {
     this.baseUrl = baseUrl;
   }
-
+  //TODO: add params data type
   async get<T>(
     endpoint: string,
     params: any,
