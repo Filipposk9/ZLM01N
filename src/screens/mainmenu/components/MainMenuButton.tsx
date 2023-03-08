@@ -1,9 +1,8 @@
 import React, {useContext} from 'react';
-import {View, Pressable, Text, StyleSheet} from 'react-native';
-//import {styles} from '../../../styles/MainMenuStyles';
+import {View, Pressable, Text, StyleSheet, Dimensions} from 'react-native';
+import {GlobalStyles} from '../../../styles/GlobalStyles';
 import {ThemeContext} from '../../../styles/ThemeContext';
 import Icon from '../../../assets/Icon';
-import {GlobalStyles} from '../../../styles/GlobalStyles';
 import LinearGradient from 'react-native-linear-gradient';
 
 interface MainMenuButtonProps {
@@ -33,12 +32,12 @@ function MainMenuButton(props: MainMenuButtonProps): JSX.Element {
     const green = parseInt(hexColor.substring(3, 5), 16);
     const blue = parseInt(hexColor.substring(5, 7), 16);
 
-    // Modify the RGB values by adding 0x48 to each
     let newRed = 0,
       newGreen = 0,
       newBlue = 0;
     let additionFactor = 0x48;
 
+    // Modify the RGB values by adding 0x48 to each
     if (red > 0) {
       newRed = red + additionFactor;
     }
@@ -67,17 +66,23 @@ function MainMenuButton(props: MainMenuButtonProps): JSX.Element {
   }
 
   return (
-    <View style={{width: '50%', padding: '4%'}}>
+    <View
+      style={{
+        width: '50%',
+        padding: '4%',
+      }}>
       <LinearGradient
         colors={[modifyHexColor(backgroundColor), backgroundColor]}
         style={styles(theme).mainMenuButtonContainer}>
         <Pressable
           style={styles(theme).mainMenuButton}
           onPress={() => {
-            navigation.navigate(navigationLocation);
+            if (navigationLocation) {
+              navigation.navigate(navigationLocation);
+            }
           }}
           android_ripple={GlobalStyles(theme).rippleColor}>
-          <Icon name={icon} color={iconColor} size={80} />
+          <Icon name={icon} color={iconColor} size={90} />
         </Pressable>
       </LinearGradient>
       <View style={styles(theme).mainMenuButtonTextContainer}>
@@ -100,7 +105,7 @@ const styles = (theme: any) =>
       borderColor: theme.borderColor,
       backgroundColor: theme.foregroundColor,
       borderRadius: 20,
-      height: 120,
+      height: 140,
       alignItems: 'center',
       justifyContent: 'center',
     },
