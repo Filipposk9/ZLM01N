@@ -68,7 +68,7 @@ const styles = (theme: any) =>
       borderRadius: 15,
     },
     dropDownInput: {
-      color: theme.textColor,
+      color: theme.buttonTextColor,
       margin: '2%',
     },
     dropDownText: {
