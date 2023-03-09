@@ -17,7 +17,6 @@ import {
 
 class Repository {
   async initLocalDB(): Promise<void> {
-    //TODO: add optional timeout
     const remoteMaterialList = await MasterDataService.getMaterials();
 
     if (remoteMaterialList && remoteMaterialList.length > 0) {

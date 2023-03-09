@@ -103,7 +103,7 @@ function Login({navigation}: {navigation: any}): JSX.Element {
               dispatch(
                 setCurrentUser({username: username, password: password}),
               );
-              //TODO: add timeout to this
+
               await Repository.initLocalDB();
               navigation.navigate('MainMenu');
             } else {

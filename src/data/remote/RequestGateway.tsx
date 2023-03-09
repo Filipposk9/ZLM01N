@@ -18,14 +18,22 @@ class RequestGateway {
   async get<T>(
     endpoint: string,
     params: any,
+    timeout: number = 0,
   ): Promise<SuccessResponse<T> | ErrorResponse> {
     try {
       //await this.processRequest();
+      let controller = new AbortController();
+
+      if (timeout > 0) {
+        controller = new AbortController();
+        const timeoutId = setTimeout(() => controller.abort(), timeout);
+      }
 
       console.log('Network request to', endpoint);
       const response = await fetch(this.baseUrl + endpoint, {
         method: 'GET',
         headers: params,
+        signal: controller.signal,
       });
 
       let result;
