@@ -22,10 +22,9 @@ class RequestGateway {
   ): Promise<SuccessResponse<T> | ErrorResponse> {
     try {
       //await this.processRequest();
-      let controller = new AbortController();
+      const controller = new AbortController();
 
       if (timeout > 0) {
-        controller = new AbortController();
         const timeoutId = setTimeout(() => controller.abort(), timeout);
       }
 
@@ -78,6 +77,7 @@ class RequestGateway {
     data: any,
   ): Promise<SuccessResponse<T> | ErrorResponse> {
     try {
+      await this.processRequest();
       console.log('Network request to', endpoint);
       const response = await fetch(this.baseUrl + endpoint, {
         method: 'POST',
