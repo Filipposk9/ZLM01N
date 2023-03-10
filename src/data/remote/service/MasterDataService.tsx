@@ -57,8 +57,7 @@ class MasterDataService {
 
   async getMaterials(): Promise<Material[] | undefined> {
     const sapRequestHeaders = await SapRequestParameters.getSapRequestHeaders();
-
-    const timeout = 5000;
+    const timeout = 5000; //TODO: timeout does not work when Wifi is ON and VPN is OFF
 
     const response = await RequestGateway.get<MaterialResponse>(
       '/materials?matnr=1',
