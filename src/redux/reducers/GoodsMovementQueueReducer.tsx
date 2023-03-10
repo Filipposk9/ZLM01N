@@ -19,8 +19,10 @@ export const goodsMovementQueueReducer = createReducer(
       }
     });
 
-    builder.addCase(resetGoodsMovementQueue, () => {
-      return initialState;
+    builder.addCase(resetGoodsMovementQueue, state => {
+      if (state.goodsMovementQueue) {
+        return initialState;
+      }
     });
   },
 );
