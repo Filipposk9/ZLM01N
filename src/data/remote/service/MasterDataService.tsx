@@ -57,18 +57,20 @@ class MasterDataService {
 
   async getMaterials(): Promise<Material[] | undefined> {
     const sapRequestHeaders = await SapRequestParameters.getSapRequestHeaders();
-    const timeout = 5000; //TODO: timeout does not work when Wifi is ON and VPN is OFF
 
-    const response = await RequestGateway.get<MaterialResponse>(
-      '/materials?matnr=1',
-      sapRequestHeaders,
-      timeout,
-    );
+    if (sapRequestHeaders) {
+      const response = await RequestGateway.get<MaterialResponse>(
+        '/materials?matnr=1',
+        sapRequestHeaders,
+      );
 
-    if (isError(response)) {
-      return [];
+      if (isError(response)) {
+        return [];
+      } else {
+        return response.result.data.map(item => materialModelToMaterial(item));
+      }
     } else {
-      return response.result.data.map(item => materialModelToMaterial(item));
+      return [];
     }
   }
 

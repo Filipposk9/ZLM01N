@@ -5,6 +5,12 @@ interface TokenResponse {
   data: string;
 }
 
+interface SapRequestHeaders {
+  'Content-type': string;
+  'x-csrf-token': string;
+  Authorization: string;
+}
+
 class SapRequestParameters {
   private username = 'FILKOZ';
   private password = 'COMPO2SITION4';
@@ -16,27 +22,38 @@ class SapRequestParameters {
   };
 
   private async getCSRFToken(): Promise<string | undefined> {
+    const timeout = 5000;
+
     const response = await RequestGateway.get<TokenResponse>(
       '/mdata',
       this.CSRF_REQUEST_HEADERS,
+      timeout,
     );
 
-    if (!isError(response)) {
+    if (isError(response)) {
+      return undefined;
+    } else {
       return response.result.data;
     }
   }
 
-  public async getSapRequestHeaders() {
-    const csrfToken = String(await this.getCSRFToken());
+  async getSapRequestHeaders(): Promise<SapRequestHeaders | undefined> {
+    let csrfToken = await this.getCSRFToken();
 
-    const headers = {
-      'Content-type': 'application/json',
-      'x-csrf-token': csrfToken,
-      Authorization:
-        'Basic ' + base64.encode(this.username + ':' + this.password),
-    };
+    if (csrfToken === undefined) {
+      return undefined;
+    } else {
+      csrfToken = String(csrfToken);
 
-    return headers;
+      const headers = {
+        'Content-type': 'application/json',
+        'x-csrf-token': csrfToken,
+        Authorization:
+          'Basic ' + base64.encode(this.username + ':' + this.password),
+      };
+
+      return headers;
+    }
   }
 }
 

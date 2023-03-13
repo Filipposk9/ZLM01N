@@ -21,7 +21,7 @@ class RequestGateway {
     timeout: number = 0,
   ): Promise<SuccessResponse<T> | ErrorResponse> {
     try {
-      //await this.processRequest();
+      await this.processRequest();
       const controller = new AbortController();
 
       if (timeout > 0) {
