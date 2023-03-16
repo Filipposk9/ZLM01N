@@ -1,5 +1,5 @@
 import React, {useState} from 'react';
-import {TextInput} from 'react-native';
+import {Keyboard, TextInput} from 'react-native';
 
 interface BarcodeScannerProps {
   reference: React.Ref<TextInput>;
@@ -14,6 +14,7 @@ function BarcodeScanner(props: BarcodeScannerProps): JSX.Element {
   return (
     <TextInput
       ref={reference}
+      onFocus={() => Keyboard.dismiss()}
       showSoftInputOnFocus={false}
       autoFocus={true}
       autoCorrect={false}
