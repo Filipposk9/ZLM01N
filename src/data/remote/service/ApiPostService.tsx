@@ -16,7 +16,12 @@ import {MaterialDocumentResponse} from '../model/MaterialDocumentModel';
 import {PickingResponse} from '../model/PickingModel';
 import RequestGateway, {isError} from '../RequestGateway';
 import SapRequestParameters from '../SapRequestParameters';
-import NetInfo from '@react-native-community/netinfo';
+import NetInfo, {
+  NetInfoState,
+  NetInfoStateType,
+  NetInfoConnectedStates,
+  NetInfoWifiState,
+} from '@react-native-community/netinfo';
 
 class ApiPostService {
   async createGoodsMovement(
@@ -38,22 +43,25 @@ class ApiPostService {
 
     //TODO: post requests are critical, check for usable network conditions and use ApiPostBuffer accordingly
 
-    const connectionStrength: number = await this.getConnectionStrength();
+    const connectionStrength: number | null =
+      await this.getConnectionStrength();
 
-    if (connectionStrength > 0) {
-      const sapRequestHeaders =
-        await SapRequestParameters.getSapRequestHeaders();
+    if (connectionStrength) {
+      if (connectionStrength > 0) {
+        const sapRequestHeaders =
+          await SapRequestParameters.getSapRequestHeaders();
 
-      const response = await RequestGateway.post<MaterialDocumentResponse>(
-        '/goodsmovement',
-        sapRequestHeaders,
-        materialDocument,
-      );
+        const response = await RequestGateway.post<MaterialDocumentResponse>(
+          '/goodsmovement',
+          sapRequestHeaders,
+          materialDocument,
+        );
 
-      if (isError(response)) {
-        return undefined;
-      } else {
-        return materialDocumentModelToMaterialDocument(response.result.data);
+        if (isError(response)) {
+          return undefined;
+        } else {
+          return materialDocumentModelToMaterialDocument(response.result.data);
+        }
       }
     } else {
       const goodsMovement = {
@@ -95,13 +103,17 @@ class ApiPostService {
     }
   }
 
-  private async getConnectionStrength(): Promise<number> {
+  private async getConnectionStrength(): Promise<number | null> {
     const connectionState = await NetInfo.fetch().then(async state => {
       return state;
     });
 
     if (connectionState.isConnected) {
-      return connectionState.details?.strength;
+      const {strength} = connectionState.details as NetInfoWifiState['details'];
+
+      if (strength !== null) {
+        return strength;
+      }
     }
 
     return 0;
