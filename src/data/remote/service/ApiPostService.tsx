@@ -36,8 +36,6 @@ class ApiPostService {
       productionOrder,
     );
 
-    //TODO: post requests are critical, check for usable network conditions and use ApiPostBuffer accordingly
-
     const connectionStrength: number | null =
       await this.getConnectionStrength();
 
