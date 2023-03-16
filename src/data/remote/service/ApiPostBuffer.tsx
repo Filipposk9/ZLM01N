@@ -10,20 +10,17 @@ class ApiPostBuffer {
 
   private goodsMovementQueue = [];
 
+  //TODO: data types
+
   constructor() {
     NetInfo.addEventListener(async state => {
-      console.log(this.goodsMovementQueue, 'LOCALQUEUE');
       if (state.isConnected) {
-        console.log(state.details?.strength, 'connection strength');
         if (state.details?.strength >= 30) {
-          console.log('signal is good');
           if (!this.isLocked) {
-            console.log('Queue is unlocked, LETS GO');
             if (this.goodsMovementQueue) {
               if (this.goodsMovementQueue.length > 0) {
                 this.isLocked = true;
                 await this.handleQueue();
-                console.log('LOCKING QUEUE & handling queue');
               }
             }
           }
