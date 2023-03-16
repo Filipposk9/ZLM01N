@@ -1,4 +1,4 @@
-import React, {useContext, useRef, useState} from 'react';
+import React, {useContext, useRef, useState, useEffect} from 'react';
 import {
   View,
   Text,
@@ -7,22 +7,13 @@ import {
   Alert,
   TextInput,
 } from 'react-native';
-import NetInfo from '@react-native-community/netinfo';
 import Spinner from 'react-native-loading-spinner-overlay/lib';
 import BarcodeScanner from '../../components/BarcodeScanner';
 import StorageLocationDropdown from './components/StorageLocationDropdown';
 import LabelComponent from './components/LabelComponent';
 import ManualLabelInputModal from './components/ManualLabelInputModal';
-import {useAppDispatch} from '../../redux/Store';
-import {useSelector} from 'react-redux';
-import {setGoodsMovementLog} from '../../redux/actions/GoodsMovementLogActions';
-import {
-  setGoodsMovementQueue,
-  resetGoodsMovementQueue,
-} from '../../redux/actions/GoodsMovementQueueActions';
 import Repository from '../../data/Repository';
-import {GoodsMovementQueue, Label, MaterialDocument} from '../../shared/Types';
-import {GoodsMovementQueueState} from '../../redux/ReduxTypes';
+import {Label, MaterialDocument} from '../../shared/Types';
 import {
   GOODS_MOVEMENT_CODE,
   MOVEMENT_TYPE,
@@ -34,10 +25,7 @@ import {GlobalStyles} from '../../styles/GlobalStyles';
 import {useFocusEffect} from '@react-navigation/native';
 
 function TransferPosting({navigation}: {navigation: any}): JSX.Element {
-  const dispatcher = useAppDispatch();
-
   const {theme} = useContext(ThemeContext);
-  //TODO: transferPostingQueue in redux-persist?
 
   const [isLoading, setIsLoading] = useState(false);
 
@@ -48,37 +36,12 @@ function TransferPosting({navigation}: {navigation: any}): JSX.Element {
 
   const scannerRef = useRef<TextInput>(null);
 
-  const goodsMovementQueue = useSelector(
-    (state: GoodsMovementQueueState) => state.goodsMovementQueue,
-  );
-
   const [scannedLabels, setScannedLabels] = useState<Label[]>([]);
 
   const [manualLabelInputVisibility, setManualLabelInputVisibility] =
     useState(false);
 
-  // useEffect(() => {
-  //   //FIXME: this runs even if i go back TO this screen,
-  //   //FIXME: should only work when i go back FROM this csreen
-
-  //   const handleBackPress = (): boolean => {
-  //     console.log(goodsMovementQueue);
-  //     if (goodsMovementQueue.goodsMovementQueue.length > 0) {
-  //       Alert.alert(
-  //         'Υπάρχουν κινήσεις στην ούρα οι οποίες δεν έχουν πραγματοποιηθεί, παρακαλώ...',
-  //       );
-  //     }
-  //     navigation.goBack();
-
-  //     return true;
-  //   };
-
-  //   BackHandler.addEventListener('hardwareBackPress', handleBackPress);
-
-  //   return () => {
-  //     BackHandler.removeEventListener('hardwareBackPress', handleBackPress);
-  //   };
-  // }, []);
+  //TODO: when changing apps, keyboard is UP
 
   useFocusEffect(() => {
     scannerRef.current?.focus();
@@ -105,16 +68,18 @@ function TransferPosting({navigation}: {navigation: any}): JSX.Element {
     };
 
     const editLabelValidity = (batchdata: any, count: number) => {
-      const nextState: Label[] = scannedLabels.map((c, i) => {
-        if (i === count - 1) {
-          if (batchdata.quantity > 0) {
-            c.validity = true;
-          } else {
-            c.validity = false;
+      const nextState = scannedLabels?.map((c, i) => {
+        if (c) {
+          if (i === count - 1) {
+            if (batchdata.quantity > 0) {
+              c.validity = true;
+            } else {
+              c.validity = false;
+            }
           }
-        }
-        if (c !== undefined) {
-          return c;
+          if (c !== undefined) {
+            return c;
+          }
         }
       });
 
@@ -122,12 +87,14 @@ function TransferPosting({navigation}: {navigation: any}): JSX.Element {
     };
 
     for (const label of scannedLabels) {
-      fetchBatchData(
-        label.materialNumber,
-        label.batch,
-        storageLocationIn,
-        label.count,
-      );
+      if (label) {
+        fetchBatchData(
+          label.materialNumber,
+          label.batch,
+          storageLocationIn,
+          label.count,
+        );
+      }
     }
   };
 
@@ -135,9 +102,9 @@ function TransferPosting({navigation}: {navigation: any}): JSX.Element {
     setStorageLocationOut(storageLocationOut);
   };
 
-  const storageLocationsAreValid = () => {
-    if (storageLocationIn && storageLocationOut) {
-      if (storageLocationIn !== storageLocationOut) {
+  const storageLocationsAreValid = (stgLocIn: string, stgLocOut: string) => {
+    if (stgLocIn !== '' && stgLocOut !== '') {
+      if (stgLocIn !== stgLocOut) {
         return true;
       } else {
         return false;
@@ -187,12 +154,14 @@ function TransferPosting({navigation}: {navigation: any}): JSX.Element {
 
     const nextState = scannedLabels.map((c, i) => {
       if (i !== index) {
-        c.count = j++;
-        return c;
+        if (c) {
+          c.count = j++;
+          return c;
+        }
       }
     });
 
-    const filteredState: Label[] = nextState.filter(item => item !== undefined);
+    const filteredState = nextState.filter(item => item !== undefined);
 
     if (filteredState !== undefined) {
       setScannedLabels(filteredState);
@@ -202,17 +171,9 @@ function TransferPosting({navigation}: {navigation: any}): JSX.Element {
   const resetScreenComponents = () => {
     setScannedLabels([]);
     setStorageLocationInKey(storageLocationInKey - 1);
+    setStorageLocationIn('');
     setStorageLocationOutKey(storageLocationOutKey + 1);
-  };
-
-  const getConnectionDetails = () => {
-    async function getConnectionDetails() {
-      return await NetInfo.fetch().then(async state => {
-        return state.details;
-      });
-    }
-
-    return getConnectionDetails();
+    setStorageLocationOut('');
   };
 
   const submitGoodsMovement = (
@@ -227,9 +188,7 @@ function TransferPosting({navigation}: {navigation: any}): JSX.Element {
       stgLocIn: string,
       stgLocOut: string,
     ): Promise<MaterialDocument | undefined> => {
-      const connectionDetails = await getConnectionDetails();
-
-      if (connectionDetails.strength >= 60) {
+      if (storageLocationsAreValid(stgLocIn, stgLocOut)) {
         const materialDocument = await Repository.createGoodsMovement(
           GOODS_MOVEMENT_CODE.TRANSFER_POSTING,
           labels,
@@ -239,108 +198,23 @@ function TransferPosting({navigation}: {navigation: any}): JSX.Element {
           PRODUCTION_ORDER.BLANK,
         );
 
+        resetScreenComponents();
+
         return materialDocument;
       } else {
-        return undefined;
+        Alert.alert('Σφάλμα', 'Εισάγετε αποθηκευτικό χώρο');
       }
     };
 
-    if (storageLocationsAreValid()) {
-      if (scannedLabels.length > 0) {
-        return submitGoodsMovement(labels, stgLocIn, stgLocOut);
-      } else {
-        Alert.alert('Άδειο παραστατικό');
-        return undefined;
-      }
+    if (labels.length > 0) {
+      return submitGoodsMovement(labels, stgLocIn, stgLocOut);
     } else {
-      if (goodsMovementQueue.goodsMovementQueue.length > 0) {
-        return submitGoodsMovement(labels, stgLocIn, stgLocOut);
-      } else {
-        Alert.alert('Εισάγετε αποθηκευτικό χώρο');
-        return undefined;
-      }
+      Alert.alert('Σφάλμα', 'Αδειο παραστατικό');
     }
   };
-
-  const handleGoodsMovementResponse = (
-    materialDocument: MaterialDocument | undefined,
-  ): void => {
-    if (materialDocument !== undefined) {
-      dispatcher(setGoodsMovementLog([materialDocument]));
-    } else {
-      if (storageLocationsAreValid()) {
-        const goodsMovement = {
-          goodsMovementCode: GOODS_MOVEMENT_CODE.TRANSFER_POSTING,
-          scannedLabels,
-          storageLocationIn,
-          storageLocationOut,
-          movementType: MOVEMENT_TYPE.TRANSFER_POSTING,
-          productionOrder: PRODUCTION_ORDER.BLANK,
-        };
-        dispatcher(setGoodsMovementQueue([goodsMovement]));
-        console.log('added to queue');
-      }
-    }
-  };
-
-  const handleQueueEntries = async () => {
-    let newGoodsMovementQueue: GoodsMovementQueue[] = [];
-
-    let handledItems = 0;
-    let startingLength = goodsMovementQueue.goodsMovementQueue.length;
-
-    //TODO: turn to promise.all();
-
-    if (goodsMovementQueue.goodsMovementQueue.length > 0) {
-      for (const goodsMovementLog of goodsMovementQueue.goodsMovementQueue) {
-        const materialDocument = await submitGoodsMovement(
-          goodsMovementLog.scannedLabels,
-          goodsMovementLog.storageLocationIn,
-          goodsMovementLog.storageLocationOut,
-        );
-
-        if (materialDocument === undefined) {
-          newGoodsMovementQueue.push(goodsMovementLog);
-          handledItems++;
-        } else {
-          dispatcher(setGoodsMovementLog([materialDocument]));
-          handledItems++;
-        }
-      }
-
-      if (handledItems === startingLength) {
-        console.log('queue handled');
-      }
-
-      dispatcher(resetGoodsMovementQueue());
-      dispatcher(setGoodsMovementQueue(newGoodsMovementQueue));
-    }
-  };
-
-  const unsubscribe = NetInfo.addEventListener(state => {
-    //FIXME: determine queue handling interval
-    //FIXME: onTouchStart causes queue to be touches times
-    //FIXME: do it on network state change, lock the queue with a boolean
-    //FIXME: make queue handler service
-    //FIXME: unlock it when queue is empty
-    //FIXME: edit they wont be considered, they will be on the next iteration because for is synchronous
-    //TODO: run only on this screen, warn if user leaves screen
-    if (state.details.strength >= 60) {
-      //handleQueueEntries();
-      console.log('good signal');
-    }
-  });
-
-  unsubscribe();
 
   return (
-    <View
-      onTouchStart={() => {
-        if (goodsMovementQueue.goodsMovementQueue.length > 0) {
-          handleQueueEntries();
-        }
-      }}
-      style={styles(theme).transferPostingContainer}>
+    <View style={styles(theme).transferPostingContainer}>
       <Spinner
         visible={isLoading}
         textContent={'Πραγματοποιείται ενδοδιακίνιση...'}
@@ -388,17 +262,23 @@ function TransferPosting({navigation}: {navigation: any}): JSX.Element {
         style={styles(theme).labelList}>
         {scannedLabels.length > 0
           ? scannedLabels.map((item, i) => {
-              return (
-                <LabelComponent
-                  key={i}
-                  count={item.count}
-                  barcode={
-                    item.materialNumber + '-' + item.batch + '-' + item.quantity
-                  }
-                  validity={scannedLabels[i].validity}
-                  onDeletePressed={() => removeLabel(i)}
-                />
-              );
+              if (item) {
+                return (
+                  <LabelComponent
+                    key={i}
+                    count={item.count}
+                    barcode={
+                      item.materialNumber +
+                      '-' +
+                      item.batch +
+                      '-' +
+                      item.quantity
+                    }
+                    validity={item.validity}
+                    onDeletePressed={() => removeLabel(i)}
+                  />
+                );
+              }
             })
           : null}
       </ScrollView>
@@ -418,14 +298,13 @@ function TransferPosting({navigation}: {navigation: any}): JSX.Element {
             style={styles(theme).submitButton}
             onPress={async () => {
               setIsLoading(true);
+
               const goodsMovementLog = await submitGoodsMovement(
                 scannedLabels,
                 storageLocationIn,
                 storageLocationOut,
               );
               setIsLoading(false);
-
-              handleGoodsMovementResponse(goodsMovementLog);
 
               if (goodsMovementLog) {
                 navigation.navigate('TransferPostingLog', [
@@ -434,11 +313,20 @@ function TransferPosting({navigation}: {navigation: any}): JSX.Element {
                   storageLocationOut,
                 ]);
               } else {
-                Alert.alert(
-                  'Αδυναμία Σύνδεσης. Το παραστατικό προστέθηκε στην ουρά',
-                );
+                if (
+                  scannedLabels.length > 0 &&
+                  storageLocationsAreValid(
+                    storageLocationIn,
+                    storageLocationOut,
+                  )
+                ) {
+                  resetScreenComponents();
+                  Alert.alert(
+                    'Ανεπαρκές Σήμα',
+                    'Το παραστατικό προστέθηκε στην ουρά',
+                  );
+                }
               }
-              resetScreenComponents();
             }}
             android_ripple={GlobalStyles(theme).rippleColor}>
             <Text style={styles(theme).submitButtonText}>Καταχώριση</Text>
