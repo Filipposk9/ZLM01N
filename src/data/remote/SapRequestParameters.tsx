@@ -21,9 +21,7 @@ class SapRequestParameters {
       'Basic ' + base64.encode(this.username + ':' + this.password),
   };
 
-  private async getCSRFToken(): Promise<string | undefined> {
-    const timeout = 5000;
-
+  private async getCSRFToken(timeout: number = 0): Promise<string | undefined> {
     const response = await RequestGateway.get<TokenResponse>(
       '/mdata',
       this.CSRF_REQUEST_HEADERS,
@@ -37,8 +35,10 @@ class SapRequestParameters {
     }
   }
 
-  async getSapRequestHeaders(): Promise<SapRequestHeaders | undefined> {
-    let csrfToken = await this.getCSRFToken();
+  async getSapRequestHeaders(
+    timeout: number = 0,
+  ): Promise<SapRequestHeaders | undefined> {
+    let csrfToken = await this.getCSRFToken(timeout);
 
     if (csrfToken === undefined) {
       return undefined;
