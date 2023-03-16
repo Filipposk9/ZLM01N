@@ -59,16 +59,7 @@ class ApiPostService {
         }
       }
     } else {
-      const goodsMovement = {
-        goodsMovementCode: goodsMovementCode,
-        scannedLabels: scannedLabels,
-        storageLocationIn: storageLocationIn,
-        storageLocationOut: storageLocationOut,
-        movementType: movementType,
-        productionOrder: productionOrder,
-      };
-
-      ApiPostBuffer.setGoodsMovementQueue(goodsMovement);
+      ApiPostBuffer.setGoodsMovementQueue(materialDocument);
 
       return undefined;
     }
