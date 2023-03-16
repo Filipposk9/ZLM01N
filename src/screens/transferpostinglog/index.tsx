@@ -22,6 +22,7 @@ function TransferPostingLog({
 
   //TODO: get material texts
   //TODO: split in 2 arrays, (needs validity indicator from backend)
+  //TODO: rework styling, add material texts
 
   useEffect(() => {
     // const { validMaterialDocument, invalidMaterialDocument } = items.reduce(
@@ -38,7 +39,7 @@ function TransferPostingLog({
   }, []);
 
   return (
-    <View>
+    <View style={styles(theme).transferPostingLogTopContainer}>
       <View style={styles(theme).transferPostingLogHeaderContainer}>
         <View style={styles(theme).transferPostingLogHeaderLine}>
           <View style={{flex: 1}}>
@@ -71,6 +72,11 @@ function TransferPostingLog({
           <Text style={styles(theme).transferPostingLogTitle}>
             Επιτυχημένες ενδοδιακινήσεις
           </Text>
+          <Text style={styles(theme).transferPostingLogTitle}>
+            {goodsMovementLog.materialDocumentNumber !== ''
+              ? 'Παραστατικό: ' + goodsMovementLog.materialDocumentNumber
+              : ''}
+          </Text>
 
           {goodsMovementLog !== undefined &&
           goodsMovementLog.materialDocumentNumber !== ''
@@ -95,9 +101,12 @@ function TransferPostingLog({
             styles(theme).transferPostingLogContainer,
             {backgroundColor: theme.secondaryForegroundColor},
           ]}>
-          <Text style={styles(theme).transferPostingLogTitle}>
-            Αποτυχημένες ενδοδιακινήσεις
-          </Text>
+          {goodsMovementLog !== undefined &&
+          goodsMovementLog.materialDocumentNumber === '' ? (
+            <Text style={styles(theme).transferPostingLogTitle}>
+              Αποτυχημένες ενδοδιακινήσεις
+            </Text>
+          ) : null}
 
           {goodsMovementLog !== undefined &&
           goodsMovementLog.materialDocumentNumber === ''
@@ -105,24 +114,24 @@ function TransferPostingLog({
                 (item: MaterialDocumentItem, i: number) => {
                   return (
                     <View key={i} style={styles(theme).transferPostingLogItem}>
-                      <Text style={{fontWeight: 'bold'}}>
+                      <Text
+                        style={[
+                          styles(theme).transferPostingLogItemText,
+                          {fontWeight: 'bold'},
+                        ]}>
                         {item.count}. {item.materialNumber}
                       </Text>
-                      <Text>Παρτίδα: {item.batch}</Text>
-                      <Text>Ποσότητα: {item.quantity}</Text>
+                      <Text style={styles(theme).transferPostingLogItemText}>
+                        Παρτίδα: {item.batch}
+                      </Text>
+                      <Text style={styles(theme).transferPostingLogItemText}>
+                        Ποσότητα: {item.quantity}
+                      </Text>
                     </View>
                   );
                 },
               )
             : null}
-        </View>
-
-        <View>
-          {!goodsMovementLog ? (
-            <Text style={styles(theme).transferPostingLogMessage}>
-              Ανεπαρκές σήμα. Το παραστατικό προστέθηκε στην ουρά
-            </Text>
-          ) : null}
         </View>
       </ScrollView>
     </View>
