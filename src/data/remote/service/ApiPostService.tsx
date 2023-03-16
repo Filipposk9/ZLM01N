@@ -1,3 +1,4 @@
+import ApiPostBuffer from './ApiPostBuffer';
 import {
   Label,
   MaterialDocument,
@@ -15,6 +16,7 @@ import {MaterialDocumentResponse} from '../model/MaterialDocumentModel';
 import {PickingResponse} from '../model/PickingModel';
 import RequestGateway, {isError} from '../RequestGateway';
 import SapRequestParameters from '../SapRequestParameters';
+import NetInfo from '@react-native-community/netinfo';
 
 class ApiPostService {
   async createGoodsMovement(
@@ -34,18 +36,38 @@ class ApiPostService {
       productionOrder,
     );
 
-    const sapRequestHeaders = await SapRequestParameters.getSapRequestHeaders();
+    //TODO: post requests are critical, check for usable network conditions and use ApiPostBuffer accordingly
 
-    const response = await RequestGateway.post<MaterialDocumentResponse>(
-      '/goodsmovement',
-      sapRequestHeaders,
-      materialDocument,
-    );
+    const connectionStrength: number = await this.getConnectionStrength();
 
-    if (isError(response)) {
-      return undefined;
+    if (connectionStrength > 0) {
+      const sapRequestHeaders =
+        await SapRequestParameters.getSapRequestHeaders();
+
+      const response = await RequestGateway.post<MaterialDocumentResponse>(
+        '/goodsmovement',
+        sapRequestHeaders,
+        materialDocument,
+      );
+
+      if (isError(response)) {
+        return undefined;
+      } else {
+        return materialDocumentModelToMaterialDocument(response.result.data);
+      }
     } else {
-      return materialDocumentModelToMaterialDocument(response.result.data);
+      const goodsMovement = {
+        goodsMovementCode: goodsMovementCode,
+        scannedLabels: scannedLabels,
+        storageLocationIn: storageLocationIn,
+        storageLocationOut: storageLocationOut,
+        movementType: movementType,
+        productionOrder: productionOrder,
+      };
+
+      ApiPostBuffer.setGoodsMovementQueue(goodsMovement);
+
+      return undefined;
     }
   }
 
@@ -71,6 +93,18 @@ class ApiPostService {
     } else {
       return pickingModelToPicking(response.result.data);
     }
+  }
+
+  private async getConnectionStrength(): Promise<number> {
+    const connectionState = await NetInfo.fetch().then(async state => {
+      return state;
+    });
+
+    if (connectionState.isConnected) {
+      return connectionState.details?.strength;
+    }
+
+    return 0;
   }
 }
 
