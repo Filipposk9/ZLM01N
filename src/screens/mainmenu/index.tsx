@@ -77,3 +77,21 @@ function MainMenu({navigation}: {navigation: any}): JSX.Element {
 export default React.memo(MainMenu);
 
 //TODO: on back button -> perform logout actions, handle queue remnants
+// useEffect(() => {
+//   //   //FIXME: this runs even if i go back TO this screen,
+//   //   //FIXME: should only work when i go back FROM this csreen
+//   //   const handleBackPress = (): boolean => {
+//   //     console.log(goodsMovementQueue);
+//   //     if (goodsMovementQueue.goodsMovementQueue.length > 0) {
+//   //       Alert.alert(
+//   //         'Υπάρχουν κινήσεις στην ούρα οι οποίες δεν έχουν πραγματοποιηθεί, παρακαλώ...',
+//   //       );
+//   //     }
+//   //     navigation.goBack();
+//   //     return true;
+//   //   };
+//   //   BackHandler.addEventListener('hardwareBackPress', handleBackPress);
+//   //   return () => {
+//   //     BackHandler.removeEventListener('hardwareBackPress', handleBackPress);
+//   //   };
+// }, []);
