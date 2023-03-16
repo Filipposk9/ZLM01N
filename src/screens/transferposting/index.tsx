@@ -41,8 +41,6 @@ function TransferPosting({navigation}: {navigation: any}): JSX.Element {
   const [manualLabelInputVisibility, setManualLabelInputVisibility] =
     useState(false);
 
-  //TODO: when changing apps, keyboard is UP
-
   useFocusEffect(() => {
     scannerRef.current?.focus();
   });
