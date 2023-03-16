@@ -56,7 +56,10 @@ class MasterDataService {
   }
 
   async getMaterials(): Promise<Material[] | undefined> {
-    const sapRequestHeaders = await SapRequestParameters.getSapRequestHeaders();
+    const timeout = 5000;
+    const sapRequestHeaders = await SapRequestParameters.getSapRequestHeaders(
+      timeout,
+    );
 
     if (sapRequestHeaders) {
       const response = await RequestGateway.get<MaterialResponse>(
