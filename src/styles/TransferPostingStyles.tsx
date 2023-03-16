@@ -10,9 +10,7 @@ export const styles = (theme: any) =>
     middleContainer: {
       marginLeft: '5%',
       marginBottom: '2%',
-      //width: '100%',
       flexDirection: 'row',
-      //backgroundColor: '#ffffff', ////////////////////////////
     },
     labelListHeaderText: {
       color: theme.textColor,
@@ -56,7 +54,7 @@ export const styles = (theme: any) =>
       elevation: 50,
       borderRadius: 30,
       borderColor: theme.borderColor,
-      backgroundColor: theme.buttonBackgroundColor,
+      backgroundColor: theme.buttonThirdBackgroundColor,
       alignItems: 'center',
       justifyContent: 'center',
       width: '50%',
