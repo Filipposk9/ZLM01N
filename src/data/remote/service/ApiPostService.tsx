@@ -16,12 +16,7 @@ import {MaterialDocumentResponse} from '../model/MaterialDocumentModel';
 import {PickingResponse} from '../model/PickingModel';
 import RequestGateway, {isError} from '../RequestGateway';
 import SapRequestParameters from '../SapRequestParameters';
-import NetInfo, {
-  NetInfoState,
-  NetInfoStateType,
-  NetInfoConnectedStates,
-  NetInfoWifiState,
-} from '@react-native-community/netinfo';
+import NetInfo, {NetInfoWifiState} from '@react-native-community/netinfo';
 
 class ApiPostService {
   async createGoodsMovement(
