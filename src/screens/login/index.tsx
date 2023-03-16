@@ -43,7 +43,7 @@ function Login({navigation}: {navigation: any}): JSX.Element {
     fetchUsers();
   }, []);
 
-  const checkUserValidity = (username: string, password: string): boolean => {
+  const userIsValid = (username: string, password: string): boolean => {
     if (users !== undefined) {
       return users.some(element => {
         if (element.username === username) {
@@ -99,7 +99,7 @@ function Login({navigation}: {navigation: any}): JSX.Element {
           onPress={async () => {
             setIsLoading(true);
 
-            if (checkUserValidity(username, password)) {
+            if (userIsValid(username, password)) {
               dispatch(
                 setCurrentUser({username: username, password: password}),
               );
