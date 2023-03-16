@@ -9,8 +9,6 @@ class ApiPostBuffer {
 
   private goodsMovementQueue: GoodsMovement[] = [];
 
-  //TODO: type safety
-
   constructor() {
     NetInfo.addEventListener(async state => {
       if (state.isConnected) {
