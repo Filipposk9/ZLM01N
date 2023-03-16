@@ -9,6 +9,7 @@ const themes = {
 
     buttonBackgroundColor: '#5070F4',
     buttonSecondaryBackgroundColor: '#ED8B00',
+    buttonThirdBackgroundColor: '#5070F4',
 
     borderColor: '#7a7a7a',
 
@@ -31,7 +32,8 @@ const themes = {
     //secondaryForegroundColor: '#EDC9AF',
 
     buttonBackgroundColor: '#95aa9d',
-    buttonSecondaryBackgroundColor: '#95aa9d',
+    buttonSecondaryBackgroundColor: '#ED8B00',
+    buttonThirdBackgroundColor: '#aa95a2',
 
     borderColor: '#7a7a7a',
 
