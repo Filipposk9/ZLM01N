@@ -25,7 +25,7 @@ class MasterDataService {
     const sapRequestHeaders = await SapRequestParameters.getSapRequestHeaders();
 
     const response = await RequestGateway.get<StorageLocationResponse>(
-      '/mdata?lgort=1',
+      '/storagelocations?lgort=1',
       sapRequestHeaders,
     );
 
