@@ -22,6 +22,7 @@ interface LabelComponentProps {
 
 //TODO: add animation fadeIn()
 //TODO: check scanned barcode validity using regex
+//TODO: initial stock value (validity)
 
 function LabelComponent(props: LabelComponentProps): JSX.Element {
   const {count, barcode, validity, onDeletePressed} = props;
