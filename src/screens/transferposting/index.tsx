@@ -1,4 +1,4 @@
-import React, {useContext, useRef, useState, useEffect} from 'react';
+import React, {useContext, useRef, useState} from 'react';
 import {
   View,
   Text,
@@ -41,6 +41,8 @@ function TransferPosting({navigation}: {navigation: any}): JSX.Element {
   const [manualLabelInputVisibility, setManualLabelInputVisibility] =
     useState(false);
 
+  //TODO: keyboard pops up when switching apps
+
   useFocusEffect(() => {
     scannerRef.current?.focus();
   });
@@ -66,7 +68,7 @@ function TransferPosting({navigation}: {navigation: any}): JSX.Element {
     };
 
     const editLabelValidity = (batchdata: any, count: number) => {
-      const nextState = scannedLabels?.map((c, i) => {
+      const nextState: Label[] = scannedLabels?.map((c, i) => {
         if (c) {
           if (i === count - 1) {
             if (batchdata.quantity > 0) {
@@ -150,7 +152,7 @@ function TransferPosting({navigation}: {navigation: any}): JSX.Element {
 
     let j = 1;
 
-    const nextState = scannedLabels.map((c, i) => {
+    const nextState: Label[] = scannedLabels.map((c, i) => {
       if (i !== index) {
         if (c) {
           c.count = j++;
