@@ -68,20 +68,26 @@ function TransferPosting({navigation}: {navigation: any}): JSX.Element {
     };
 
     const editLabelValidity = (batchdata: any, count: number) => {
-      const nextState: Label[] = scannedLabels?.map((c, i) => {
-        if (c) {
-          if (i === count - 1) {
-            if (batchdata.quantity > 0) {
-              c.validity = true;
-            } else {
-              c.validity = false;
+      const nextState: Label[] = scannedLabels
+        ?.map((c, i) => {
+          if (c) {
+            if (i === count - 1) {
+              if (batchdata.quantity > 0) {
+                c.validity = true;
+              } else {
+                c.validity = false;
+              }
             }
+            if (c !== undefined) {
+              return c as Label;
+            } else {
+              return null as unknown as Label;
+            }
+          } else {
+            return null as unknown as Label;
           }
-          if (c !== undefined) {
-            return c;
-          }
-        }
-      });
+        })
+        .filter(c => c !== null);
 
       setScannedLabels(nextState);
     };
@@ -152,20 +158,22 @@ function TransferPosting({navigation}: {navigation: any}): JSX.Element {
 
     let j = 1;
 
-    const nextState: Label[] = scannedLabels.map((c, i) => {
-      if (i !== index) {
-        if (c) {
-          c.count = j++;
-          return c;
+    const nextState: Label[] = scannedLabels
+      .map((c, i) => {
+        if (i !== index) {
+          if (c) {
+            c.count = j++;
+            return c as Label;
+          } else {
+            return null as unknown as Label;
+          }
+        } else {
+          return null as unknown as Label;
         }
-      }
-    });
+      })
+      .filter(c => c !== null);
 
-    const filteredState = nextState.filter(item => item !== undefined);
-
-    if (filteredState !== undefined) {
-      setScannedLabels(filteredState);
-    }
+    setScannedLabels(nextState);
   };
 
   const resetScreenComponents = () => {
