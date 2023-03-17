@@ -107,7 +107,7 @@ class MasterDataService {
     const sapRequestHeaders = await SapRequestParameters.getSapRequestHeaders();
 
     const response = await RequestGateway.get<OutboundDeliveryResponse>(
-      '/mdata?vbeln=' + outboundDeliveryNumber,
+      '/deliveries?vbeln=' + outboundDeliveryNumber,
       sapRequestHeaders,
     );
 
