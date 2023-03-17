@@ -45,6 +45,7 @@ class Repository {
   }
 
   async getStorageLocations(): Promise<StorageLocation[]> {
+    //switch priority check local length 0
     const remoteStorageLocationList =
       await MasterDataService.getStorageLocations();
 
