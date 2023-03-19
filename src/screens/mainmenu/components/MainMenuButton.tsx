@@ -82,7 +82,11 @@ function MainMenuButton(props: MainMenuButtonProps): JSX.Element {
             }
           }}
           android_ripple={GlobalStyles(theme).rippleColor}>
-          <Icon name={icon} color={iconColor} size={90} />
+          <Icon
+            name={icon}
+            color={iconColor}
+            size={Dimensions.get('window').height / 9}
+          />
         </Pressable>
       </LinearGradient>
       <View style={styles(theme).mainMenuButtonTextContainer}>
@@ -105,7 +109,7 @@ const styles = (theme: any) =>
       borderColor: theme.borderColor,
       backgroundColor: theme.foregroundColor,
       borderRadius: 20,
-      height: 140,
+      height: Dimensions.get('window').height / 6,
       alignItems: 'center',
       justifyContent: 'center',
     },
