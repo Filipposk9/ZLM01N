@@ -11,6 +11,8 @@ interface BarcodeScannerProps {
 function BarcodeScanner(props: BarcodeScannerProps): JSX.Element {
   const {reference, onScan} = props;
 
+  //TODO: add regex filter prop
+
   useEffect(() => {
     startListener();
   });
