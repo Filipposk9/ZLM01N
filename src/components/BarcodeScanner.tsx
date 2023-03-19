@@ -1,5 +1,7 @@
-import React, {useState} from 'react';
+import React, {useEffect} from 'react';
 import {TextInput} from 'react-native';
+import KeyEvent from 'react-native-keyevent';
+import {KeyEventProps} from 'react-native-keyevent';
 
 interface BarcodeScannerProps {
   reference: React.Ref<TextInput>;
@@ -9,7 +11,16 @@ interface BarcodeScannerProps {
 function BarcodeScanner(props: BarcodeScannerProps): JSX.Element {
   const {reference, onScan} = props;
 
-  const [scannedText, setScannedText] = useState<string>();
+  useEffect(() => {
+    startListener();
+  });
+
+  const startListener = () => {
+    KeyEvent.onKeyMultipleListener((keyEvent: KeyEventProps) => {
+      console.log(`Barcode:  ${keyEvent.characters}`);
+      onScan(keyEvent.characters);
+    });
+  };
 
   return (
     <TextInput
@@ -19,13 +30,6 @@ function BarcodeScanner(props: BarcodeScannerProps): JSX.Element {
       autoCorrect={false}
       autoComplete={'off'}
       caretHidden={false}
-      style={{height: 50, opacity: 100}}
-      value={scannedText}
-      onChangeText={scannedText => {
-        setScannedText(scannedText);
-        onScan(scannedText);
-        setScannedText('');
-      }}
       blurOnSubmit={false}
     />
   );
