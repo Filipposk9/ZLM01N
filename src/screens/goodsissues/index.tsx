@@ -13,7 +13,6 @@ import {styles} from '../../appearance/styles/GoodsIssuesStyles';
 import {ThemeContext} from '../../appearance/theme/ThemeContext';
 import LabelComponent from '../transferposting/components/LabelComponent';
 import {GOODS_MOVEMENT_CODE, MOVEMENT_TYPE} from '../../shared/Constants';
-//TODO: move label component to ./src/components
 
 function GoodsIssues({navigation}: {navigation: any}): JSX.Element {
   const {theme} = useContext(ThemeContext);
@@ -108,6 +107,7 @@ function GoodsIssues({navigation}: {navigation: any}): JSX.Element {
             quantity: Number(
               lastScannedBarcode.split('-')[2].replace(',', '.'),
             ),
+            validity: false,
           },
         ]);
       } else {
@@ -119,6 +119,7 @@ function GoodsIssues({navigation}: {navigation: any}): JSX.Element {
             quantity: Number(
               lastScannedBarcode.split('-')[2].replace(',', '.'),
             ),
+            validity: false,
           },
         ]);
       }
@@ -131,7 +132,6 @@ function GoodsIssues({navigation}: {navigation: any}): JSX.Element {
     storageLocationOut: string,
   ) => {
     //TODO: add current user param
-    //TODO: get all material texts and cache them
 
     const submitGoodsMovement = async (): Promise<
       MaterialDocument | undefined

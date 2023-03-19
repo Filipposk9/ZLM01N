@@ -76,10 +76,11 @@ function LabelComponent(props: LabelComponentProps): JSX.Element {
               opacity: fadeIn,
             },
           ]}>
+          <Text style={styles(theme).labelItemLeft}>{count}</Text>
           <TextInput
-            style={styles(theme).labelItem}
+            style={styles(theme).labelItemRight}
             editable={false}
-            value={count + '. ' + barcode + '\n' + materialDescription}
+            value={barcode + '\n' + materialDescription}
             multiline={true}
           />
         </Animated.View>
@@ -119,8 +120,14 @@ const styles = (theme: any) =>
       flexDirection: 'row',
       flex: 1,
     },
-    labelItem: {
-      fontSize: 15,
+    labelItemLeft: {
+      //fontWeight: 'bold',
+      fontSize: 32,
+      color: theme.secondaryTextColor,
+      margin: '2%',
+    },
+    labelItemRight: {
+      fontSize: 16,
       color: theme.secondaryTextColor,
     },
   });

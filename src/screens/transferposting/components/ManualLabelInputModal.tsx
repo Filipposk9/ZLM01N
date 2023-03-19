@@ -157,7 +157,7 @@ export const styles = (theme: any) =>
     },
     popupHeaderText: {
       color: theme.secondaryTextColor,
-      fontSize: 20,
+      fontSize: 24,
       fontWeight: 'bold',
     },
     popupBodyContainer: {},
@@ -178,7 +178,7 @@ export const styles = (theme: any) =>
     },
     popupSubmitBtnText: {
       color: theme.buttonTextColor,
-      fontSize: 18,
+      fontSize: 20,
       fontWeight: 'bold',
     },
   });

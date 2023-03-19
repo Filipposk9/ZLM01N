@@ -15,7 +15,7 @@ export const styles = (theme: any) =>
     labelListHeaderText: {
       color: theme.textColor,
       fontWeight: 'bold',
-      fontSize: 24,
+      fontSize: 28,
       width: '82%',
     },
     labelList: {
@@ -66,7 +66,7 @@ export const styles = (theme: any) =>
       width: '100%',
     },
     submitButtonText: {
-      fontSize: 18,
+      fontSize: 20,
       fontWeight: 'bold',
       color: theme.buttonTextColor,
     },
