@@ -121,7 +121,7 @@ function Picking({navigation}: {navigation: any}): JSX.Element {
             style={styles(theme).outboundDeliveryInputField}
             keyboardType="number-pad"
             onChangeText={outboundDelivery => {
-              if (outboundDelivery.substring(0, 1) === '0') {
+              if (outboundDelivery.substring(0, 1) !== '8') {
               } else {
                 setOutboundDelivery(outboundDelivery);
               }
