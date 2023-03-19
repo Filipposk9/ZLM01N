@@ -122,12 +122,12 @@ const styles = (theme: any) =>
     },
     labelItemLeft: {
       fontSize: 32,
-      color: theme.secondaryTextColor,
+      color: theme.buttonTextColor,
       margin: '2%',
     },
     labelItemRight: {
       fontSize: 16,
-      color: theme.secondaryTextColor,
+      color: theme.buttonTextColor,
     },
   });
 
