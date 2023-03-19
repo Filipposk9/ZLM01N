@@ -22,31 +22,8 @@ import {
 import {ThemeContext} from '../../../appearance/theme/ThemeContext';
 import {styles} from '../../../appearance/styles/TransferPostingStyles';
 import {GlobalStyles} from '../../../appearance/styles/GlobalStyles';
-import {useFocusEffect} from '@react-navigation/native';
-import KeyEvent from 'react-native-keyevent';
-import {KeyEventProps} from 'react-native-keyevent';
 
 function TransferPosting({navigation}: {navigation: any}): JSX.Element {
-  KeyEvent.onKeyDownListener((keyEvent: KeyEventProps) => {
-    console.log(`onKeyDown keyCode: ${keyEvent.keyCode}`);
-    console.log(`Action: ${keyEvent.action}`);
-    console.log(`Key: ${keyEvent.pressedKey}`);
-  });
-
-  // if you want to react to keyUp
-  KeyEvent.onKeyUpListener((keyEvent: KeyEventProps) => {
-    console.log(`onKeyUp keyCode: ${keyEvent.keyCode}`);
-    console.log(`Action: ${keyEvent.action}`);
-    console.log(`Key: ${keyEvent.pressedKey}`);
-  });
-
-  // if you want to react to keyMultiple
-  KeyEvent.onKeyMultipleListener((keyEvent: KeyEventProps) => {
-    console.log(`onKeyMultiple keyCode: ${keyEvent.keyCode}`);
-    console.log(`Action: ${keyEvent.action}`);
-    console.log(`Characters: ${keyEvent.characters}`);
-  });
-
   const {theme} = useContext(ThemeContext);
 
   const [isLoading, setIsLoading] = useState(false);
@@ -62,8 +39,6 @@ function TransferPosting({navigation}: {navigation: any}): JSX.Element {
 
   const [manualLabelInputVisibility, setManualLabelInputVisibility] =
     useState(false);
-
-  //TODO: keyboard pops up when switching apps
 
   const onStorageLocationInChange = (storageLocationIn: string) => {
     setStorageLocationIn(storageLocationIn);
@@ -258,15 +233,6 @@ function TransferPosting({navigation}: {navigation: any}): JSX.Element {
         onChange={onStorageLocationOutChange}
       />
 
-      <View style={{height: 50, backgroundColor: 'red'}}>
-        <BarcodeScanner
-          reference={scannerRef}
-          onScan={lastScannedBarcode => {
-            addLabel(lastScannedBarcode);
-          }}
-        />
-      </View>
-
       <View style={styles(theme).middleContainer}>
         <Text style={styles(theme).labelListHeaderText}>Λίστα ετικετών</Text>
 
@@ -281,6 +247,15 @@ function TransferPosting({navigation}: {navigation: any}): JSX.Element {
             <Text style={styles(theme).addLabelButtonText}>+</Text>
           </Pressable>
         </View>
+      </View>
+
+      <View style={{height: 0}}>
+        <BarcodeScanner
+          reference={scannerRef}
+          onScan={lastScannedBarcode => {
+            addLabel(lastScannedBarcode);
+          }}
+        />
       </View>
 
       <ScrollView
