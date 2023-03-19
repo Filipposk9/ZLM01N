@@ -10,6 +10,7 @@ import TransferPostingLog from '../screens/transferpostinglog/index';
 import History from '../screens/history/index';
 import Picking from '../screens/picking/index';
 import GoodsIssues from '../screens/goodsissues/index';
+import TankCharacteristics from '../screens/tankcharacteristics/index';
 import {RootStackParamList} from './types';
 import {ThemeContext} from '../appearance/theme/ThemeContext';
 
@@ -141,6 +142,11 @@ function AppNavigation(): JSX.Element {
         name="GoodsIssues"
         component={GoodsIssues}
         options={{title: 'GoodsIssues'}}
+      />
+      <AppStack.Screen
+        name="TankCharacteristics"
+        component={TankCharacteristics}
+        options={{title: 'TankCharacteristics'}}
       />
     </AppStack.Navigator>
   );

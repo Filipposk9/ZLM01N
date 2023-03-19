@@ -45,7 +45,7 @@ function MainMenu({navigation}: {navigation: any}): JSX.Element {
 
           <MainMenuButton
             navigation={navigation}
-            navigationLocation={''}
+            navigationLocation={'TankCharacteristics'}
             icon={'propane-tank-outline'}
             iconColor={'white'}
             text={'Χαρακτηριστικά Δεξαμενών'}
