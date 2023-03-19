@@ -3,7 +3,7 @@ import {View, Text, TextInput, Pressable, Alert, FlatList} from 'react-native';
 import Spinner from 'react-native-loading-spinner-overlay';
 import {styles} from '../../appearance/styles/PickingStyles';
 import {ThemeContext} from '../../appearance/theme/ThemeContext';
-import BarcodeScanner from '../../components/BarcodeScanner';
+import BarcodeScanner from '../../utilities/BarcodeScanner';
 import Repository from '../../data/Repository';
 import {OutboundDelivery} from '../../shared/Types';
 
@@ -111,6 +111,10 @@ function Picking({navigation}: {navigation: any}): JSX.Element {
       }
     };
     pickLabel(lastScannedBarcode);
+  };
+
+  const palletLabelFilter = (lastScannedBarcode: string) => {
+    //
   };
 
   //TODO: animate flatlist spawning
@@ -255,6 +259,10 @@ function Picking({navigation}: {navigation: any}): JSX.Element {
             if (outboundDelivery !== '') {
               pickLabel(lastScannedBarcode);
             }
+          }}
+          filter={lastScannedBarcode => {
+            //TODO: group filter functions
+            palletLabelFilter(lastScannedBarcode);
           }}
         />
       </View>

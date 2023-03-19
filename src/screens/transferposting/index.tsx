@@ -8,7 +8,7 @@ import {
   TextInput,
 } from 'react-native';
 import Spinner from 'react-native-loading-spinner-overlay/lib';
-import BarcodeScanner from '../../components/BarcodeScanner';
+import BarcodeScanner from '../../utilities/BarcodeScanner';
 import StorageLocationDropdown from './components/StorageLocationDropdown';
 import LabelComponent from './components/LabelComponent';
 import ManualLabelInputModal from './components/ManualLabelInputModal';
@@ -150,6 +150,10 @@ function TransferPosting({navigation}: {navigation: any}): JSX.Element {
     }
   };
 
+  const materialLabelFilter = (lastScannedBarcode: string) => {
+    //
+  };
+
   const removeLabel = (index: number) => {
     // //FIXME: material texts dont slide because state does not update
 
@@ -258,6 +262,9 @@ function TransferPosting({navigation}: {navigation: any}): JSX.Element {
           reference={scannerRef}
           onScan={lastScannedBarcode => {
             addLabel(lastScannedBarcode);
+          }}
+          filter={lastScannedbarcode => {
+            materialLabelFilter(lastScannedbarcode);
           }}
         />
       </View>

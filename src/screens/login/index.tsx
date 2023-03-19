@@ -3,7 +3,7 @@ import {View, TextInput, Pressable, Alert, Text} from 'react-native';
 import {styles} from '../../appearance/styles/LoginStyles';
 import {GlobalStyles} from '../../appearance/styles/GlobalStyles';
 
-import DarkModeSwitch from '../../components/DarkModeSwitch';
+import DarkModeSwitch from '../../utilities/DarkModeSwitch';
 import HorizontalRotation from '../../appearance/animations/HorizontalRotation';
 
 import Spinner from 'react-native-loading-spinner-overlay';

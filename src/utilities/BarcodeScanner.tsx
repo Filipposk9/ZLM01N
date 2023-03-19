@@ -6,6 +6,7 @@ import {KeyEventProps} from 'react-native-keyevent';
 interface BarcodeScannerProps {
   reference: React.Ref<TextInput>;
   onScan: (scannedBarcode: string) => void;
+  filter: (scannedBarcode: string) => void;
 }
 
 function BarcodeScanner(props: BarcodeScannerProps): JSX.Element {
