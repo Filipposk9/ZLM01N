@@ -29,10 +29,9 @@ const themes = {
     backgroundColor: '#ffffff',
     foregroundColor: '#95aa9d',
     secondaryForegroundColor: '#6c8776',
-    //secondaryForegroundColor: '#EDC9AF',
 
     buttonBackgroundColor: '#95aa9d',
-    buttonSecondaryBackgroundColor: '#ED8B00',
+    buttonSecondaryBackgroundColor: '#ff964f',
     buttonThirdBackgroundColor: '#aa95a2',
 
     borderColor: '#7a7a7a',

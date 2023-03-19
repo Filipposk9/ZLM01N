@@ -26,13 +26,15 @@ function Picking({navigation}: {navigation: any}): JSX.Element {
   };
 
   const onChangeLayout = (index: number) => {
-    const nextState = expanded.map((c, i) => {
+    const nextState: boolean[] = expanded.map((c, i) => {
       if (i === index) {
         if (c) {
           return false;
         } else {
           return true;
         }
+      } else {
+        return null as unknown as boolean;
       }
     });
 
@@ -68,22 +70,19 @@ function Picking({navigation}: {navigation: any}): JSX.Element {
   };
 
   const pickLabel = (lastScannedBarcode: string) => {
-    const pickLabel = async () => {
+    const pickLabel = async (lastScannedBarcode: string) => {
       if (lastScannedBarcode !== '') {
         if (outboundDeliveryData?.header.status === 'C') {
           Alert.alert('To picking έχει ήδη ολοκληρωθεί');
-
           if (scannerRef.current) {
             scannerRef.current.focus();
           }
         } else {
           setLoading(true);
-
           const response = await Repository.createPickingRequest(
             outboundDelivery,
             lastScannedBarcode,
           );
-
           if (response !== undefined) {
             if (response.code === 0) {
               if (validateOutboundDelivery(outboundDelivery)) {
@@ -102,19 +101,16 @@ function Picking({navigation}: {navigation: any}): JSX.Element {
               }
             } else {
               Alert.alert(response.message);
-
               if (scannerRef.current) {
                 scannerRef.current.focus();
               }
             }
           }
-
           setLoading(false);
         }
       }
     };
-
-    pickLabel();
+    pickLabel(lastScannedBarcode);
   };
 
   //TODO: animate flatlist spawning
@@ -128,15 +124,16 @@ function Picking({navigation}: {navigation: any}): JSX.Element {
       />
 
       <View style={styles(theme).outboundDeliveryInputContainer}>
-        <Text style={styles(theme).outboundDeliveryInput}>
-          Αριθμός Παράδοσης:
-        </Text>
+        <Text style={styles(theme).outboundDeliveryInput}>Παράδοση: </Text>
         <View>
           <TextInput
             style={styles(theme).outboundDeliveryInputField}
             keyboardType="number-pad"
             onChangeText={outboundDelivery => {
-              setOutboundDelivery(outboundDelivery);
+              if (outboundDelivery.substring(0, 1) === '0') {
+              } else {
+                setOutboundDelivery(outboundDelivery);
+              }
             }}
             onSubmitEditing={() => {
               getOutboundDeliveryData();
@@ -145,91 +142,123 @@ function Picking({navigation}: {navigation: any}): JSX.Element {
         </View>
       </View>
 
-      <View style={styles(theme).outboundDeliveryContainer}>
-        <Text style={styles(theme).outboundDeliveryHeaderText}>
-          Πελάτης: {outboundDeliveryData?.header.customerName}
-        </Text>
-        <Text style={styles(theme).outboundDeliveryHeaderText}>
-          Προορισμός: {outboundDeliveryData?.header.shipToPartyName}
-        </Text>
+      <View style={styles(theme).topContainer}>
+        <View style={styles(theme).outboundDeliveryHeaderContainer}>
+          <View style={styles(theme).outboundDeliveryHeaderItem}>
+            <Text style={styles(theme).outboundDeliveryHeaderTextLeft}>
+              <Text style={{fontWeight: 'bold', fontSize: 22}}>Πελάτης</Text>
+              {'                 '}
+              {outboundDeliveryData?.header.customerName}
+            </Text>
+          </View>
+          <View style={styles(theme).outboundDeliveryHeaderItem}>
+            <Text style={styles(theme).outboundDeliveryHeaderTextRight}>
+              <Text style={{fontWeight: 'bold', fontSize: 22}}>Προορισμός</Text>
+              {'                 '}
+              {outboundDeliveryData?.header.shipToPartyName}
+            </Text>
+          </View>
+        </View>
+
         <Text
           style={[
-            styles(theme).outboundDeliveryHeaderText,
-            outboundDeliveryData?.header.status === 'C'
-              ? {color: 'red'}
-              : {color: theme.buttonTextColor},
+            styles(theme).outboundDeliveryStatusText,
+            {
+              color:
+                outboundDeliveryData?.header.status === 'C'
+                  ? '#C17161'
+                  : '#94BA78',
+            },
           ]}>
           Picking Status: {outboundDeliveryData?.header.status}
         </Text>
-
-        <View style={styles(theme).outboundDeliveryLinesContainer}>
-          <FlatList
-            data={outboundDeliveryData?.items}
-            renderItem={({item, index}) => (
-              <View>
-                <Pressable onPress={() => onChangeLayout(index)}>
-                  <Text style={styles(theme).outboundDeliveryLinesText}>
-                    {item.positionNumber}. {item.materialText}
-                  </Text>
-                  <Text style={styles(theme).outboundDeliveryLinesText}>
-                    Picked: {item.pickedQuantity}/{item.requirementQuantity}
-                    {item.unitOfMeasure}
-                  </Text>
-                  <Text style={styles(theme).outboundDeliveryLinesText}>
-                    Scanned: {item.handlingUnits.length} PAL
-                  </Text>
-                </Pressable>
-                <View
-                  style={{
-                    height: expanded[index] ? null : 0,
-                    overflow: 'hidden',
-                  }}>
-                  <FlatList
-                    data={item.handlingUnits}
-                    renderItem={({item}) => {
-                      //TODO: make into 1 component
-                      return (
-                        <View
-                          style={
-                            styles(theme).outboundDeliveryHandlingUnitsContainer
-                          }>
-                          <Text
-                            style={
-                              styles(theme).outboundDeliveryHandlingUnitsText
-                            }>
-                            SSCC: {item.sscc}
-                          </Text>
-                          <Text
-                            style={
-                              styles(theme).outboundDeliveryHandlingUnitsText
-                            }>
-                            Παρτίδα: {item.batch}
-                          </Text>
-                          <Text
-                            style={
-                              styles(theme).outboundDeliveryHandlingUnitsText
-                            }>
-                            Ποσότητα: {item.quantity} {item.unitOfMeasure}
-                          </Text>
-                          <Text
-                            style={
-                              styles(theme).outboundDeliveryHandlingUnitsText
-                            }>
-                            Αποθ. Χώρος: {item.storageLocation}
-                          </Text>
-                        </View>
-                      );
-                    }}></FlatList>
-                </View>
-              </View>
-            )}></FlatList>
-        </View>
       </View>
 
-      <BarcodeScanner
-        reference={scannerRef}
-        onScan={lastScannedBarcode => pickLabel(lastScannedBarcode)}
-      />
+      <View style={styles(theme).outboundDeliveryLinesContainer}>
+        <FlatList
+          data={outboundDeliveryData?.items}
+          renderItem={({item, index}) => (
+            <View style={styles(theme).outboundDeliveryLine}>
+              <Pressable
+                style={styles(theme).outboundDeliveryItem}
+                onPress={() => onChangeLayout(index)}>
+                <View style={styles(theme).outboundDeliveryLineLeft}>
+                  <Text style={styles(theme).outboundDeliveryLineTextLeft}>
+                    {item.positionNumber}
+                  </Text>
+                </View>
+                <View style={styles(theme).outboundDeliveryLineRight}>
+                  <Text style={styles(theme).outboundDeliveryLineTextRight}>
+                    <Text>
+                      {item.materialText}
+                      {'\n'}
+                    </Text>
+                    <Text>
+                      Picked: {item.pickedQuantity}/{item.requirementQuantity}{' '}
+                      {item.unitOfMeasure}
+                      {'\n'}
+                    </Text>
+                    <Text>Scanned: {item.handlingUnits.length} PAL</Text>
+                  </Text>
+                </View>
+              </Pressable>
+              <View
+                style={{
+                  height: expanded[index] ? undefined : 0,
+                  overflow: 'hidden',
+                }}>
+                <FlatList
+                  data={item.handlingUnits}
+                  renderItem={({item}) => {
+                    //TODO: make into 1 component
+                    return (
+                      <View
+                        style={
+                          styles(theme).outboundDeliveryHandlingUnitsContainer
+                        }>
+                        <Text
+                          style={
+                            styles(theme).outboundDeliveryHandlingUnitsText
+                          }>
+                          SSCC: {item.sscc}
+                        </Text>
+                        <Text
+                          style={
+                            styles(theme).outboundDeliveryHandlingUnitsText
+                          }>
+                          Παρτίδα: {item.batch}
+                        </Text>
+                        <Text
+                          style={
+                            styles(theme).outboundDeliveryHandlingUnitsText
+                          }>
+                          Ποσότητα: {item.quantity} {item.unitOfMeasure}
+                        </Text>
+                        <Text
+                          style={
+                            styles(theme).outboundDeliveryHandlingUnitsText
+                          }>
+                          Αποθ. Χώρος: {item.storageLocation}
+                        </Text>
+                      </View>
+                    );
+                  }}></FlatList>
+              </View>
+            </View>
+          )}></FlatList>
+      </View>
+      {/* </View> */}
+
+      <View style={{height: 0}}>
+        <BarcodeScanner
+          reference={scannerRef}
+          onScan={lastScannedBarcode => {
+            if (outboundDelivery !== '') {
+              pickLabel(lastScannedBarcode);
+            }
+          }}
+        />
+      </View>
     </View>
   );
 }
