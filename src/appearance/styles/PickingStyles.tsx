@@ -87,11 +87,13 @@ export const styles = (theme: any) =>
     },
     outboundDeliveryLineRight: {
       justifyContent: 'center',
-      width: '85%',
+      width: '84%',
+      borderRadius: 10,
     },
     outboundDeliveryLineTextRight: {
       color: theme.buttonTextColor,
       width: '95%',
+      margin: '2%',
     },
     outboundDeliveryHandlingUnitsContainer: {
       backgroundColor: theme.secondaryForegroundColor,
