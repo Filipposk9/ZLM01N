@@ -29,26 +29,24 @@ function ManualLabelInputModal(props: ManualLabelInputModalProps): JSX.Element {
   const [quantity, setQuantity] = useState<string>('Ποσότητα');
   const [barcode, setBarcode] = useState<string>('');
 
-  //TODO: barcodeIsValid should be set in props
-  //TODO: onSubmit should return textinput values
-
   const barcodeIsValid = () => {
-    const matnrRegex = new RegExp('^(1[0]|2[0-2]|30|4[0-2])[0-9]{7}$');
-    const chargRegex = new RegExp(
+    const materialNumberRegex = new RegExp('^(1[0]|2[0-2]|30|4[0-2])[0-9]{7}$');
+    const batchRegex = new RegExp(
       '^(0{2}[0-9]{8}|[0-9]{5}(X|F)[0-9]{4}|[0-9]{5}((BS(A|B|C|D)[0-9]{2})|(C(B|I|P|S|T|U|X|Y)[0-9]{3})|(M(B|C|P|U)[0-9]{3})|(XPD(B|C))[0-9]{1}|(DS|KS|EU|KC|KD)[0-9]{3}))',
       'i',
     );
-    const mengeRegex = new RegExp('^[0-9]+');
+    const quantityRegex = new RegExp('^[0-9]+[, | .]*[0-9]*');
+    //TODO:
 
-    if (!matnrRegex.test(materialNumber)) {
+    if (!materialNumberRegex.test(materialNumber)) {
       throw new Error('Λάθος κωδικός υλικού');
     }
 
-    if (!chargRegex.test(batch)) {
+    if (!batchRegex.test(batch)) {
       throw new Error('Λάθος παρτίδα');
     }
 
-    if (!mengeRegex.test(quantity.toString())) {
+    if (!quantityRegex.test(quantity.toString())) {
       throw new Error('Λάθος ποσότητα');
     }
 
