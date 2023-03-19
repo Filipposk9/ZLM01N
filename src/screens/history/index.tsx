@@ -74,6 +74,7 @@ function History(): JSX.Element {
         </Text>
       </View>
       <FlatList
+        //TODO: fix data type
         data={goodsMovementLogs.goodsMovementLog}
         renderItem={({item, index}) => (
           <Pressable
