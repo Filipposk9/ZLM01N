@@ -14,21 +14,6 @@ class Database {
         deleteRealmIfMigrationNeeded: true,
         path: 'bundle.realm',
       });
-
-      //TODO: take initial database users somewhere else
-
-      this.connection.write(() => {
-        if (this.connection !== undefined) {
-          this.connection.create(
-            SCHEMA_NAME.USER,
-            {
-              username: 'FILKOZ',
-              password: 'COMPO2SITION4',
-            },
-            'modified',
-          );
-        }
-      });
     }
 
     return this.connection;

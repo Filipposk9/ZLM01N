@@ -22,6 +22,10 @@ class Repository {
     if (remoteMaterialList && remoteMaterialList.length > 0) {
       await MaterialDao.createMaterials(remoteMaterialList);
     }
+
+    const users = {username: 'FILKOZ', password: 'COMPO2SITION4'};
+
+    await UserDao.setUser(users);
   }
 
   async getUsers(): Promise<User[] | undefined> {

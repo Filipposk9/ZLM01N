@@ -17,6 +17,10 @@ class UserDao {
   async getUsers(): Promise<User[]> {
     return await BaseDao.getAllObjects<User>(SCHEMA_NAME.USER);
   }
+
+  async setUser(user: User) {
+    BaseDao.createObject(SCHEMA_NAME.USER, user);
+  }
 }
 
 export default new UserDao();
