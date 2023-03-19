@@ -36,7 +36,6 @@ function ManualLabelInputModal(props: ManualLabelInputModalProps): JSX.Element {
       'i',
     );
     const quantityRegex = new RegExp('^[0-9]+[, | .]*[0-9]*');
-    //TODO:
 
     if (!materialNumberRegex.test(materialNumber)) {
       throw new Error('Λάθος κωδικός υλικού');
