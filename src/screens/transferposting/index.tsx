@@ -19,9 +19,9 @@ import {
   MOVEMENT_TYPE,
   PRODUCTION_ORDER,
 } from '../../shared/Constants';
-import {ThemeContext} from '../../../appearance/theme/ThemeContext';
-import {styles} from '../../../appearance/styles/TransferPostingStyles';
-import {GlobalStyles} from '../../../appearance/styles/GlobalStyles';
+import {ThemeContext} from '../../appearance/theme/ThemeContext';
+import {styles} from '../../appearance/styles/TransferPostingStyles';
+import {GlobalStyles} from '../../appearance/styles/GlobalStyles';
 import {useAppDispatch} from '../../redux/Store';
 import {setGoodsMovementLog} from '../../redux/actions/GoodsMovementLogActions';
 

@@ -11,7 +11,7 @@ import History from '../screens/history/index';
 import Picking from '../screens/picking/index';
 import GoodsIssues from '../screens/goodsissues/index';
 import {RootStackParamList} from './types';
-import {ThemeContext} from '../../appearance/theme/ThemeContext';
+import {ThemeContext} from '../appearance/theme/ThemeContext';
 
 const AppStack = createNativeStackNavigator<RootStackParamList>();
 const Tab = createMaterialTopTabNavigator();

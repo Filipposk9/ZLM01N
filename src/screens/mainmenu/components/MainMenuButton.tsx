@@ -1,7 +1,7 @@
 import React, {useContext} from 'react';
 import {View, Pressable, Text, StyleSheet, Dimensions} from 'react-native';
-import {GlobalStyles} from '../../../../appearance/styles/GlobalStyles';
-import {ThemeContext} from '../../../../appearance/theme/ThemeContext';
+import {GlobalStyles} from '../../../appearance/styles/GlobalStyles';
+import {ThemeContext} from '../../../appearance/theme/ThemeContext';
 import Icon from '../../../assets/Icon';
 import LinearGradient from 'react-native-linear-gradient';
 

@@ -1,8 +1,8 @@
 import React, {useContext, useState, useRef} from 'react';
 import {View, Text, TextInput, Pressable, Alert, FlatList} from 'react-native';
 import Spinner from 'react-native-loading-spinner-overlay';
-import {styles} from '../../../appearance/styles/PickingStyles';
-import {ThemeContext} from '../../../appearance/theme/ThemeContext';
+import {styles} from '../../appearance/styles/PickingStyles';
+import {ThemeContext} from '../../appearance/theme/ThemeContext';
 import BarcodeScanner from '../../components/BarcodeScanner';
 import Repository from '../../data/Repository';
 import {OutboundDelivery} from '../../shared/Types';

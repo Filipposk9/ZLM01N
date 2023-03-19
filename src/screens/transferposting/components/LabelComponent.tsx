@@ -9,9 +9,9 @@ import {
   StyleSheet,
 } from 'react-native';
 import {GestureHandlerRootView, Swipeable} from 'react-native-gesture-handler';
-import {ThemeContext} from '../../../../appearance/theme/ThemeContext';
-import HorizontalDrag from '../../../animations/HorizontalDrag';
-import FadeIn from '../../../animations/FadeIn';
+import {ThemeContext} from '../../../appearance/theme/ThemeContext';
+import HorizontalDrag from '../../../appearance/animations/HorizontalDrag';
+import FadeIn from '../../../appearance/animations/FadeIn';
 
 interface LabelComponentProps {
   count: number;

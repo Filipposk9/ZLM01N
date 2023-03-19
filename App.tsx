@@ -8,7 +8,7 @@
 import React from 'react';
 import {NavigationContainer} from '@react-navigation/native';
 import {withAppStore} from './src/redux/Store';
-import {ThemeProvider} from './appearance/theme/ThemeContext';
+import {ThemeProvider} from './src/appearance/theme/ThemeContext';
 
 import AppNavigation from './src/navigation/index';
 
