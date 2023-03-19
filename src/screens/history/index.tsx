@@ -45,6 +45,7 @@ function History(): JSX.Element {
       </View>
       <FlatList
         //TODO: fix data type
+        //TODO: get material texts
         data={goodsMovementLogs}
         renderItem={({item, index}) => (
           <Pressable
