@@ -22,9 +22,13 @@ import {
 import {ThemeContext} from '../../../appearance/theme/ThemeContext';
 import {styles} from '../../../appearance/styles/TransferPostingStyles';
 import {GlobalStyles} from '../../../appearance/styles/GlobalStyles';
+import {useAppDispatch} from '../../redux/Store';
+import {setGoodsMovementLog} from '../../redux/actions/GoodsMovementLogActions';
 
 function TransferPosting({navigation}: {navigation: any}): JSX.Element {
   const {theme} = useContext(ThemeContext);
+
+  const dispatch = useAppDispatch();
 
   const [isLoading, setIsLoading] = useState(false);
 
@@ -308,6 +312,8 @@ function TransferPosting({navigation}: {navigation: any}): JSX.Element {
               setIsLoading(false);
 
               if (goodsMovementLog) {
+                dispatch(setGoodsMovementLog(goodsMovementLog));
+
                 navigation.navigate('TransferPostingLog', [
                   goodsMovementLog,
                   storageLocationIn,
