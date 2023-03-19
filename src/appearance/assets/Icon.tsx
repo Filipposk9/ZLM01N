@@ -24,6 +24,8 @@ function Icon(props: IconProps): JSX.Element {
       return <IconMaterialCommunityIcons {...otherProps} name={name} />;
     case 'propane-tank-outline':
       return <IconMaterialCommunityIcons {...otherProps} name={name} />;
+    case 'fruit-cherries':
+      return <IconMaterialCommunityIcons {...otherProps} name={name} />;
     case 'trash-2':
       return <IconFeather {...otherProps} name={name} />;
     case 'barcode-scan':
