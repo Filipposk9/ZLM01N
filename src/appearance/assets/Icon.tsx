@@ -20,6 +20,8 @@ function Icon(props: IconProps): JSX.Element {
       return <IconFeather {...otherProps} name={name} />;
     case 'material-ui':
       return <IconMaterialCommunityIcons {...otherProps} name={name} />;
+    case 'propane-tank':
+      return <IconMaterialCommunityIcons {...otherProps} name={name} />;
     case 'propane-tank-outline':
       return <IconMaterialCommunityIcons {...otherProps} name={name} />;
     case 'trash-2':
