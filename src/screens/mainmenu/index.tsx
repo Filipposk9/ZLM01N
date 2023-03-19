@@ -1,7 +1,7 @@
 import React, {useContext} from 'react';
 import {ScrollView, View, Text} from 'react-native';
-import {styles} from '../../styles/MainMenuStyles';
-import {ThemeContext} from '../../styles/ThemeContext';
+import {styles} from '../../../appearance/styles/MainMenuStyles';
+import {ThemeContext} from '../../../appearance/theme/ThemeContext';
 import MainMenuButton from './components/MainMenuButton';
 
 function MainMenu({navigation}: {navigation: any}): JSX.Element {

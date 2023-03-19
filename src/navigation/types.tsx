@@ -8,5 +8,3 @@ export type RootStackParamList = {
   GoodsIssues: JSX.Element;
   StorageLocationList: JSX.Element;
 };
-
-//TODO: add types

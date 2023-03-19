@@ -18,8 +18,8 @@ function BarcodeScanner(props: BarcodeScannerProps): JSX.Element {
       autoFocus={true}
       autoCorrect={false}
       autoComplete={'off'}
-      caretHidden={true}
-      style={{height: 0, opacity: 0}}
+      caretHidden={false}
+      style={{height: 50, opacity: 100}}
       value={scannedText}
       onChangeText={scannedText => {
         setScannedText(scannedText);

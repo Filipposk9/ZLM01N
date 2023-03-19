@@ -9,8 +9,8 @@ import {
   ProductionOrder,
   ProductionOrderComponent,
 } from '../../shared/Types';
-import {styles} from '../../styles/GoodsIssuesStyles';
-import {ThemeContext} from '../../styles/ThemeContext';
+import {styles} from '../../../appearance/styles/GoodsIssuesStyles';
+import {ThemeContext} from '../../../appearance/theme/ThemeContext';
 import LabelComponent from '../transferposting/components/LabelComponent';
 import {GOODS_MOVEMENT_CODE, MOVEMENT_TYPE} from '../../shared/Constants';
 //TODO: move label component to ./src/components

@@ -9,7 +9,7 @@ import {
   StyleSheet,
 } from 'react-native';
 import {GestureHandlerRootView, Swipeable} from 'react-native-gesture-handler';
-import {ThemeContext} from '../../../styles/ThemeContext';
+import {ThemeContext} from '../../../../appearance/theme/ThemeContext';
 import HorizontalDrag from '../../../animations/HorizontalDrag';
 import FadeIn from '../../../animations/FadeIn';
 
@@ -20,7 +20,7 @@ interface LabelComponentProps {
   onDeletePressed: () => void;
 }
 
-//TODO: add animation fadeIn()
+//TODO: add animation fadeIn(), or spawn from top/left
 //TODO: check scanned barcode validity using regex
 //TODO: initial stock value (validity)
 

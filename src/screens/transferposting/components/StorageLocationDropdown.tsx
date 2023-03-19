@@ -1,7 +1,7 @@
 import React, {useContext, useEffect, useState} from 'react';
 import {Text, StyleSheet} from 'react-native';
 import {SelectList} from 'react-native-dropdown-select-list';
-import {ThemeContext} from '../../../styles/ThemeContext';
+import {ThemeContext} from '../../../../appearance/theme/ThemeContext';
 import Repository from '../../../data/Repository';
 import Icon from '../../../assets/Icon';
 

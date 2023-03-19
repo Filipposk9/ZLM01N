@@ -1,7 +1,7 @@
 import React, {useContext, useEffect} from 'react';
 import {ScrollView, View, Text} from 'react-native';
-import {styles} from '../../styles/TransferPostingLogStyles';
-import {ThemeContext} from '../../styles/ThemeContext';
+import {styles} from '../../../appearance/styles/TransferPostingLogStyles';
+import {ThemeContext} from '../../../appearance/theme/ThemeContext';
 import {MaterialDocument, MaterialDocumentItem} from '../../shared/Types';
 
 function TransferPostingLog({

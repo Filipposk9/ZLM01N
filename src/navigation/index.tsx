@@ -11,19 +11,13 @@ import History from '../screens/history/index';
 import Picking from '../screens/picking/index';
 import GoodsIssues from '../screens/goodsissues/index';
 import {RootStackParamList} from './types';
-import {ThemeContext} from '../styles/ThemeContext';
+import {ThemeContext} from '../../appearance/theme/ThemeContext';
 
 const AppStack = createNativeStackNavigator<RootStackParamList>();
 const Tab = createMaterialTopTabNavigator();
 
-function TransferPostingTabs(): JSX.Element {
+function TransferPostingTabs({navigation}: {navigation: any}): JSX.Element {
   const {theme} = useContext(ThemeContext);
-
-  //TODO: try changing Navigator lib, check if focus gets fixed
-
-  React.useEffect(() => {
-    console.log('in navigator tab');
-  });
 
   return (
     <Tab.Navigator
@@ -34,6 +28,7 @@ function TransferPostingTabs(): JSX.Element {
         tabBarStyle: {
           backgroundColor: theme.backgroundColor,
         },
+
         tabBarIndicatorStyle: {
           borderRadius: 20,
           borderWidth: 1,
@@ -81,15 +76,10 @@ function AppNavigation(): JSX.Element {
         options={{title: 'MainMenu'}}
       />
       <AppStack.Screen
-        name="TransferPosting"
-        component={TransferPosting}
-        options={{title: 'TransferPosting'}}
-      />
-      {/* <AppStack.Screen
         name={'TransferPosting'}
         component={TransferPostingTabs}
         options={{title: 'TransferPosting'}}
-      /> */}
+      />
       <AppStack.Screen
         name="TransferPostingLog"
         component={TransferPostingLog}

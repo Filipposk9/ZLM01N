@@ -10,8 +10,8 @@ import {
 } from 'react-native';
 import Modal from 'react-native-modal';
 
-import {GlobalStyles} from '../../../styles/GlobalStyles';
-import {ThemeContext} from '../../../styles/ThemeContext';
+import {GlobalStyles} from '../../../../appearance/styles/GlobalStyles';
+import {ThemeContext} from '../../../../appearance/theme/ThemeContext';
 
 interface ManualLabelInputModalProps {
   visibility: boolean;

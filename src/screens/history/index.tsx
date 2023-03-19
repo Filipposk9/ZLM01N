@@ -1,8 +1,8 @@
 import React, {useContext, useState} from 'react';
 import {View, Text, FlatList, Pressable, Animated} from 'react-native';
 import {useSelector} from 'react-redux';
-import {styles} from '../../styles/HistoryStyles';
-import {ThemeContext} from '../../styles/ThemeContext';
+import {styles} from '../../../appearance/styles/HistoryStyles';
+import {ThemeContext} from '../../../appearance/theme/ThemeContext';
 import {GoodsMovementLogState} from '../../redux/ReduxTypes';
 import {MaterialDocumentItem} from '../../shared/Types';
 
