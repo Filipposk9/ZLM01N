@@ -18,7 +18,7 @@ function History(): JSX.Element {
   let i = 0;
   let j = 0;
 
-  //TODO: animate flatlist
+  //TODO: animate flatlist hiding individual items
 
   const onChangeLayout = (index: number) => {
     const nextState: boolean[] = expanded.map((c, i) => {
@@ -73,6 +73,23 @@ function History(): JSX.Element {
                   </Text>
                   <Text style={styles(theme).historyItemHeaderText2}>
                     {item.materialDocumentNumber}
+                  </Text>
+                </Text>
+                <Text style={styles(theme).historyItemHeaderContainer2}>
+                  <Text style={styles(theme).historyItemHeaderText3}>
+                    Προέλευση:{' '}
+                  </Text>
+                  <Text style={styles(theme).historyItemHeaderText4}>
+                    {item.items[0].storageLocationIn}
+                    {/* //TODO: change with storage location text */}
+                  </Text>
+                </Text>
+                <Text style={styles(theme).historyItemHeaderContainer2}>
+                  <Text style={styles(theme).historyItemHeaderText3}>
+                    Προορισμός:{' '}
+                  </Text>
+                  <Text style={styles(theme).historyItemHeaderText4}>
+                    {item.items[0].storageLocationOut}
                   </Text>
                 </Text>
 

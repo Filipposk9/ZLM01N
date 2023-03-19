@@ -34,6 +34,9 @@ export const styles = (theme: any) =>
       marginLeft: '4%',
       marginTop: '5%',
     },
+    historyItemHeaderContainer2: {
+      marginLeft: '4%',
+    },
     historyItemHeaderText: {
       color: theme.buttonTextColor,
       fontSize: 22,
@@ -42,6 +45,15 @@ export const styles = (theme: any) =>
     historyItemHeaderText2: {
       color: theme.buttonTextColor,
       fontSize: 22,
+    },
+    historyItemHeaderText3: {
+      color: theme.buttonTextColor,
+      fontSize: 18,
+      fontWeight: 'bold',
+    },
+    historyItemHeaderText4: {
+      color: theme.buttonTextColor,
+      fontSize: 18,
     },
     historyItemLineText: {
       marginLeft: '4%',
