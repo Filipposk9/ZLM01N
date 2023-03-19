@@ -1,7 +1,7 @@
 import React, {useContext, useRef, useState} from 'react';
 import {View, Text, TextInput, Alert, ScrollView} from 'react-native';
 import {FlatList} from 'react-native-gesture-handler';
-import BarcodeScanner from '../../utilities/BarcodeScanner';
+import BarcodeScanner from '../../utilities/components/BarcodeScanner';
 import Repository from '../../data/Repository';
 import {
   Label,

@@ -1,6 +1,6 @@
 import React, {useContext, useState} from 'react';
 import {Pressable, StyleSheet, Animated} from 'react-native';
-import {ThemeContext} from '../appearance/theme/ThemeContext';
+import {ThemeContext} from '../../appearance/theme/ThemeContext';
 import Icon from 'react-native-vector-icons/Feather';
 
 interface DarkModeSwitchProps {

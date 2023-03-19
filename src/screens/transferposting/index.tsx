@@ -8,7 +8,7 @@ import {
   TextInput,
 } from 'react-native';
 import Spinner from 'react-native-loading-spinner-overlay/lib';
-import BarcodeScanner from '../../utilities/BarcodeScanner';
+import BarcodeScanner from '../../utilities/components/BarcodeScanner';
 import StorageLocationDropdown from './components/StorageLocationDropdown';
 import LabelComponent from './components/LabelComponent';
 import ManualLabelInputModal from './components/ManualLabelInputModal';

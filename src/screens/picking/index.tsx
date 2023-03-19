@@ -3,7 +3,7 @@ import {View, Text, TextInput, Pressable, Alert, FlatList} from 'react-native';
 import Spinner from 'react-native-loading-spinner-overlay';
 import {styles} from '../../appearance/styles/PickingStyles';
 import {ThemeContext} from '../../appearance/theme/ThemeContext';
-import BarcodeScanner from '../../utilities/BarcodeScanner';
+import BarcodeScanner from '../../utilities/components/BarcodeScanner';
 import Repository from '../../data/Repository';
 import {OutboundDelivery} from '../../shared/Types';
 
