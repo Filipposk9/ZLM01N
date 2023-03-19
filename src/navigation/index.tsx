@@ -39,7 +39,7 @@ function TransferPostingTabs({navigation}: {navigation: any}): JSX.Element {
           marginBottom: '3%',
         },
         tabBarLabelStyle: {
-          fontSize: 16,
+          fontSize: 18,
           fontWeight: 'bold',
           textTransform: 'none',
           borderColor: theme.tabBorderColor,
