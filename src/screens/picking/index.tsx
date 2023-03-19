@@ -85,20 +85,7 @@ function Picking({navigation}: {navigation: any}): JSX.Element {
           );
           if (response !== undefined) {
             if (response.code === 0) {
-              if (validateOutboundDelivery(outboundDelivery)) {
-                const refreshedOutboundDelivery =
-                  await Repository.getOutboundDelivery(outboundDelivery);
-                if (refreshedOutboundDelivery !== undefined) {
-                  refreshedOutboundDelivery.items.sort(
-                    (a, b) => a.positionNumber - b.positionNumber,
-                  );
-                  setOutboundDeliveryData(refreshedOutboundDelivery);
-                  const initialState = new Array(
-                    refreshedOutboundDelivery.items.length,
-                  ).fill(false);
-                  setExpanded(initialState);
-                }
-              }
+              getOutboundDeliveryData();
             } else {
               Alert.alert(response.message);
               if (scannerRef.current) {
