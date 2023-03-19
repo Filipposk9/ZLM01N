@@ -9,30 +9,45 @@ export const styles = (theme: any) =>
     historyHeader: {
       margin: '5%',
     },
+    historyItem: {
+      elevation: 5,
+      borderRadius: 10,
+      margin: '2%',
+      flexDirection: 'row',
+    },
     historyHeaderText: {
       fontWeight: 'bold',
-      fontSize: 24,
+      fontSize: 30,
       color: theme.textColor,
     },
-    historyItemSuccess: {
-      borderRadius: 20,
-      borderColor: theme.borderColor,
-      borderWidth: 1,
-      backgroundColor: theme.foregroundColor,
-      margin: '2%',
+    historyItemLeftPanel: {
+      justifyContent: 'center',
+      alignItems: 'center',
+      width: '16%',
     },
-    historyItemFailure: {
-      borderRadius: 20,
-      borderColor: theme.borderColor,
-      borderWidth: 1,
-      backgroundColor: theme.secondaryForegroundColor,
-      margin: '2%',
-    },
-    historyItemText: {
-      marginLeft: '5%',
+    historyItemLeftPanelText: {
+      color: theme.buttonTextColor,
+      fontSize: 30,
       fontWeight: 'bold',
     },
+    historyItemHeaderContainer: {
+      marginLeft: '4%',
+      marginTop: '5%',
+    },
+    historyItemHeaderText: {
+      color: theme.buttonTextColor,
+      fontSize: 22,
+      fontWeight: 'bold',
+    },
+    historyItemHeaderText2: {
+      color: theme.buttonTextColor,
+      fontSize: 22,
+    },
+    historyItemLineText: {
+      marginLeft: '4%',
+      color: theme.buttonTextColor,
+    },
     historyItemMaktx: {
-      marginLeft: '5%',
+      marginLeft: '4%',
     },
   });

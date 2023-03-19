@@ -121,7 +121,6 @@ const styles = (theme: any) =>
       flex: 1,
     },
     labelItemLeft: {
-      //fontWeight: 'bold',
       fontSize: 32,
       color: theme.secondaryTextColor,
       margin: '2%',

@@ -247,7 +247,6 @@ function Picking({navigation}: {navigation: any}): JSX.Element {
             </View>
           )}></FlatList>
       </View>
-      {/* </View> */}
 
       <View style={{height: 0}}>
         <BarcodeScanner

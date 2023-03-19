@@ -1,5 +1,5 @@
 import React, {useContext, useState} from 'react';
-import {View, Text, FlatList, Pressable, Animated} from 'react-native';
+import {View, Text, FlatList, Pressable} from 'react-native';
 import {useSelector} from 'react-redux';
 import {styles} from '../../appearance/styles/HistoryStyles';
 import {ThemeContext} from '../../appearance/theme/ThemeContext';
@@ -9,99 +9,89 @@ import {MaterialDocumentItem} from '../../shared/Types';
 function History(): JSX.Element {
   const {theme} = useContext(ThemeContext);
 
-  const goodsMovementLogs = useSelector(
-    (state: GoodsMovementLogState) => state.goodsMovementLog,
+  const [expanded, setExpanded] = useState<boolean[]>([]);
+
+  const goodsMovementLogs = useSelector((state: GoodsMovementLogState) =>
+    state.goodsMovementLog.goodsMovementLog.slice().reverse(),
   );
 
   let i = 0;
   let j = 0;
 
-  // const animatedData = goodsMovementLogs.goodsMovementLog.map(() => ({
-  //   height: new Animated.Value(100),
-  // }));
+  //TODO: animate flatlist
 
-  // const [expandedIndex, setExpandedIndex] = useState(-1);
+  const onChangeLayout = (index: number) => {
+    const nextState: boolean[] = expanded.map((c, i) => {
+      if (i === index) {
+        if (c) {
+          return false;
+        } else {
+          return true;
+        }
+      } else {
+        return null as unknown as boolean;
+      }
+    });
 
-  // const handlePress = (index: number) => {
-  //   if (index === expandedIndex) {
-  //     setExpandedIndex(-1);
-  //   } else {
-  //     setExpandedIndex(index);
-  //   }
-  // };
-
-  // const animateItem = (index: number) => {
-  //   const document = animatedData[index];
-  //   console.log(animatedData[index].height);
-
-  //   Animated.timing(animatedData[index].height, {
-  //     toValue: animatedData[index].height === 0 ? 100 : 0,
-  //     duration: 1500,
-  //     easing: Easing.linear,
-  //     useNativeDriver: false,
-  //   }).start(() => {
-  //     console.log('a');
-  //   });
-  // };
-
-  // initMaxHeightInterpolation() {
-  //   this.setState({
-  //     maxHeight: this.animatedValue.interpolate({
-  //       inputRange: [0, 100],
-  //       outputRange: ['0%', '100%'],
-  //     }),
-  //   });
-  // }
-  // animatedValue = new Animated.Value(0);
-  // dropDown = false;
-  // slideDown = () => {
-  //   this.initMaxHeightInterpolation();
-  //   Animated.timing(this.animatedValue, {
-  //     toValue: 50,
-  //     duration: 500,
-  //     useNativeDriver: false,
-  //     easing: Easing.linear,
-  //   }).start(() => {
-  //     this.dropdown = true;
-  //   });
-  // };
+    if (nextState !== undefined) {
+      setExpanded(nextState);
+    }
+  };
 
   return (
     <View style={styles(theme).historyContainer}>
       <View style={styles(theme).historyHeader}>
-        <Text style={styles(theme).historyHeaderText}>
-          Ιστορικό Ενδοδιακινήσεων
-        </Text>
+        <Text style={styles(theme).historyHeaderText}>Ιστορικό Κινήσεων</Text>
       </View>
       <FlatList
         //TODO: fix data type
-        data={goodsMovementLogs.goodsMovementLog}
+        data={goodsMovementLogs}
         renderItem={({item, index}) => (
           <Pressable
             onPress={() => {
-              //handlePress(index);
-              //animateItem(index);
+              onChangeLayout(index);
             }}>
-            <Animated.View
-              style={
-                item.materialNumber
-                  ? styles(theme).historyItemSuccess
-                  : styles(theme).historyItemFailure
-              }>
-              {item.items.map((item: MaterialDocumentItem) => (
-                <View key={j++}>
-                  <Text style={styles(theme).historyItemText}>
-                    Κωδικός Υλικού: {item.materialNumber}
+            <View
+              style={[
+                styles(theme).historyItem,
+                {
+                  backgroundColor: item.materialDocumentNumber
+                    ? theme.foregroundColor
+                    : theme.secondaryForegroundColor,
+                },
+              ]}>
+              <View style={styles(theme).historyItemLeftPanel}>
+                <Text style={styles(theme).historyItemLeftPanelText}>
+                  {goodsMovementLogs.length - index}
+                </Text>
+              </View>
+
+              <View>
+                <Text style={styles(theme).historyItemHeaderContainer}>
+                  <Text style={styles(theme).historyItemHeaderText}>
+                    Ενδοδιακίνηση:{' '}
                   </Text>
-                  <Text style={styles(theme).historyItemText}>
-                    Παρτίδα: {item.batch}
+                  <Text style={styles(theme).historyItemHeaderText2}>
+                    {item.materialDocumentNumber}
                   </Text>
-                  <Text style={styles(theme).historyItemText}>
-                    Ποσότητα: {item.quantity}
-                  </Text>
-                </View>
-              ))}
-            </Animated.View>
+                </Text>
+
+                {item.items.map((item: MaterialDocumentItem) => (
+                  <View key={j++}>
+                    <Text style={styles(theme).historyItemLineText}>
+                      Κωδικός Υλικού: {item.materialNumber}
+                    </Text>
+                    <Text style={styles(theme).historyItemLineText}>
+                      Παρτίδα: {item.batch}
+                    </Text>
+                    <Text style={styles(theme).historyItemLineText}>
+                      Ποσότητα: {item.quantity}
+                      {'\n'}
+                    </Text>
+                  </View>
+                ))}
+              </View>
+            </View>
           </Pressable>
         )}
       />
