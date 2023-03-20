@@ -59,10 +59,6 @@ function Picking({navigation}: {navigation: any}): JSX.Element {
         }
       } else {
         Alert.alert('Λάθος αριθμός παράδοσης');
-
-        if (scannerRef.current) {
-          scannerRef.current.focus();
-        }
       }
     };
 
@@ -74,9 +70,6 @@ function Picking({navigation}: {navigation: any}): JSX.Element {
       if (lastScannedBarcode !== '') {
         if (outboundDeliveryData?.header.status === 'C') {
           Alert.alert('To picking έχει ήδη ολοκληρωθεί');
-          if (scannerRef.current) {
-            scannerRef.current.focus();
-          }
         } else {
           setLoading(true);
           const response = await Repository.createPickingRequest(
@@ -88,9 +81,6 @@ function Picking({navigation}: {navigation: any}): JSX.Element {
               getOutboundDeliveryData();
             } else {
               Alert.alert(response.message);
-              if (scannerRef.current) {
-                scannerRef.current.focus();
-              }
             }
           }
           setLoading(false);
