@@ -39,12 +39,12 @@ export const styles = (theme: any) =>
     },
     historyItemHeaderText: {
       color: theme.buttonTextColor,
-      fontSize: 22,
+      fontSize: 18,
       fontWeight: 'bold',
     },
     historyItemHeaderText2: {
       color: theme.buttonTextColor,
-      fontSize: 22,
+      fontSize: 18,
     },
     historyItemHeaderText3: {
       color: theme.buttonTextColor,
