@@ -1,5 +1,5 @@
 import {StyleSheet} from 'react-native';
-//TODO: rework styling, headers outside boxes, bottom border on headers
+
 export const styles = (theme: any) =>
   StyleSheet.create({
     transferPostingLogTopContainer: {
@@ -11,31 +11,46 @@ export const styles = (theme: any) =>
     },
     transferPostingLogHeaderLine: {
       flexDirection: 'row',
-      borderBottomWidth: 1,
-      borderBottomColor: theme.borderColor,
     },
     transferPostingLogHeaderText: {
       fontWeight: 'bold',
-      fontSize: 16,
+      fontSize: 24,
       color: theme.textColor,
     },
     transferPostingLogContainer: {
-      borderWidth: 1,
-      borderColor: theme.borderColor,
-      borderRadius: 20,
+      elevation: 5,
+      borderRadius: 15,
       margin: '5%',
       backgroundColor: theme.foregroundColor,
     },
     transferPostingLogTitle: {
-      margin: '5%',
+      marginLeft: '5%',
+      marginTop: '2%',
       fontWeight: 'bold',
-      fontSize: 16,
+      fontSize: 20,
       color: theme.textColor,
+    },
+    transferPostingLogMaterialNumber: {
+      marginLeft: '5%',
+      marginTop: '2%',
+      fontWeight: 'bold',
+      fontSize: 20,
+      color: theme.buttonTextColor,
     },
     transferPostingLogItem: {
-      margin: '5%',
+      marginTop: '2%',
+      flexDirection: 'row',
     },
-    transferPostingLogItemText: {
-      color: theme.textColor,
+    transferPostingLogPanelLeft: {
+      justifyContent: 'center',
+      alignItems: 'center',
+      width: '16%',
     },
+    transferPostingLogTextLeft: {
+      fontSize: 30,
+      fontWeight: 'bold',
+      color: theme.buttonTextColor,
+    },
+    transferPostingLogPanelRight: {width: '80%'},
+    transferPostingLogTextRight: {fontSize: 16},
   });
