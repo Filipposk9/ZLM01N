@@ -5,6 +5,7 @@ import {ThemeContext} from '../../appearance/theme/ThemeContext';
 
 function TankCharacteristics({navigation}: {navigation: any}): JSX.Element {
   const {theme, dark} = useContext(ThemeContext);
+
   return (
     <View
       style={{
