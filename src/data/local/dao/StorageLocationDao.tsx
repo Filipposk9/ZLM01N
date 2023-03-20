@@ -4,18 +4,12 @@ import BaseDao from './BaseDao';
 
 class StorageLocationDao {
   async getStorageLocation(
-    storageLocationNumber: string,
+    storageLocation: string,
   ): Promise<StorageLocation | undefined> {
-    const storageLocation = await BaseDao.getCopyObjectById<StorageLocation>(
+    return await BaseDao.getCopyObjectById<StorageLocation>(
       SCHEMA_NAME.STORAGE_LOCATION,
-      storageLocationNumber,
+      storageLocation,
     );
-
-    if (!storageLocation) {
-      return undefined;
-    }
-
-    return storageLocation;
   }
 
   async getStorageLocations(): Promise<StorageLocation[]> {
@@ -26,6 +20,10 @@ class StorageLocationDao {
 
   async createStorageLocations(storageLocation: StorageLocation[]) {
     BaseDao.createObjects(SCHEMA_NAME.STORAGE_LOCATION, storageLocation);
+  }
+
+  async createStorageLocation(storageLocation: StorageLocation) {
+    BaseDao.createObject(SCHEMA_NAME.STORAGE_LOCATION, storageLocation);
   }
 }
 

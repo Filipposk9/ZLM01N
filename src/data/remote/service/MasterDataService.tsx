@@ -38,6 +38,23 @@ class MasterDataService {
     }
   }
 
+  async getStorageLocation(
+    storageLocation: string,
+  ): Promise<StorageLocation | undefined> {
+    const sapRequestHeaders = await SapRequestParameters.getSapRequestHeaders();
+
+    const response = await RequestGateway.get<StorageLocationResponse>(
+      '/storagelocations?lgort=' + storageLocation,
+      sapRequestHeaders,
+    );
+
+    if (isError(response)) {
+      return undefined;
+    } else {
+      return storageLocationModelToStorageLocation(response.result.data[0]);
+    }
+  }
+
   async getMaterialBasicData(
     materialNumber: string,
   ): Promise<Material | undefined> {

@@ -49,7 +49,6 @@ class Repository {
   }
 
   async getStorageLocations(): Promise<StorageLocation[]> {
-    //switch priority check local length 0
     const remoteStorageLocationList =
       await MasterDataService.getStorageLocations();
 
@@ -64,6 +63,26 @@ class Repository {
         await StorageLocationDao.getStorageLocations();
 
       return localStorageLocationList;
+    }
+  }
+
+  async getStorageLocation(
+    storageLocation: string,
+  ): Promise<StorageLocation | undefined> {
+    const remoteStorageLocation = await MasterDataService.getStorageLocation(
+      storageLocation,
+    );
+
+    if (remoteStorageLocation) {
+      await StorageLocationDao.createStorageLocation(remoteStorageLocation);
+
+      return remoteStorageLocation;
+    } else {
+      const localStorageLocation = await StorageLocationDao.getStorageLocation(
+        storageLocation,
+      );
+
+      return localStorageLocation;
     }
   }
 
