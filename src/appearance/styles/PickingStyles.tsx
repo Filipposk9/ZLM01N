@@ -60,7 +60,7 @@ export const styles = (theme: any) =>
       fontWeight: 'bold',
       margin: '2%',
       paddingLeft: '2%',
-      width: '42%',
+      width: '46%',
     },
     outboundDeliveryLinesContainer: {
       margin: '4%',
