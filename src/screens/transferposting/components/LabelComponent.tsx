@@ -127,6 +127,7 @@ const styles = (theme: any) =>
     },
     labelItemRight: {
       fontSize: 16,
+      width: '80%',
       color: theme.buttonTextColor,
     },
   });
