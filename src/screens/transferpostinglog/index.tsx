@@ -3,11 +3,7 @@ import {ScrollView, View, Text} from 'react-native';
 import {styles} from '../../appearance/styles/TransferPostingLogStyles';
 import {ThemeContext} from '../../appearance/theme/ThemeContext';
 import Repository from '../../data/Repository';
-import {
-  Material,
-  MaterialDocument,
-  MaterialDocumentItem,
-} from '../../shared/Types';
+import {MaterialDocument, MaterialDocumentItem} from '../../shared/Types';
 
 function TransferPostingLog({
   route,
@@ -29,8 +25,11 @@ function TransferPostingLog({
     useState<string>();
 
   const [materialDescriptions, setMaterialDescriptions] = useState([]);
-  //TODO: split in 2 arrays, (needs validity indicator from backend)
-  //TODO: rework styling, add material texts
+  //TODO: add material texts
+
+  const found = goodsMovementLog.items.find(element => {
+    if (element.iserror) return element;
+  });
 
   useEffect(() => {
     const getStorageLocationDescriptions = async () => {
@@ -65,18 +64,6 @@ function TransferPostingLog({
 
     getStorageLocationDescriptions();
     getMaterialDescriptions();
-
-    // const { validMaterialDocument, invalidMaterialDocument } = items.reduce(
-    //     (acc, item) => {
-    //       if (item.category === "A") {
-    //         acc.validMaterialDocument.push(item);
-    //       } else {
-    //         acc.invalidMaterialDocument.push(item);
-    //       }
-    //       return acc;
-    //     },
-    //     { validMaterialDocument: [], invalidMaterialDocument: [] }
-    // )
   }, []);
 
   console.log(materialDescriptions);
@@ -117,70 +104,91 @@ function TransferPostingLog({
           goodsMovementLog.materialDocumentNumber !== ''
             ? goodsMovementLog.items.map(
                 (item: MaterialDocumentItem, i: number) => {
-                  return (
-                    <View key={i} style={styles(theme).transferPostingLogItem}>
-                      <View style={styles(theme).transferPostingLogPanelLeft}>
-                        <Text style={styles(theme).transferPostingLogTextLeft}>
-                          {item.count}
-                        </Text>
+                  if (!item.iserror) {
+                    return (
+                      <View
+                        key={i}
+                        style={styles(theme).transferPostingLogItem}>
+                        <View style={styles(theme).transferPostingLogPanelLeft}>
+                          <Text
+                            style={styles(theme).transferPostingLogTextLeft}>
+                            {item.count}
+                          </Text>
+                        </View>
+                        <View
+                          style={styles(theme).transferPostingLogPanelRight}>
+                          <Text
+                            style={{
+                              fontWeight: 'bold',
+                              color: theme.buttonTextColor,
+                            }}>
+                            Κωδικός Υλικού: {item.materialNumber} {'\n'}
+                            {/* {materialDescriptions[i].description} */}
+                          </Text>
+                          <Text style={{color: theme.buttonTextColor}}>
+                            Παρτίδα: {item.batch}
+                          </Text>
+                          <Text style={{color: theme.buttonTextColor}}>
+                            Ποσότητα: {item.quantity}
+                          </Text>
+                          <Text></Text>
+                        </View>
                       </View>
-                      <View style={styles(theme).transferPostingLogPanelRight}>
-                        <Text
-                          style={{
-                            fontWeight: 'bold',
-                            color: theme.buttonTextColor,
-                          }}>
-                          Κωδικός Υλικού: {item.materialNumber} {'\n'}
-                          {materialDescriptions[i].description}
-                        </Text>
-                        <Text style={{color: theme.buttonTextColor}}>
-                          Παρτίδα: {item.batch}
-                        </Text>
-                        <Text style={{color: theme.buttonTextColor}}>
-                          Ποσότητα: {item.quantity}
-                        </Text>
-                        <Text></Text>
-                      </View>
-                    </View>
-                  );
+                    );
+                  }
                 },
               )
             : null}
         </View>
+
+        <Text style={styles(theme).transferPostingLogTitle}>
+          {goodsMovementLog.materialDocumentNumber === ''
+            ? 'Αποτυχημένες Ενδοδιακινήσεις'
+            : null}
+        </Text>
 
         <View
           style={[
             styles(theme).transferPostingLogContainer,
             {backgroundColor: theme.secondaryForegroundColor},
           ]}>
-          {goodsMovementLog !== undefined &&
-          goodsMovementLog.materialDocumentNumber === '' ? (
-            <Text style={styles(theme).transferPostingLogTitle}>
-              Αποτυχημένες ενδοδιακινήσεις
-            </Text>
-          ) : null}
-
-          {goodsMovementLog !== undefined &&
-          goodsMovementLog.materialDocumentNumber === ''
+          {(goodsMovementLog !== undefined &&
+            goodsMovementLog.materialDocumentNumber === '') ||
+          found
             ? goodsMovementLog.items.map(
                 (item: MaterialDocumentItem, i: number) => {
-                  return (
-                    <View key={i} style={styles(theme).transferPostingLogItem}>
-                      <Text
-                        style={[
-                          styles(theme).transferPostingLogItemText,
-                          {fontWeight: 'bold'},
-                        ]}>
-                        {item.count}. {item.materialNumber}
-                      </Text>
-                      <Text style={styles(theme).transferPostingLogItemText}>
-                        Παρτίδα: {item.batch}
-                      </Text>
-                      <Text style={styles(theme).transferPostingLogItemText}>
-                        Ποσότητα: {item.quantity}
-                      </Text>
-                    </View>
-                  );
+                  if (item.iserror) {
+                    return (
+                      <View
+                        key={i}
+                        style={styles(theme).transferPostingLogItem}>
+                        <View style={styles(theme).transferPostingLogPanelLeft}>
+                          <Text
+                            style={styles(theme).transferPostingLogTextLeft}>
+                            {item.count}
+                          </Text>
+                        </View>
+                        <View
+                          style={styles(theme).transferPostingLogPanelRight}>
+                          <Text
+                            style={{
+                              fontWeight: 'bold',
+                              color: theme.buttonTextColor,
+                            }}>
+                            Κωδικός Υλικού: {item.materialNumber} {'\n'}
+                            {/* {materialDescriptions[i].description} */}
+                          </Text>
+                          <Text style={{color: theme.buttonTextColor}}>
+                            Παρτίδα: {item.batch}
+                          </Text>
+                          <Text style={{color: theme.buttonTextColor}}>
+                            Ποσότητα: {item.quantity}
+                          </Text>
+                          <Text></Text>
+                        </View>
+                      </View>
+                    );
+                  }
                 },
               )
             : null}
