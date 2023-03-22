@@ -61,6 +61,7 @@ export interface MaterialDocumentItem {
   storageLocationOut: string;
   movementType: string;
   productionOrder: string;
+  iserror: boolean;
 }
 
 export interface GoodsMovementQueue {
