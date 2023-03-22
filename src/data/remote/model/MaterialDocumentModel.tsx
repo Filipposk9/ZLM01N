@@ -17,4 +17,5 @@ interface MaterialDocumentItem {
   STORAGELOCATIONOUT: string;
   MOVEMENTTYPE: string;
   PRODUCTIONORDER: string;
+  ISERROR: boolean;
 }

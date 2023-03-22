@@ -65,6 +65,7 @@ export const materialDocumentModelToMaterialDocument = (
         storageLocationOut: label.STORAGELOCATIONOUT,
         movementType: label.MOVEMENTTYPE,
         productionOrder: label.PRODUCTIONORDER,
+        iserror: label.ISERROR,
       });
     },
   );
