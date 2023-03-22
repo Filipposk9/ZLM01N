@@ -141,7 +141,7 @@ class MasterDataService {
     const sapRequestHeaders = await SapRequestParameters.getSapRequestHeaders();
 
     const response = await RequestGateway.get<ProductionOrderResponse>(
-      '/mdata?aufnr=' + productionOrderNumber,
+      '/productionorders?aufnr=' + productionOrderNumber,
       sapRequestHeaders,
     );
 
