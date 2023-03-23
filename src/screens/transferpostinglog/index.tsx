@@ -3,7 +3,11 @@ import {ScrollView, View, Text} from 'react-native';
 import {styles} from '../../appearance/styles/TransferPostingLogStyles';
 import {ThemeContext} from '../../appearance/theme/ThemeContext';
 import Repository from '../../data/Repository';
-import {MaterialDocument, MaterialDocumentItem} from '../../shared/Types';
+import {
+  Material,
+  MaterialDocument,
+  MaterialDocumentItem,
+} from '../../shared/Types';
 
 function TransferPostingLog({
   route,
@@ -24,7 +28,9 @@ function TransferPostingLog({
   const [storageLocationOutDescription, setStorageLocationOutDescription] =
     useState<string>();
 
-  const [materialDescriptions, setMaterialDescriptions] = useState([]);
+  const [materialDescriptions, setMaterialDescriptions] = useState<Material[]>(
+    [],
+  );
 
   const found = goodsMovementLog.items.find(element => {
     if (element.iserror) return element;
@@ -54,8 +60,9 @@ function TransferPostingLog({
         const response = await Repository.getMaterialBasicData(
           goodsMovementLog.items[i].materialNumber,
         );
-
-        materialTexts.push(response);
+        if (response !== undefined) {
+          materialTexts.push(response);
+        }
       }
 
       setMaterialDescriptions(materialTexts);
