@@ -62,7 +62,7 @@ function StorageLocationDropdown(
 const styles = (theme: any) =>
   StyleSheet.create({
     dropDownBox: {
-      elevation: 50,
+      elevation: 5,
       backgroundColor: theme.foregroundColor,
       margin: '3%',
       borderRadius: 15,
