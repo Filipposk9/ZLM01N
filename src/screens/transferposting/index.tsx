@@ -125,11 +125,11 @@ function TransferPosting({navigation}: {navigation: any}): JSX.Element {
     );
 
     if (lastScannedBarcode !== '') {
-      if (scannedLabels !== undefined) {
+      if (scannedLabels.length > 0) {
         setScannedLabels([
           ...scannedLabels,
           {
-            count: scannedLabels.length + 1,
+            count: scannedLabels[scannedLabels.length - 1].count + 1,
             materialNumber: materialNumber,
             batch: batch,
             quantity: quantity,
@@ -151,30 +151,16 @@ function TransferPosting({navigation}: {navigation: any}): JSX.Element {
   };
 
   const materialLabelFilter = (lastScannedBarcode: string) => {
-    //
+    //TODO: check scanned barcode validity using regex
   };
 
   const removeLabel = (index: number) => {
-    // //FIXME: material texts dont slide because state does not update
+    const updatedLabels = scannedLabels.filter((item, i) => i !== index);
 
-    let j = 1;
-
-    const nextState: Label[] = scannedLabels
-      .map((c, i) => {
-        if (i !== index) {
-          if (c) {
-            c.count = j++;
-            return c as Label;
-          } else {
-            return null as unknown as Label;
-          }
-        } else {
-          return null as unknown as Label;
-        }
-      })
-      .filter(c => c !== null);
-
-    setScannedLabels(nextState);
+    if (updatedLabels && updatedLabels.length > 0) {
+      setScannedLabels([]);
+      setScannedLabels(updatedLabels);
+    }
   };
 
   const resetScreenComponents = () => {
@@ -267,8 +253,6 @@ function TransferPosting({navigation}: {navigation: any}): JSX.Element {
         />
       </View>
 
-      {/* //TODO: slide from left to remove*/}
-
       <ScrollView
         ref={scrollViewRef}
         contentInsetAdjustmentBehavior="automatic"
@@ -281,7 +265,7 @@ function TransferPosting({navigation}: {navigation: any}): JSX.Element {
               if (item) {
                 return (
                   <LabelComponent
-                    key={i}
+                    key={item.count}
                     count={item.count}
                     barcode={
                       item.materialNumber +
@@ -302,7 +286,9 @@ function TransferPosting({navigation}: {navigation: any}): JSX.Element {
       <ManualLabelInputModal
         visibility={manualLabelInputVisibility}
         onSubmit={barcode => {
-          addLabel(barcode);
+          if (barcode) {
+            addLabel(barcode);
+          }
           setManualLabelInputVisibility(false);
         }}
       />

@@ -1,17 +1,8 @@
-import React, {useEffect, useRef, useContext, useState, ReactNode} from 'react';
+import React, {useEffect, useRef, useContext, useState} from 'react';
 import Repository from '../../../data/Repository';
-import {
-  Animated,
-  Pressable,
-  View,
-  TextInput,
-  Text,
-  StyleSheet,
-} from 'react-native';
+import {Animated, Pressable, TextInput, Text, StyleSheet} from 'react-native';
 import {GestureHandlerRootView, Swipeable} from 'react-native-gesture-handler';
 import {ThemeContext} from '../../../appearance/theme/ThemeContext';
-import HorizontalDrag from '../../../appearance/animations/HorizontalDrag';
-import FadeIn from '../../../appearance/animations/FadeIn';
 
 interface LabelComponentProps {
   count: number;
@@ -21,7 +12,6 @@ interface LabelComponentProps {
 }
 
 //TODO: add animation spawn from top/left
-//TODO: check scanned barcode validity using regex
 
 function LabelComponent(props: LabelComponentProps): JSX.Element {
   const {count, barcode, onDeletePressed} = props;
@@ -50,33 +40,30 @@ function LabelComponent(props: LabelComponentProps): JSX.Element {
 
   const swipedPanel = (): JSX.Element => {
     return (
-      <View style={styles(theme).swipedRow}>
-        <Animated.View style={styles(theme).swipedContainer}>
-          <Pressable
-            onPress={() => {
-              swipeablePanel.current?.close();
-              onDeletePressed();
-            }}>
-            <Text style={styles(theme).swipedText}>Διαγραφή</Text>
-          </Pressable>
-        </Animated.View>
-      </View>
+      <Animated.View style={styles(theme).swipedContainer}>
+        <Pressable
+          onPress={() => {
+            swipeablePanel.current?.close();
+            onDeletePressed();
+          }}>
+          <Text style={styles(theme).swipedText}>Διαγραφή</Text>
+        </Pressable>
+      </Animated.View>
     );
   };
 
-  const horizontalDrag = HorizontalDrag.setInterpolate(swipedPanel);
-  const fadeIn = FadeIn.setInterpolate();
-
   return (
     <GestureHandlerRootView>
-      <Swipeable ref={swipeablePanel} renderLeftActions={horizontalDrag}>
+      <Swipeable
+        ref={swipeablePanel}
+        renderLeftActions={swipedPanel}
+        leftThreshold={10}>
         <Animated.View
           style={[
             styles(theme).labelItemContainer,
             {
               borderWidth: validity ? 0 : 1,
               borderColor: validity ? '' : 'red',
-              opacity: fadeIn,
             },
           ]}>
           <Text style={styles(theme).labelItemLeft}>{count}</Text>
@@ -94,22 +81,13 @@ function LabelComponent(props: LabelComponentProps): JSX.Element {
 
 const styles = (theme: any) =>
   StyleSheet.create({
-    swipedRow: {
-      flexDirection: 'row',
-      alignItems: 'center',
-    },
     swipedContainer: {
+      elevation: 5,
       backgroundColor: 'red',
-      borderRadius: 20,
-      borderWidth: 1,
-      borderColor: theme.borderColor,
-      height: 60,
-      width: 70,
+      borderRadius: 15,
+      margin: '3%',
       alignItems: 'center',
       justifyContent: 'center',
-      flexDirection: 'row',
-      marginTop: 5,
-      marginRight: 5,
     },
     swipedText: {
       color: 'white',
