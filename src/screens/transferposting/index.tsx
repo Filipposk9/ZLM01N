@@ -214,16 +214,22 @@ function TransferPosting({navigation}: {navigation: any}): JSX.Element {
         textStyle={{color: 'white'}}
       />
 
-      <StorageLocationDropdown
-        key={storageLocationInKey}
-        placeholder={'Αποθηκευτικός χώρος προέλευσης'}
-        onChange={onStorageLocationInChange}
-      />
-      <StorageLocationDropdown
-        key={storageLocationOutKey}
-        placeholder={'Αποθηκευτικός χώρος προορισμού'}
-        onChange={onStorageLocationOutChange}
-      />
+      <View style={styles(theme).storageLocationDropDownContainer}>
+        <View style={{width: '50%'}}>
+          <StorageLocationDropdown
+            key={storageLocationInKey}
+            placeholder={'Προέλευση'}
+            onChange={onStorageLocationInChange}
+          />
+        </View>
+        <View style={{width: '50%'}}>
+          <StorageLocationDropdown
+            key={storageLocationOutKey}
+            placeholder={'Προορισμός'}
+            onChange={onStorageLocationOutChange}
+          />
+        </View>
+      </View>
 
       <View style={styles(theme).middleContainer}>
         <Text style={styles(theme).labelListHeaderText}>Λίστα ετικετών</Text>

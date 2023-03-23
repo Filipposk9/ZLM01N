@@ -7,6 +7,10 @@ export const styles = (theme: any) =>
       backgroundColor: theme.backgroundColor,
       flex: 1,
     },
+    storageLocationDropDownContainer: {
+      margin: '2%',
+      flexDirection: 'row',
+    },
     middleContainer: {
       marginLeft: '5%',
       marginBottom: '2%',

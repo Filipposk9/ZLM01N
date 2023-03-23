@@ -69,12 +69,9 @@ const styles = (theme: any) =>
     },
     dropDownInput: {
       color: theme.buttonTextColor,
-      fontSize: 16,
       fontWeight: 'bold',
-      margin: '1%',
     },
     dropDownText: {
-      margin: '2%',
       color: theme.textColor,
     },
   });
