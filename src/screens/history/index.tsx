@@ -141,7 +141,8 @@ function History(): JSX.Element {
 
                 {item.items.map((item: MaterialDocumentItem, j: number) => (
                   //TODO: animate flatlist hiding individual items
-                  <View key={j++}>
+                  //TODO: make this view into a component GoodsMovemementLogComponent
+                  <View style={[{maxHeight: 1500}]} key={j++}>
                     <Text style={styles(theme).historyItemLineText}>
                       Υλικό: {item.materialNumber}
                       {'\n'}
