@@ -32,7 +32,7 @@ const themes = {
 
     buttonBackgroundColor: '#95aa9d',
     buttonSecondaryBackgroundColor: '#ff964f',
-    buttonThirdBackgroundColor: '#aa95a2',
+    buttonThirdBackgroundColor: '#6b8575',
 
     borderColor: '#7a7a7a',
 
