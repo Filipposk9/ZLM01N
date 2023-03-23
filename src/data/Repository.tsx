@@ -23,6 +23,15 @@ class Repository {
       await MaterialDao.createMaterials(remoteMaterialList);
     }
 
+    const remoteStorageLocationList =
+      await MasterDataService.getStorageLocations();
+
+    if (remoteStorageLocationList && remoteStorageLocationList.length > 0) {
+      await StorageLocationDao.createStorageLocations(
+        remoteStorageLocationList,
+      );
+    }
+
     const users = {username: 'FILKOZ', password: 'COMPO2SITION4'};
 
     await UserDao.setUser(users);
@@ -69,39 +78,39 @@ class Repository {
   async getStorageLocation(
     storageLocation: string,
   ): Promise<StorageLocation | undefined> {
-    const remoteStorageLocation = await MasterDataService.getStorageLocation(
+    const localStorageLocation = await StorageLocationDao.getStorageLocation(
       storageLocation,
     );
 
-    if (remoteStorageLocation) {
-      await StorageLocationDao.createStorageLocation(remoteStorageLocation);
-
-      return remoteStorageLocation;
+    if (localStorageLocation) {
+      return localStorageLocation;
     } else {
-      const localStorageLocation = await StorageLocationDao.getStorageLocation(
+      const remoteStorageLocation = await MasterDataService.getStorageLocation(
         storageLocation,
       );
 
-      return localStorageLocation;
+      if (remoteStorageLocation) {
+        return remoteStorageLocation;
+      }
     }
   }
 
   async getMaterialBasicData(
     materialNumber: string,
   ): Promise<Material | undefined> {
-    const remoteMaterialBasicData =
-      await MasterDataService.getMaterialBasicData(materialNumber);
+    const localMaterialBasicData = await MaterialDao.getMaterialBasicData(
+      materialNumber,
+    );
 
-    if (remoteMaterialBasicData) {
-      await MaterialDao.createMaterial(remoteMaterialBasicData);
-
-      return remoteMaterialBasicData;
-    } else {
-      const localMaterialBasicData = await MaterialDao.getMaterialBasicData(
-        materialNumber,
-      );
-
+    if (localMaterialBasicData) {
       return localMaterialBasicData;
+    } else {
+      const remoteMaterialBasicData =
+        await MasterDataService.getMaterialBasicData(materialNumber);
+
+      if (remoteMaterialBasicData) {
+        return remoteMaterialBasicData;
+      }
     }
   }
 
