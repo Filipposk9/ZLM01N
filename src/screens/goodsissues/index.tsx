@@ -38,6 +38,10 @@ function GoodsIssues({navigation}: {navigation: any}): JSX.Element {
 
   const [scannedLabels, setScannedLabels] = useState<Label[]>();
 
+  const materialLabelFilter = (lastScannedBarcode: string) => {
+    //
+  };
+
   const validateProductionOrder = (productionOrder: string) => {
     let productionOrderRegex = new RegExp('^1[0-9]{6}$');
 
@@ -88,10 +92,6 @@ function GoodsIssues({navigation}: {navigation: any}): JSX.Element {
       }
     };
 
-    if (scannerRef.current) {
-      scannerRef.current.focus();
-    }
-
     getProductionOrderData();
   };
 
@@ -131,8 +131,6 @@ function GoodsIssues({navigation}: {navigation: any}): JSX.Element {
     storageLocationIn: string,
     storageLocationOut: string,
   ) => {
-    //TODO: add current user param
-
     const submitGoodsMovement = async (): Promise<
       MaterialDocument | undefined
     > => {
@@ -182,54 +180,36 @@ function GoodsIssues({navigation}: {navigation: any}): JSX.Element {
           value={productionOrder}></TextInput>
       </View>
 
-      {/* //TODO: make into 1 component */}
-
       <View style={styles(theme).productionOrderContainer}>
         <View style={styles(theme).productionOrderHeaderContainer}>
-          <Text>
-            <Text style={styles(theme).productionOrderHeaderText}>
-              Παραγόμενο:{' '}
-            </Text>
-            <Text style={styles(theme).productionOrderHeaderContent}>
-              {productionOrderData?.header.productionOrderMaterial}
-            </Text>
-          </Text>
-          <Text style={styles(theme).productionOrderHeaderContent}>
-            {productionOrderData?.header.productionOrderMaterialText}
-          </Text>
-          <Text>
-            <Text style={styles(theme).productionOrderHeaderText}>
-              Πελάτης:{' '}
-            </Text>
-            <Text style={styles(theme).productionOrderHeaderContent}>
-              {productionOrderData?.header.customerName}
-            </Text>
-          </Text>
-          <Text>
-            <Text style={styles(theme).productionOrderHeaderText}>
-              Παραγγελία:{' '}
-            </Text>
-            <Text style={styles(theme).productionOrderHeaderContent}>
-              {productionOrderData?.header.associatedSalesOrder}
-            </Text>
-          </Text>
-          <Text>
-            <Text style={styles(theme).productionOrderHeaderText}>
-              Ημερομηνία Εντολής:{' '}
-            </Text>
-            <Text style={styles(theme).productionOrderHeaderContent}>
+          <View style={styles(theme).productionOrderHeaderItem}>
+            <Text style={styles(theme).productionOrderHeaderTextLeft}>
+              <Text style={{fontWeight: 'bold', fontSize: 22}}>Παραγωγή</Text>
+              {'                 '}
+              {productionOrderData?.header.productionOrderMaterialText}
+              {'\n'}
               {productionOrderData?.header.scheduledStartDate.toLocaleString()}
-            </Text>
-          </Text>
-          <Text>
-            <Text style={styles(theme).productionOrderHeaderText}>
-              Κέντρο Εργασίας:{' '}
-            </Text>
-            <Text style={styles(theme).productionOrderHeaderContent}>
+              {'\n'}
               {productionOrderData?.header.workCenterDescription}
             </Text>
-          </Text>
-          <Text>
+          </View>
+
+          <View style={styles(theme).productionOrderHeaderItem}>
+            <Text style={styles(theme).productionOrderHeaderTextRight}>
+              <Text style={{fontWeight: 'bold', fontSize: 22}}>Παραγγελία</Text>
+              {'                 '}
+              {productionOrderData?.header.customerName}
+              {'\n'}
+              {productionOrderData?.header.associatedSalesOrder.replace(
+                /^0+/,
+                '',
+              )}
+              /{productionOrderData?.header.associatedSalesOrderItem}
+            </Text>
+          </View>
+
+          {/* <Text>
+            
             <Text style={styles(theme).productionOrderHeaderText}>
               Παραγόμενο/Στόχος:{' '}
             </Text>
@@ -238,8 +218,26 @@ function GoodsIssues({navigation}: {navigation: any}): JSX.Element {
               {productionOrderData?.header.targetQuantity}{' '}
               {productionOrderData?.header.unitOfMeasure}
             </Text>
-          </Text>
+          </Text> */}
         </View>
+
+        {productionOrderData !== undefined ? (
+          <Text
+            style={[
+              styles(theme).productionOrderStatusText,
+              {
+                color:
+                  productionOrderData.header.confirmedYield >=
+                  productionOrderData.header.targetQuantity
+                    ? '#C17161'
+                    : '#94BA78',
+              },
+            ]}>
+            Παραγόμενο/Στόχος:
+            {productionOrderData.header.confirmedYield}/
+            {productionOrderData.header.targetQuantity}
+          </Text>
+        ) : null}
 
         <FlatList
           data={[
@@ -290,28 +288,9 @@ function GoodsIssues({navigation}: {navigation: any}): JSX.Element {
         <BarcodeScanner
           reference={scannerRef}
           onScan={lastScannedBarcode => addLabel(lastScannedBarcode)}
+          filter={lastScanendBarcode => materialLabelFilter(lastScanendBarcode)}
         />
       </View>
-
-      <ScrollView
-        contentInsetAdjustmentBehavior="automatic"
-        style={styles(theme).labelList}>
-        {scannedLabels !== undefined
-          ? scannedLabels.map((item, i) => {
-              return (
-                <LabelComponent
-                  key={i}
-                  count={item.count}
-                  barcode={
-                    item.materialNumber + '-' + item.batch + '-' + item.quantity
-                  }
-                  validity={false}
-                  onDeletePressed={() => removeLabel(i)}
-                />
-              );
-            })
-          : null}
-      </ScrollView>
     </View>
   );
 }
