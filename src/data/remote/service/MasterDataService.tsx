@@ -22,7 +22,10 @@ import {BatchResponse} from '../model/BatchModel';
 
 class MasterDataService {
   async getStorageLocations(): Promise<StorageLocation[]> {
-    const sapRequestHeaders = await SapRequestParameters.getSapRequestHeaders();
+    const timeout = 5000;
+    const sapRequestHeaders = await SapRequestParameters.getSapRequestHeaders(
+      timeout,
+    );
 
     const response = await RequestGateway.get<StorageLocationResponse>(
       '/storagelocations?lgort=1',
