@@ -44,60 +44,56 @@ function TransferPosting({navigation}: {navigation: any}): JSX.Element {
   const [manualLabelInputVisibility, setManualLabelInputVisibility] =
     useState(false);
 
-  const onStorageLocationInChange = (storageLocationIn: string) => {
+  const scrollViewRef = useRef<ScrollView>(null);
+
+  const fetchBatchData = async (
+    materialNumber: string,
+    batch: string,
+    storageLocation: string,
+  ) => {
+    const batchData = await Repository.getBatchData(
+      materialNumber,
+      batch,
+      storageLocation,
+    );
+
+    if (batchData) {
+      if (batchData.quantity > 0) {
+        return true;
+      } else {
+        return false;
+      }
+    } else {
+      return false;
+    }
+  };
+
+  const onStorageLocationInChange = async (storageLocationIn: string) => {
     setStorageLocationIn(storageLocationIn);
 
-    const fetchBatchData = async (
-      materialNumber: string,
-      batch: string,
-      storageLocation: string,
-      count: number,
-    ) => {
-      const batchData = await Repository.getBatchData(
-        materialNumber,
-        batch,
-        storageLocation,
-      );
-
-      if (batchData) {
-        editLabelValidity(batchData, count);
-      }
-    };
-
-    const editLabelValidity = (batchdata: any, count: number) => {
-      const nextState: Label[] = scannedLabels
-        ?.map((c, i) => {
-          if (c) {
-            if (i === count - 1) {
-              if (batchdata.quantity > 0) {
-                c.validity = true;
-              } else {
-                c.validity = false;
-              }
-            }
-            if (c !== undefined) {
-              return c as Label;
-            } else {
-              return null as unknown as Label;
-            }
-          } else {
-            return null as unknown as Label;
-          }
-        })
-        .filter(c => c !== null);
-
-      setScannedLabels(nextState);
-    };
+    let updatedLabels: Label[] = [];
 
     for (const label of scannedLabels) {
-      if (label) {
-        fetchBatchData(
-          label.materialNumber,
-          label.batch,
-          storageLocationIn,
-          label.count,
-        );
-      }
+      const validity = await fetchBatchData(
+        label.materialNumber,
+        label.batch,
+        storageLocationIn,
+      );
+
+      const item = {
+        count: label.count,
+        materialNumber: label.materialNumber,
+        batch: label.batch,
+        quantity: label.quantity,
+        validity: validity,
+      };
+
+      updatedLabels.push(item);
+    }
+
+    if (updatedLabels && updatedLabels.length > 0) {
+      setScannedLabels([]);
+      setScannedLabels(updatedLabels);
     }
   };
 
@@ -117,33 +113,37 @@ function TransferPosting({navigation}: {navigation: any}): JSX.Element {
     }
   };
 
-  //TODO: get initial stock value
+  const addLabel = async (lastScannedBarcode: string) => {
+    const [materialNumber, batch, quantityString] =
+      lastScannedBarcode.split('-');
+    const quantity = Number(quantityString.replace(',', '.'));
 
-  const addLabel = (lastScannedBarcode: string) => {
+    const validity = await fetchBatchData(
+      materialNumber,
+      batch,
+      storageLocationIn,
+    );
+
     if (lastScannedBarcode !== '') {
       if (scannedLabels !== undefined) {
         setScannedLabels([
           ...scannedLabels,
           {
             count: scannedLabels.length + 1,
-            materialNumber: lastScannedBarcode.split('-')[0],
-            batch: lastScannedBarcode.split('-')[1],
-            quantity: Number(
-              lastScannedBarcode.split('-')[2].replace(',', '.'),
-            ),
-            validity: false,
+            materialNumber: materialNumber,
+            batch: batch,
+            quantity: quantity,
+            validity: validity,
           },
         ]);
       } else {
         setScannedLabels([
           {
             count: 1,
-            materialNumber: lastScannedBarcode.split('-')[0],
-            batch: lastScannedBarcode.split('-')[1],
-            quantity: Number(
-              lastScannedBarcode.split('-')[2].replace(',', '.'),
-            ),
-            validity: false,
+            materialNumber: materialNumber,
+            batch: batch,
+            quantity: quantity,
+            validity: validity,
           },
         ]);
       }
@@ -190,8 +190,6 @@ function TransferPosting({navigation}: {navigation: any}): JSX.Element {
     stgLocIn: string,
     stgLocOut: string,
   ) => {
-    //TODO: add current user param
-
     const submitGoodsMovement = async (
       labels: Label[],
       stgLocIn: string,
@@ -269,8 +267,14 @@ function TransferPosting({navigation}: {navigation: any}): JSX.Element {
         />
       </View>
 
+      {/* //TODO: slide from left to remove*/}
+
       <ScrollView
+        ref={scrollViewRef}
         contentInsetAdjustmentBehavior="automatic"
+        onContentSizeChange={() =>
+          scrollViewRef.current?.scrollToEnd({animated: true})
+        }
         style={styles(theme).labelList}>
         {scannedLabels.length > 0
           ? scannedLabels.map((item, i) => {

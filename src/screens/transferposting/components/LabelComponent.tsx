@@ -20,18 +20,19 @@ interface LabelComponentProps {
   onDeletePressed: () => void;
 }
 
-//TODO: add animation fadeIn(), or spawn from top/left
+//TODO: add animation spawn from top/left
 //TODO: check scanned barcode validity using regex
-//TODO: initial stock value (validity)
 
 function LabelComponent(props: LabelComponentProps): JSX.Element {
-  const {count, barcode, validity, onDeletePressed} = props;
+  const {count, barcode, onDeletePressed} = props;
   const {theme} = useContext(ThemeContext);
   const swipeablePanel = useRef<Swipeable>(null);
 
   const [materialDescription, setMaterialDescription] = useState<
     string | undefined
   >('');
+
+  const [validity, setValidity] = useState<boolean>(false);
 
   useEffect(() => {
     const fetchMaterialBasicData = async () => {
@@ -43,9 +44,11 @@ function LabelComponent(props: LabelComponentProps): JSX.Element {
     };
 
     fetchMaterialBasicData();
+
+    setValidity(props.validity);
   }, []);
 
-  const swipedPanel = (): Element => {
+  const swipedPanel = (): JSX.Element => {
     return (
       <View style={styles(theme).swipedRow}>
         <Animated.View style={styles(theme).swipedContainer}>
