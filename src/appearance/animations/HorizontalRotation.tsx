@@ -45,5 +45,3 @@ class HorizontalRotation {
 }
 
 export default new HorizontalRotation();
-
-//TODO: export setInterpolate();
