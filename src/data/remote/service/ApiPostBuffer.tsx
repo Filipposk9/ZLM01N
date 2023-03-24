@@ -3,6 +3,7 @@ import NetInfo, {NetInfoWifiState} from '@react-native-community/netinfo';
 import SapRequestParameters from '../SapRequestParameters';
 import RequestGateway, {isError} from '../RequestGateway';
 import {MaterialDocumentResponse} from '../model/MaterialDocumentModel';
+import {materialDocumentModelToMaterialDocument} from '../Mappers';
 
 class ApiPostBuffer {
   private isLocked: boolean = false;
@@ -52,7 +53,7 @@ class ApiPostBuffer {
         if (isError(response)) {
           newGoodsMovementQueue.push(goodsMovement);
         } else {
-          return response;
+          return materialDocumentModelToMaterialDocument(response.result.data);
         }
       },
     );
