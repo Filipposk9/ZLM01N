@@ -3,13 +3,15 @@ import {Animated, Easing} from 'react-native';
 class Slide {
   private animatedValue: Animated.Value = new Animated.Value(0);
   private currentValue: number = 0;
+  private init: boolean = true;
 
-  constructor() {
-    this.currentValue = 0;
-  }
+  constructor() {}
 
   setInterpolate(height: number = 0) {
+    console.log(this.currentValue);
+    console.log(height, 'h');
     if (this.currentValue >= 1) {
+      console.log('gonig up');
       Animated.timing(this.animatedValue, {
         toValue: 0,
         duration: 500,
@@ -24,7 +26,12 @@ class Slide {
         duration: 500,
         useNativeDriver: false,
       }).start();
-      this.currentValue = 1;
+      if (this.init) {
+        this.currentValue = 0;
+        this.init = false;
+      } else {
+        this.currentValue = 1;
+      }
     }
 
     return {
