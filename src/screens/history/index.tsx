@@ -5,7 +5,7 @@ import {useSelector} from 'react-redux';
 import {styles} from '../../appearance/styles/HistoryStyles';
 import {ThemeContext} from '../../appearance/theme/ThemeContext';
 import {GoodsMovementLogState} from '../../redux/ReduxTypes';
-import GoodsMovemementLogComponent from './components/GoodsMovemementLogComponent';
+import HistoryItem from './components/HistoryItem';
 
 function History(): JSX.Element {
   const {theme} = useContext(ThemeContext);
@@ -23,11 +23,9 @@ function History(): JSX.Element {
         data={goodsMovementLogs}
         renderItem={({item, index}) => {
           return (
-            <GoodsMovemementLogComponent
+            <HistoryItem
               goodsMovementLog={item}
-              count={
-                goodsMovementLogs.length - index
-              }></GoodsMovemementLogComponent>
+              count={goodsMovementLogs.length - index}></HistoryItem>
           );
         }}
       />
