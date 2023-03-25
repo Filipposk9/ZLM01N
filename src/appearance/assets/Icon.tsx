@@ -30,6 +30,8 @@ function Icon(props: IconProps): JSX.Element {
       return <IconFeather {...otherProps} name={name} />;
     case 'barcode-scan':
       return <IconMaterialCommunityIcons {...otherProps} name={name} />;
+    case 'up':
+      return <IconAntDesign {...otherProps} name={name} />;
     case 'down':
       return <IconAntDesign {...otherProps} name={name} />;
     case 'issue-reopened':
