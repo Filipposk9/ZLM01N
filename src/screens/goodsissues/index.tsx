@@ -13,6 +13,7 @@ import {styles} from '../../appearance/styles/GoodsIssuesStyles';
 import {ThemeContext} from '../../appearance/theme/ThemeContext';
 import {GOODS_MOVEMENT_CODE, MOVEMENT_TYPE} from '../../shared/Constants';
 import BarcodeValidator from '../../utilities/validators/BarcodeValidator';
+import SapStructureValidator from '../../utilities/validators/SapStructureValidator';
 
 function GoodsIssues({navigation}: {navigation: any}): JSX.Element {
   const {theme} = useContext(ThemeContext);
@@ -38,19 +39,9 @@ function GoodsIssues({navigation}: {navigation: any}): JSX.Element {
 
   const [scannedLabels, setScannedLabels] = useState<Label[]>();
 
-  const materialLabelFilter = (lastScannedBarcode: string) => {
-    //
-  };
-
-  const validateProductionOrder = (productionOrder: string) => {
-    let productionOrderRegex = new RegExp('^1[0-9]{6}$');
-
-    return productionOrderRegex.test(productionOrder);
-  };
-
   const getProductionOrderData = () => {
     const getProductionOrderData = async () => {
-      if (validateProductionOrder(productionOrder)) {
+      if (SapStructureValidator.validateProductionOrder(productionOrder)) {
         const response = await Repository.getProductionOrder(productionOrder);
 
         if (response !== undefined) {
