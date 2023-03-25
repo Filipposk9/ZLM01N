@@ -40,4 +40,4 @@ class Slide {
   }
 }
 
-export default Slide;
+export default new Slide();
