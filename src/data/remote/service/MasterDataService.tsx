@@ -29,7 +29,7 @@ class MasterDataService {
 
     if (sapRequestHeaders) {
       const response = await RequestGateway.get<StorageLocationResponse>(
-        '/storageLocations?lgort=1',
+        '/storagelocations?lgort=1',
         sapRequestHeaders,
       );
 
@@ -106,22 +106,29 @@ class MasterDataService {
     batch: string,
     storageLocation: string,
   ): Promise<Batch | undefined> {
-    const sapRequestHeaders = await SapRequestParameters.getSapRequestHeaders();
-
-    const response = await RequestGateway.get<BatchResponse>(
-      '/materials?matnr=' +
-        materialNumber +
-        '&charg=' +
-        batch +
-        '&lgortIn=' +
-        storageLocation,
-      sapRequestHeaders,
+    const timeout = 5000;
+    const sapRequestHeaders = await SapRequestParameters.getSapRequestHeaders(
+      timeout,
     );
 
-    if (isError(response)) {
-      return undefined;
+    if (sapRequestHeaders) {
+      const response = await RequestGateway.get<BatchResponse>(
+        '/materials?matnr=' +
+          materialNumber +
+          '&charg=' +
+          batch +
+          '&lgortIn=' +
+          storageLocation,
+        sapRequestHeaders,
+      );
+
+      if (isError(response)) {
+        return undefined;
+      } else {
+        return batchModelToBatch(response.result.data);
+      }
     } else {
-      return batchModelToBatch(response.result.data);
+      return undefined;
     }
   }
 
