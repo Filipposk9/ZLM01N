@@ -17,6 +17,7 @@ import {OutboundDelivery} from '../../shared/Types';
 import HandlingUnitComponent from './components/HandlingUnitComponent';
 import VerticalSlide from '../../appearance/animations/VerticalSlide';
 import BarcodeValidator from '../../utilities/validators/BarcodeValidator';
+import SapStructureValidator from '../../utilities/validators/SapStructureValidator';
 
 function Picking({navigation}: {navigation: any}): JSX.Element {
   const {theme} = useContext(ThemeContext);
@@ -29,15 +30,9 @@ function Picking({navigation}: {navigation: any}): JSX.Element {
 
   const scannerRef = useRef<TextInput>(null);
 
-  const validateOutboundDelivery = (outboundDeliveryNumber: string) => {
-    let outboundDeliveryRegex = new RegExp('^80[0-9]{6}$');
-
-    return outboundDeliveryRegex.test(outboundDeliveryNumber);
-  };
-
   const getOutboundDeliveryData = () => {
     const getOutboundDeliveryData = async () => {
-      if (validateOutboundDelivery(outboundDelivery)) {
+      if (SapStructureValidator.validateOutboundDelivery(outboundDelivery)) {
         const response = await Repository.getOutboundDelivery(outboundDelivery);
 
         if (response !== undefined) {
