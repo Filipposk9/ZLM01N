@@ -24,6 +24,7 @@ import {styles} from '../../appearance/styles/TransferPostingStyles';
 import {GlobalStyles} from '../../appearance/styles/GlobalStyles';
 import {useAppDispatch} from '../../redux/Store';
 import {setGoodsMovementLog} from '../../redux/actions/GoodsMovementLogActions';
+import BarcodeValidator from '../../utilities/validators/BarcodeValidator';
 
 function TransferPosting({navigation}: {navigation: any}): JSX.Element {
   const {theme} = useContext(ThemeContext);
@@ -150,10 +151,6 @@ function TransferPosting({navigation}: {navigation: any}): JSX.Element {
     }
   };
 
-  const materialLabelFilter = (lastScannedBarcode: string) => {
-    //TODO: check scanned barcode validity using regex
-  };
-
   const removeLabel = (index: number) => {
     const updatedLabels = scannedLabels.filter((item, i) => i !== index);
 
@@ -253,9 +250,9 @@ function TransferPosting({navigation}: {navigation: any}): JSX.Element {
           onScan={lastScannedBarcode => {
             addLabel(lastScannedBarcode);
           }}
-          filter={lastScannedbarcode => {
-            materialLabelFilter(lastScannedbarcode);
-          }}
+          validator={lastScannedBarcode =>
+            BarcodeValidator.validateBarrelLabel(lastScannedBarcode)
+          }
         />
       </View>
 
@@ -291,10 +288,8 @@ function TransferPosting({navigation}: {navigation: any}): JSX.Element {
 
       <ManualLabelInputModal
         visibility={manualLabelInputVisibility}
-        onSubmit={barcode => {
-          if (barcode) {
-            addLabel(barcode);
-          }
+        onSubmit={lastScannedBarcode => {
+          addLabel(lastScannedBarcode);
           setManualLabelInputVisibility(false);
         }}
       />

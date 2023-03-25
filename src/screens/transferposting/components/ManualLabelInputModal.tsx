@@ -6,12 +6,12 @@ import {
   Pressable,
   StyleSheet,
   Keyboard,
-  Alert,
 } from 'react-native';
 import Modal from 'react-native-modal';
 
 import {GlobalStyles} from '../../../appearance/styles/GlobalStyles';
 import {ThemeContext} from '../../../appearance/theme/ThemeContext';
+import BarcodeValidator from '../../../utilities/validators/BarcodeValidator';
 
 interface ManualLabelInputModalProps {
   visibility: boolean;
@@ -27,32 +27,6 @@ function ManualLabelInputModal(props: ManualLabelInputModalProps): JSX.Element {
     useState<string>('Κωδικός Υλικού');
   const [batch, setBatch] = useState<string>('Παρτίδα');
   const [quantity, setQuantity] = useState<string>('Ποσότητα');
-  const [barcode, setBarcode] = useState<string>('');
-
-  const barcodeIsValid = () => {
-    const materialNumberRegex = new RegExp('^(1[0]|2[0-2]|30|4[0-2])[0-9]{7}$');
-    const batchRegex = new RegExp(
-      '^(0{2}[0-9]{8}|[0-9]{5}(X|F)[0-9]{4}|[0-9]{5}((BS(A|B|C|D)[0-9]{2})|(C(B|I|P|S|T|U|X|Y)[0-9]{3})|(M(B|C|P|U)[0-9]{3})|(XPD(B|C))[0-9]{1}|(DS|KS|EU|KC|KD)[0-9]{3}))',
-      'i',
-    );
-    const quantityRegex = new RegExp('^[0-9]+[, | .]*[0-9]*');
-
-    if (!materialNumberRegex.test(materialNumber)) {
-      throw new Error('Λάθος κωδικός υλικού');
-    }
-
-    if (!batchRegex.test(batch)) {
-      throw new Error('Λάθος παρτίδα');
-    }
-
-    if (!quantityRegex.test(quantity.toString())) {
-      throw new Error('Λάθος ποσότητα');
-    }
-
-    setBarcode(materialNumber + '-' + batch + '-' + quantity);
-
-    return true;
-  };
 
   return (
     <Modal
@@ -121,18 +95,15 @@ function ManualLabelInputModal(props: ManualLabelInputModalProps): JSX.Element {
           <Pressable
             style={styles(theme).popupSubmitBtn}
             onPress={() => {
-              try {
-                if (barcodeIsValid()) {
-                  setMaterialNumber('Κωδικός Υλικού');
-                  setBatch('Παρτίδα');
-                  setQuantity('Ποσότητα');
-                  onSubmit(materialNumber + '-' + batch + '-' + quantity);
-                }
-              } catch (error) {
-                console.log('err');
-                Alert.alert('Λάθος κατά την καταχώριση');
+              const barcode = materialNumber + '-' + batch + '-' + quantity;
+
+              if (BarcodeValidator.validateBarrelLabel(barcode)) {
+                setMaterialNumber('Κωδικός Υλικού');
+                setBatch('Παρτίδα');
+                setQuantity('Ποσότητα');
+                onSubmit(barcode);
               }
-              onSubmit('');
+
               Keyboard.dismiss();
             }}
             android_ripple={GlobalStyles(theme).rippleColor}>

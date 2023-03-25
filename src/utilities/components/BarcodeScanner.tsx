@@ -1,18 +1,16 @@
 import React, {useEffect} from 'react';
-import {TextInput} from 'react-native';
+import {Alert, TextInput} from 'react-native';
 import KeyEvent from 'react-native-keyevent';
 import {KeyEventProps} from 'react-native-keyevent';
 
 interface BarcodeScannerProps {
   reference: React.Ref<TextInput>;
   onScan: (scannedBarcode: string) => void;
-  filter: (scannedBarcode: string) => void;
+  validator: (scannedBarcode: string) => boolean;
 }
 
 function BarcodeScanner(props: BarcodeScannerProps): JSX.Element {
-  const {reference, onScan} = props;
-
-  //TODO: add regex filter prop
+  const {reference, onScan, validator} = props;
 
   useEffect(() => {
     startListener();
@@ -21,7 +19,11 @@ function BarcodeScanner(props: BarcodeScannerProps): JSX.Element {
   const startListener = () => {
     KeyEvent.onKeyMultipleListener((keyEvent: KeyEventProps) => {
       console.log(`Barcode:  ${keyEvent.characters}`);
-      onScan(keyEvent.characters);
+      if (validator(keyEvent.characters)) {
+        onScan(keyEvent.characters);
+      } else {
+        Alert.alert('Invalid Barcode Format');
+      }
     });
   };
 

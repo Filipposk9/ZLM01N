@@ -12,6 +12,7 @@ import {
 import {styles} from '../../appearance/styles/GoodsIssuesStyles';
 import {ThemeContext} from '../../appearance/theme/ThemeContext';
 import {GOODS_MOVEMENT_CODE, MOVEMENT_TYPE} from '../../shared/Constants';
+import BarcodeValidator from '../../utilities/validators/BarcodeValidator';
 
 function GoodsIssues({navigation}: {navigation: any}): JSX.Element {
   const {theme} = useContext(ThemeContext);
@@ -288,7 +289,9 @@ function GoodsIssues({navigation}: {navigation: any}): JSX.Element {
               addLabel(lastScannedBarcode);
             }
           }}
-          filter={lastScanendBarcode => materialLabelFilter(lastScanendBarcode)}
+          validator={lastScannedBarcode =>
+            BarcodeValidator.validateBarrelLabel(lastScannedBarcode)
+          }
         />
       </View>
     </View>

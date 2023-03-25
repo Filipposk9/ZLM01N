@@ -16,6 +16,7 @@ import Repository from '../../data/Repository';
 import {OutboundDelivery} from '../../shared/Types';
 import HandlingUnitComponent from './components/HandlingUnitComponent';
 import VerticalSlide from '../../appearance/animations/VerticalSlide';
+import BarcodeValidator from '../../utilities/validators/BarcodeValidator';
 
 function Picking({navigation}: {navigation: any}): JSX.Element {
   const {theme} = useContext(ThemeContext);
@@ -75,10 +76,6 @@ function Picking({navigation}: {navigation: any}): JSX.Element {
       }
     };
     pickLabel(lastScannedBarcode);
-  };
-
-  const palletLabelFilter = (lastScannedBarcode: string) => {
-    //
   };
 
   //TODO: animate flatlist spawning
@@ -190,10 +187,9 @@ function Picking({navigation}: {navigation: any}): JSX.Element {
               pickLabel(lastScannedBarcode);
             }
           }}
-          filter={lastScannedBarcode => {
-            //TODO: group filter functions
-            palletLabelFilter(lastScannedBarcode);
-          }}
+          validator={lastScannedBarcode =>
+            BarcodeValidator.validatePalletLabel(lastScannedBarcode)
+          }
         />
       </View>
     </View>
