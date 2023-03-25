@@ -25,7 +25,6 @@ function Picking({navigation}: {navigation: any}): JSX.Element {
   const [outboundDeliveryData, setOutboundDeliveryData] = useState<
     OutboundDelivery | undefined
   >();
-  const [expanded, setExpanded] = useState<boolean[]>([]);
 
   const scannerRef = useRef<TextInput>(null);
 
@@ -33,24 +32,6 @@ function Picking({navigation}: {navigation: any}): JSX.Element {
     let outboundDeliveryRegex = new RegExp('^80[0-9]{6}$');
 
     return outboundDeliveryRegex.test(outboundDeliveryNumber);
-  };
-
-  const onChangeLayout = (index: number) => {
-    const nextState: boolean[] = expanded.map((c, i) => {
-      if (i === index) {
-        if (c) {
-          return false;
-        } else {
-          return true;
-        }
-      } else {
-        return null as unknown as boolean;
-      }
-    });
-
-    if (nextState !== undefined) {
-      setExpanded(nextState);
-    }
   };
 
   const getOutboundDeliveryData = () => {
