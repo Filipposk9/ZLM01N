@@ -13,12 +13,14 @@ export const styles = (theme: any) =>
       elevation: 5,
       borderRadius: 10,
       margin: '2%',
-      flexDirection: 'row',
     },
     historyHeaderText: {
       fontWeight: 'bold',
       fontSize: 30,
       color: theme.textColor,
+    },
+    historyItemTopPanel: {
+      flexDirection: 'row',
     },
     historyItemLeftPanel: {
       justifyContent: 'center',
@@ -32,7 +34,7 @@ export const styles = (theme: any) =>
     },
     historyItemHeaderContainer: {
       marginLeft: '4%',
-      marginTop: '5%',
+      marginTop: '2%',
     },
     historyItemHeaderContainer2: {
       marginLeft: '4%',
