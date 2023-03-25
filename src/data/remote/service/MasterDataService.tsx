@@ -27,17 +27,21 @@ class MasterDataService {
       timeout,
     );
 
-    const response = await RequestGateway.get<StorageLocationResponse>(
-      '/storagelocations?lgort=1',
-      sapRequestHeaders,
-    );
-
-    if (isError(response)) {
-      return [];
-    } else {
-      return response.result.data.map(item =>
-        storageLocationModelToStorageLocation(item),
+    if (sapRequestHeaders) {
+      const response = await RequestGateway.get<StorageLocationResponse>(
+        '/storageLocations?lgort=1',
+        sapRequestHeaders,
       );
+
+      if (isError(response)) {
+        return [];
+      } else {
+        return response.result.data.map(item =>
+          storageLocationModelToStorageLocation(item),
+        );
+      }
+    } else {
+      return [];
     }
   }
 
