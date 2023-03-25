@@ -1,5 +1,4 @@
 import React from 'react';
-//TODO: change secondary foreground color
 
 export interface iTheme {
   backgroundColor: string;
