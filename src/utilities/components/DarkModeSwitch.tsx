@@ -22,7 +22,6 @@ function DarkModeSwitch(props: DarkModeSwitchProps): JSX.Element {
     animation,
   } = props;
 
-  //TODO: remove icon import
   const AnimatedIcon = Animated.createAnimatedComponent(Icon);
 
   const [iconName, setIconName] = useState(lightModeIcon);
