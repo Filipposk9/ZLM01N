@@ -88,7 +88,7 @@ function History(): JSX.Element {
           return (
             <Pressable
               onPress={() => {
-                animations[index].setInterpolate(item.items.length * 90);
+                animations[index].setInterpolate(item.items.length * 100);
               }}>
               <View
                 style={[
@@ -135,7 +135,7 @@ function History(): JSX.Element {
                   </View>
                 </View>
 
-                <Animated.View style={animations[index].setInterpolate()}>
+                <Animated.View style={animations[index].setInterpolate(0)}>
                   {item.items.map((item: MaterialDocumentItem, j: number) => {
                     return (
                       <View
