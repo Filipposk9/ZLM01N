@@ -1,6 +1,6 @@
 import React, {useContext, useEffect, useState} from 'react';
 import {Animated, Pressable, StyleSheet, Text, View} from 'react-native';
-import Slide from '../../../appearance/animations/Slide';
+import VerticalSlide from '../../../appearance/animations/VerticalSlide';
 import {ThemeContext} from '../../../appearance/theme/ThemeContext';
 import Repository from '../../../data/Repository';
 import {MaterialDocument, MaterialDocumentItem} from '../../../shared/Types';
@@ -17,7 +17,7 @@ function GoodsMovemementLogComponent(
 
   const {goodsMovementLog, count} = props;
 
-  const animation = Slide;
+  const animation = VerticalSlide;
 
   type HashedDescriptions = {[key: string]: string};
 
