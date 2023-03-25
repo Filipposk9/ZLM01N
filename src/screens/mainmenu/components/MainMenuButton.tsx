@@ -1,5 +1,12 @@
 import React, {useContext} from 'react';
-import {View, Pressable, Text, StyleSheet, Dimensions} from 'react-native';
+import {
+  View,
+  Pressable,
+  Text,
+  StyleSheet,
+  Dimensions,
+  Animated,
+} from 'react-native';
 import {GlobalStyles} from '../../../appearance/styles/GlobalStyles';
 import {ThemeContext} from '../../../appearance/theme/ThemeContext';
 import Icon from '../../../appearance/assets/Icon';
@@ -16,6 +23,8 @@ interface MainMenuButtonProps {
 
 function MainMenuButton(props: MainMenuButtonProps): JSX.Element {
   const {theme} = useContext(ThemeContext);
+
+  const [scaling, setScaling] = React.useState<number>(1);
 
   const {
     navigation,
@@ -71,24 +80,32 @@ function MainMenuButton(props: MainMenuButtonProps): JSX.Element {
         width: '50%',
         padding: '4%',
       }}>
-      <LinearGradient
-        colors={[modifyHexColor(backgroundColor), backgroundColor]}
-        style={styles(theme).mainMenuButtonContainer}>
-        <Pressable
-          style={styles(theme).mainMenuButton}
-          onPress={() => {
-            if (navigationLocation) {
-              navigation.navigate(navigationLocation);
-            }
-          }}
-          android_ripple={GlobalStyles(theme).rippleColor}>
-          <Icon
-            name={icon}
-            color={iconColor}
-            size={Dimensions.get('window').height / 9}
-          />
-        </Pressable>
-      </LinearGradient>
+      <Animated.View style={{transform: [{scale: scaling}]}}>
+        <LinearGradient
+          colors={[modifyHexColor(backgroundColor), backgroundColor]}
+          style={styles(theme).mainMenuButtonContainer}>
+          <Pressable
+            style={styles(theme).mainMenuButton}
+            onPress={() => {
+              if (navigationLocation) {
+                navigation.navigate(navigationLocation);
+              }
+            }}
+            onTouchStart={() => {
+              setScaling(0.9);
+            }}
+            onTouchEnd={() => {
+              setScaling(1);
+            }}
+            android_ripple={GlobalStyles(theme).rippleColor}>
+            <Icon
+              name={icon}
+              color={iconColor}
+              size={Dimensions.get('window').height / 9}
+            />
+          </Pressable>
+        </LinearGradient>
+      </Animated.View>
       <View style={styles(theme).mainMenuButtonTextContainer}>
         <Text style={styles(theme).mainMenuButtonText}>{text}</Text>
       </View>
