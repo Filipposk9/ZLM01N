@@ -20,7 +20,6 @@ function HandlingUnitComponent(props: HandlingUnitComponentProps): JSX.Element {
       <FlatList
         data={scannedHandlingUnits}
         renderItem={({item}) => {
-          //TODO: make into 1 component
           return (
             <View style={styles(theme).outboundDeliveryHandlingUnitsContainer}>
               <Text style={styles(theme).outboundDeliveryHandlingUnitsText}>
