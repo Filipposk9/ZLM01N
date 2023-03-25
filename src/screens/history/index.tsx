@@ -20,7 +20,6 @@ function History(): JSX.Element {
         <Text style={styles(theme).historyHeaderText}>Ιστορικό Κινήσεων</Text>
       </View>
       <FlatList
-        //TODO: make this view into a component GoodsMovemementLogComponent
         data={goodsMovementLogs}
         renderItem={({item, index}) => {
           return (
