@@ -1,40 +1,39 @@
-import {Animated} from 'react-native';
+import {Animated, Easing} from 'react-native';
 
 class Slide {
   private animatedValue: Animated.Value = new Animated.Value(0);
+  private currentValue: number = 0;
 
-  setInterpolate() {
-    return {
-      transform: [
-        {
-          scaleY: this.animatedValue.interpolate({
-            inputRange: [0, 100],
-            outputRange: [0, 100],
-          }),
-        },
-      ],
-    };
+  constructor() {
+    this.currentValue = 0;
   }
 
-  //   slidedown = () => {
-  //     // setDropdown(true)
-  //     Animated.timing(this.animatedValue, {
-  //       toValue: height,
-  //       duration: 500,
-  //       useNativeDriver: false,
-  //     }).start();
-  //   };
+  setInterpolate(height: number = 0) {
+    if (this.currentValue >= 1) {
+      Animated.timing(this.animatedValue, {
+        toValue: 0,
+        duration: 500,
+        easing: Easing.linear,
+        useNativeDriver: false,
+      }).start();
+      this.currentValue = 0;
+    } else {
+      Animated.timing(this.animatedValue, {
+        toValue: height,
+        easing: Easing.linear,
+        duration: 500,
+        useNativeDriver: false,
+      }).start();
+      this.currentValue = 1;
+    }
 
-  //   slideup = () => {
-  //     Animated.timing(this.animatedValue, {
-  //       toValue: 0,
-  //       duration: 500,
-  //       useNativeDriver: false,
-  //     }).start(
-  //       () => {},
-  //       //  => setDropdown(false)
-  //     );
-  //   };
+    return {
+      maxHeight: this.animatedValue.interpolate({
+        inputRange: [0, 1],
+        outputRange: [0, 1],
+      }),
+    };
+  }
 }
 
-export default new Slide();
+export default Slide;
