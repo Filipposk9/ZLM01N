@@ -144,7 +144,7 @@ function Picking({navigation}: {navigation: any}): JSX.Element {
               <Pressable
                 style={styles(theme).outboundDeliveryItem}
                 onPress={() => {
-                  animation.setInterpolate(50);
+                  animation.setInterpolate(85 * item.handlingUnits.length);
                 }}>
                 <View style={styles(theme).outboundDeliveryLineLeft}>
                   <Text style={styles(theme).outboundDeliveryLineTextLeft}>

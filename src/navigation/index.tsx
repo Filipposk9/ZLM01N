@@ -2,6 +2,7 @@ import React, {useContext} from 'react';
 
 import {createNativeStackNavigator} from '@react-navigation/native-stack';
 import {createMaterialTopTabNavigator} from '@react-navigation/material-top-tabs';
+import {createMaterialBottomTabNavigator} from '@react-navigation/material-bottom-tabs';
 
 import Login from '../screens/login/index';
 import MainMenu from '../screens/mainmenu/index';
@@ -16,6 +17,7 @@ import {ThemeContext} from '../appearance/theme/ThemeContext';
 
 const AppStack = createNativeStackNavigator<RootStackParamList>();
 const Tab = createMaterialTopTabNavigator();
+const BottomTab = createMaterialBottomTabNavigator();
 
 function TransferPostingTabs({navigation}: {navigation: any}): JSX.Element {
   const {theme} = useContext(ThemeContext);
@@ -140,6 +142,50 @@ function GoodsIssuesTabs({navigation}: {navigation: any}): JSX.Element {
         options={{title: 'Ιστορικό'}}
       />
     </Tab.Navigator>
+  );
+}
+
+function HomeTabs({navigation}: {navigation: any}): JSX.Element {
+  const {theme} = useContext(ThemeContext);
+
+  return (
+    <BottomTab.Navigator
+    // screenOptions={
+    //   {
+    //   tabBarActiveTintColor: theme.textColor,
+    //   tabBarInactiveTintColor: '#7a7a7a',
+    //   tabBarPressColor: '#33333330',
+    //   tabBarStyle: {
+    //     backgroundColor: theme.backgroundColor,
+    //   },
+
+    //   tabBarIndicatorStyle: {
+    //     borderRadius: 20,
+    //     borderWidth: 1,
+    //     borderColor: theme.tabBorderColor,
+    //     height: 20,
+    //     backgroundColor: '#00000000',
+    //     marginBottom: '3%',
+    //   },
+    //   tabBarLabelStyle: {
+    //     fontSize: 16,
+    //     fontWeight: 'bold',
+    //     textTransform: 'none',
+    //     borderColor: theme.tabBorderColor,
+    //   },
+    // }}
+    >
+      <BottomTab.Screen
+        name="Home"
+        component={MainMenu}
+        options={{title: 'MainMenu'}}
+      />
+      {/* <BottomTab.Screen
+        name="Settings"
+        component={Settings}
+        options={{title: 'Settings'}}
+      /> */}
+    </BottomTab.Navigator>
   );
 }
 
