@@ -10,7 +10,7 @@ class HorizontalRotation {
     });
   }
 
-  setInterpolate(): Animated.AnimatedInterpolation {
+  setInterpolate() {
     if (this.currentValue >= 90) {
       Animated.spring(this.animatedValue, {
         toValue: 0,
