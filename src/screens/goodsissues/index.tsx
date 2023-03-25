@@ -283,7 +283,11 @@ function GoodsIssues({navigation}: {navigation: any}): JSX.Element {
       <View style={{height: 0}}>
         <BarcodeScanner
           reference={scannerRef}
-          onScan={lastScannedBarcode => addLabel(lastScannedBarcode)}
+          onScan={lastScannedBarcode => {
+            if (productionOrder !== '') {
+              addLabel(lastScannedBarcode);
+            }
+          }}
           filter={lastScanendBarcode => materialLabelFilter(lastScanendBarcode)}
         />
       </View>
