@@ -1,11 +1,21 @@
 import React, {useContext, useState, useRef} from 'react';
-import {View, Text, TextInput, Pressable, Alert, FlatList} from 'react-native';
+import {
+  View,
+  Text,
+  TextInput,
+  Pressable,
+  Alert,
+  FlatList,
+  Animated,
+} from 'react-native';
 import Spinner from 'react-native-loading-spinner-overlay';
 import {styles} from '../../appearance/styles/PickingStyles';
 import {ThemeContext} from '../../appearance/theme/ThemeContext';
 import BarcodeScanner from '../../utilities/components/BarcodeScanner';
 import Repository from '../../data/Repository';
 import {OutboundDelivery} from '../../shared/Types';
+import HandlingUnitComponent from './components/HandlingUnitComponent';
+import VerticalSlide from '../../appearance/animations/VerticalSlide';
 
 function Picking({navigation}: {navigation: any}): JSX.Element {
   const {theme} = useContext(ThemeContext);
@@ -96,6 +106,8 @@ function Picking({navigation}: {navigation: any}): JSX.Element {
 
   //TODO: animate flatlist spawning
 
+  const animation = VerticalSlide;
+
   return (
     <View style={styles(theme).pickingContainer}>
       <Spinner
@@ -155,14 +167,17 @@ function Picking({navigation}: {navigation: any}): JSX.Element {
         </Text>
       </View>
 
-      <View style={styles(theme).outboundDeliveryLinesContainer}>
+      <Animated.View style={styles(theme).outboundDeliveryLinesContainer}>
         <FlatList
           data={outboundDeliveryData?.items}
           renderItem={({item, index}) => (
             <View style={styles(theme).outboundDeliveryLine}>
               <Pressable
                 style={styles(theme).outboundDeliveryItem}
-                onPress={() => onChangeLayout(index)}>
+                onPress={() => {
+                  animation.setInterpolate(50);
+                  // onChangeLayout(index)
+                }}>
                 <View style={styles(theme).outboundDeliveryLineLeft}>
                   <Text style={styles(theme).outboundDeliveryLineTextLeft}>
                     {item.positionNumber}
@@ -183,51 +198,13 @@ function Picking({navigation}: {navigation: any}): JSX.Element {
                   </Text>
                 </View>
               </Pressable>
-              <View
-                style={{
-                  height: expanded[index] ? undefined : 0,
-                  overflow: 'hidden',
-                }}>
-                <FlatList
-                  data={item.handlingUnits}
-                  renderItem={({item}) => {
-                    //TODO: make into 1 component
-                    return (
-                      <View
-                        style={
-                          styles(theme).outboundDeliveryHandlingUnitsContainer
-                        }>
-                        <Text
-                          style={
-                            styles(theme).outboundDeliveryHandlingUnitsText
-                          }>
-                          SSCC: {item.sscc}
-                        </Text>
-                        <Text
-                          style={
-                            styles(theme).outboundDeliveryHandlingUnitsText
-                          }>
-                          Παρτίδα: {item.batch}
-                        </Text>
-                        <Text
-                          style={
-                            styles(theme).outboundDeliveryHandlingUnitsText
-                          }>
-                          Ποσότητα: {item.quantity} {item.unitOfMeasure}
-                        </Text>
-                        <Text
-                          style={
-                            styles(theme).outboundDeliveryHandlingUnitsText
-                          }>
-                          Αποθ. Χώρος: {item.storageLocation}
-                        </Text>
-                      </View>
-                    );
-                  }}></FlatList>
-              </View>
+              <HandlingUnitComponent
+                scannedHandlingUnits={
+                  item.handlingUnits
+                }></HandlingUnitComponent>
             </View>
           )}></FlatList>
-      </View>
+      </Animated.View>
 
       <View style={{height: 0}}>
         <BarcodeScanner
