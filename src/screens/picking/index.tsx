@@ -43,10 +43,6 @@ function Picking({navigation}: {navigation: any}): JSX.Element {
           response.items.sort((a, b) => a.positionNumber - b.positionNumber);
 
           setOutboundDeliveryData(response);
-
-          const initialState = new Array(response.items.length).fill(false);
-
-          setExpanded(initialState);
         }
       } else {
         Alert.alert('Λάθος αριθμός παράδοσης');
