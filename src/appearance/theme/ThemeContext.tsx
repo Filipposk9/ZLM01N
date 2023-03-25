@@ -1,21 +1,5 @@
 import React from 'react';
-
-export interface iTheme {
-  backgroundColor: string;
-  foregroundColor: string;
-  secondaryForegroundColor: string;
-  buttonBackgroundColor: string;
-  buttonSecondaryBackgroundColor: string;
-  buttonThirdBackgroundColor: string;
-  borderColor: string;
-  iconColor: string;
-  buttonBorderColor: string;
-  textColor: string;
-  buttonTextColor: string;
-  secondaryTextColor: string;
-  rippleColor: string;
-  tabBorderColor: string;
-}
+import {iTheme} from './Types';
 
 const themes: {[key: string]: iTheme} = {
   dark: {
@@ -92,4 +76,4 @@ function ThemeProvider({children}: any) {
   );
 }
 
-export {ThemeProvider, ThemeContext};
+export {ThemeProvider, ThemeContext, iTheme};
