@@ -1,5 +1,5 @@
 import React, {useContext, useRef, useState} from 'react';
-import {View, Text, TextInput, Alert, ScrollView} from 'react-native';
+import {View, Text, TextInput, Alert} from 'react-native';
 import {FlatList} from 'react-native-gesture-handler';
 import BarcodeScanner from '../../utilities/components/BarcodeScanner';
 import Repository from '../../data/Repository';
@@ -11,7 +11,6 @@ import {
 } from '../../shared/Types';
 import {styles} from '../../appearance/styles/GoodsIssuesStyles';
 import {ThemeContext} from '../../appearance/theme/ThemeContext';
-import LabelComponent from '../transferposting/components/LabelComponent';
 import {GOODS_MOVEMENT_CODE, MOVEMENT_TYPE} from '../../shared/Constants';
 
 function GoodsIssues({navigation}: {navigation: any}): JSX.Element {
@@ -95,77 +94,85 @@ function GoodsIssues({navigation}: {navigation: any}): JSX.Element {
     getProductionOrderData();
   };
 
-  const addLabel = (lastScannedBarcode: string) => {
-    if (lastScannedBarcode !== '') {
-      if (scannedLabels !== undefined) {
-        setScannedLabels([
-          ...scannedLabels,
-          {
-            count: scannedLabels.length + 1,
-            materialNumber: lastScannedBarcode.split('-')[0],
-            batch: lastScannedBarcode.split('-')[1],
-            quantity: Number(
-              lastScannedBarcode.split('-')[2].replace(',', '.'),
-            ),
-            validity: false,
-          },
-        ]);
-      } else {
-        setScannedLabels([
-          {
-            count: 1,
-            materialNumber: lastScannedBarcode.split('-')[0],
-            batch: lastScannedBarcode.split('-')[1],
-            quantity: Number(
-              lastScannedBarcode.split('-')[2].replace(',', '.'),
-            ),
-            validity: false,
-          },
-        ]);
-      }
-    }
+  // const addLabel = async (lastScannedBarcode: string) => {
+  //   const [materialNumber, batch, quantityString] =
+  //     lastScannedBarcode.split('-');
+  //   const quantity = Number(quantityString.replace(',', '.'));
+
+  //   const validity = await fetchBatchData(
+  //     materialNumber,
+  //     batch,
+  //     storageLocationIn,
+  //   );
+
+  //   if (lastScannedBarcode !== '') {
+  //     if (scannedLabels.length > 0) {
+  //       setScannedLabels([
+  //         ...scannedLabels,
+  //         {
+  //           count: scannedLabels[scannedLabels.length - 1].count + 1,
+  //           materialNumber: materialNumber,
+  //           batch: batch,
+  //           quantity: quantity,
+  //           validity: validity,
+  //         },
+  //       ]);
+  //     } else {
+  //       setScannedLabels([
+  //         {
+  //           count: 1,
+  //           materialNumber: materialNumber,
+  //           batch: batch,
+  //           quantity: quantity,
+  //           validity: validity,
+  //         },
+  //       ]);
+  //     }
+  //   }
+  // };
+
+  const storageLocationIsValid = (stgLoc: string) => {
+    return true;
   };
 
   const submitGoodsMovement = (
-    scannedLabels: Label[],
-    storageLocationIn: string,
-    storageLocationOut: string,
+    labels: Label[],
+    stgLocIn: string,
+    stgLocOut: string,
   ) => {
-    const submitGoodsMovement = async (): Promise<
-      MaterialDocument | undefined
-    > => {
-      const materialDocument = await Repository.createGoodsMovement(
-        GOODS_MOVEMENT_CODE.GOODS_ISSUE,
-        scannedLabels,
-        //TODO: ask user for storage location or get from BOM?
-        storageLocationIn,
-        storageLocationOut,
-        MOVEMENT_TYPE.GOODS_ISSUE,
-        productionOrder,
-      );
+    const submitGoodsMovement = async (
+      labels: Label[],
+      stgLoc: string,
+    ): Promise<MaterialDocument | undefined> => {
+      if (storageLocationIsValid(stgLoc)) {
+        const materialDocument = await Repository.createGoodsMovement(
+          GOODS_MOVEMENT_CODE.GOODS_ISSUE,
+          labels,
+          stgLocIn,
+          stgLocOut,
+          MOVEMENT_TYPE.GOODS_ISSUE,
+          productionOrder,
+        );
 
-      return materialDocument;
+        // resetScreenComponents();
+
+        return materialDocument;
+      } else {
+        Alert.alert('Σφάλμα', 'Εισάγετε αποθηκευτικό χώρο');
+      }
     };
 
-    // if (storageLocationsAreValid()) {
-    if (scannedLabels.length > 0) {
-      return submitGoodsMovement();
+    if (labels.length > 0) {
+      return submitGoodsMovement(labels, stgLocIn);
     } else {
-      Alert.alert('Άδειο παραστατικό');
-      return undefined;
+      Alert.alert('Σφάλμα', 'Αδειο παραστατικό');
     }
-    // } else {
-    //   Alert.alert('Εισάγετε αποθηκευτικό χώρο');
-    //   return undefined;
-    // }
   };
-
-  const removeLabel = (i: number): void => {};
 
   //TODO: storage location list tab, my goods issues tab
 
   return (
-    <View style={styles(theme).goodsIssuesContainer}>
+    <View style={styles(theme).topContainer}>
       <View style={styles(theme).productionOrderInputContainer}>
         <Text style={styles(theme).productionOrderInputText}>
           Εντολή Παραγωγής:{' '}
@@ -207,18 +214,6 @@ function GoodsIssues({navigation}: {navigation: any}): JSX.Element {
               /{productionOrderData?.header.associatedSalesOrderItem}
             </Text>
           </View>
-
-          {/* <Text>
-            
-            <Text style={styles(theme).productionOrderHeaderText}>
-              Παραγόμενο/Στόχος:{' '}
-            </Text>
-            <Text style={styles(theme).productionOrderHeaderContent}>
-              {productionOrderData?.header.confirmedYield}/
-              {productionOrderData?.header.targetQuantity}{' '}
-              {productionOrderData?.header.unitOfMeasure}
-            </Text>
-          </Text> */}
         </View>
 
         {productionOrderData !== undefined ? (
@@ -233,56 +228,57 @@ function GoodsIssues({navigation}: {navigation: any}): JSX.Element {
                     : '#94BA78',
               },
             ]}>
-            Παραγόμενο/Στόχος:
-            {productionOrderData.header.confirmedYield}/
-            {productionOrderData.header.targetQuantity}
+            Παραγόμενο/Στόχος: {productionOrderData.header.confirmedYield}/
+            {productionOrderData.header.targetQuantity}{' '}
+            {productionOrderData.header.unitOfMeasure}
           </Text>
         ) : null}
-
-        <FlatList
-          data={[
-            olivesGroup,
-            secondaryMaterialsGroup,
-            packagingGroup,
-            byProductsGroup,
-          ]}
-          renderItem={({item, index}) => (
-            <View>
-              {index === 0 ? (
-                <Text style={styles(theme).componentCategory}>Ελιές</Text>
-              ) : index === 1 ? (
-                <Text style={styles(theme).componentCategory}>Β' Ύλες</Text>
-              ) : index === 2 ? (
-                <Text style={styles(theme).componentCategory}>
-                  Υλικά Συσκευασίας{' '}
-                </Text>
-              ) : (
-                <Text style={styles(theme).componentCategory}>Υποπροϊόντα</Text>
-              )}
-
-              <FlatList
-                data={item}
-                renderItem={({item}) => (
-                  <View key={index} style={{flexDirection: 'row'}}>
-                    <Text style={styles(theme).componentMaterialText}>
-                      {item.materialText}
-                    </Text>
-                    <View style={styles(theme).componentQuantity}>
-                      <Text
-                        style={{
-                          fontSize: 12,
-                          color: 'white',
-                        }}>
-                        {item.issuedQuantity.toString().replace('.', ',')}/
-                        {item.requirementQuantity.toString().replace('.', ',')}
-                        {item.unitOfMeasure}
-                      </Text>
-                    </View>
-                  </View>
-                )}></FlatList>
-            </View>
-          )}></FlatList>
       </View>
+
+      <FlatList
+        style={styles(theme).goodsIssuesContainer}
+        data={[
+          olivesGroup,
+          secondaryMaterialsGroup,
+          packagingGroup,
+          byProductsGroup,
+        ]}
+        renderItem={({item, index}) => (
+          <View style={{margin: '2%'}}>
+            {index === 0 ? (
+              <Text style={styles(theme).componentCategory}>Ελιές</Text>
+            ) : index === 1 ? (
+              <Text style={styles(theme).componentCategory}>Β' Ύλες</Text>
+            ) : index === 2 ? (
+              <Text style={styles(theme).componentCategory}>
+                Υλικά Συσκευασίας{' '}
+              </Text>
+            ) : (
+              <Text style={styles(theme).componentCategory}>Υποπροϊόντα</Text>
+            )}
+
+            <FlatList
+              data={item}
+              renderItem={({item}) => (
+                <View key={index} style={{flexDirection: 'row'}}>
+                  <Text style={styles(theme).componentMaterialText}>
+                    {item.materialText}
+                  </Text>
+                  <View style={styles(theme).componentQuantity}>
+                    <Text
+                      style={{
+                        fontSize: 12,
+                        color: 'white',
+                      }}>
+                      {item.issuedQuantity.toString().replace('.', ',')}/
+                      {item.requirementQuantity.toString().replace('.', ',')}
+                      {item.unitOfMeasure}
+                    </Text>
+                  </View>
+                </View>
+              )}></FlatList>
+          </View>
+        )}></FlatList>
 
       <View style={{height: 0}}>
         <BarcodeScanner

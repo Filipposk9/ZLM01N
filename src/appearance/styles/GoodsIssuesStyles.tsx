@@ -2,9 +2,17 @@ import {StyleSheet} from 'react-native';
 
 export const styles = (theme: any) =>
   StyleSheet.create({
-    goodsIssuesContainer: {
+    topContainer: {
       backgroundColor: theme.backgroundColor,
       flex: 1,
+    },
+    goodsIssuesContainer: {
+      backgroundColor: theme.foregroundColor,
+      elevation: 5,
+      marginTop: '2%',
+      marginLeft: '4%',
+      marginRight: '4%',
+      borderRadius: 10,
     },
     productionOrderInputContainer: {
       flexDirection: 'row',
@@ -60,15 +68,14 @@ export const styles = (theme: any) =>
       fontWeight: 'bold',
       margin: '2%',
       paddingLeft: '2%',
-      //width: '60%',
     },
     productionOrderHeaderContent: {
       color: theme.textColor,
     },
     componentMaterialText: {
       fontSize: 12,
-      width: '75%',
-      color: 'white',
+      width: '65%',
+      color: theme.buttonTextColor,
     },
     componentQuantity: {
       alignItems: 'flex-end',
@@ -79,13 +86,6 @@ export const styles = (theme: any) =>
       fontSize: 20,
       marginTop: '2%',
       marginBottom: '2%',
-      color: theme.textColor,
-    },
-    labelList: {
-      height: '35%',
-      backgroundColor: theme.foregroundColor,
-      borderRadius: 20,
-      marginLeft: '3%',
-      marginRight: '3%',
+      color: theme.buttonTextColor,
     },
   });
