@@ -1,7 +1,6 @@
 import React, {useContext, useEffect, useState} from 'react';
 import {Animated, Pressable, StyleSheet, Text, View} from 'react-native';
 import VerticalSlide from '../../../appearance/animations/VerticalSlide';
-import Icon from '../../../appearance/assets/Icon';
 import {ThemeContext} from '../../../appearance/theme/ThemeContext';
 import Repository from '../../../data/Repository';
 import {MaterialDocument, MaterialDocumentItem} from '../../../shared/Types';
