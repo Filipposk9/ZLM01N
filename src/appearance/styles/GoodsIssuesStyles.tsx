@@ -1,6 +1,7 @@
 import {StyleSheet} from 'react-native';
+import {iTheme} from '../theme/ThemeContext';
 
-export const styles = (theme: any) =>
+export const styles = (theme: iTheme) =>
   StyleSheet.create({
     topContainer: {
       backgroundColor: theme.backgroundColor,

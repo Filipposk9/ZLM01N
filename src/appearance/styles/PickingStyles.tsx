@@ -1,6 +1,7 @@
 import {StyleSheet} from 'react-native';
+import {iTheme} from '../theme/ThemeContext';
 
-export const styles = (theme: any) =>
+export const styles = (theme: iTheme) =>
   StyleSheet.create({
     pickingContainer: {
       backgroundColor: theme.backgroundColor,
@@ -94,16 +95,5 @@ export const styles = (theme: any) =>
       color: theme.buttonTextColor,
       width: '95%',
       margin: '2%',
-    },
-    outboundDeliveryHandlingUnitsContainer: {
-      backgroundColor: theme.secondaryForegroundColor,
-      borderRadius: 20,
-      borderWidth: 1,
-      borderColor: theme.borderColor,
-      marginBottom: '2%',
-    },
-    outboundDeliveryHandlingUnitsText: {
-      color: theme.buttonTextColor,
-      marginLeft: '4%',
     },
   });

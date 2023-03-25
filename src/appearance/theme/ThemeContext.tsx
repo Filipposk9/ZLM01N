@@ -1,7 +1,24 @@
 import React from 'react';
 //TODO: change secondary foreground color
 
-const themes = {
+export interface iTheme {
+  backgroundColor: string;
+  foregroundColor: string;
+  secondaryForegroundColor: string;
+  buttonBackgroundColor: string;
+  buttonSecondaryBackgroundColor: string;
+  buttonThirdBackgroundColor: string;
+  borderColor: string;
+  iconColor: string;
+  buttonBorderColor: string;
+  textColor: string;
+  buttonTextColor: string;
+  secondaryTextColor: string;
+  rippleColor: string;
+  tabBorderColor: string;
+}
+
+const themes: {[key: string]: iTheme} = {
   dark: {
     backgroundColor: '#1c2228',
     foregroundColor: '#29313a',

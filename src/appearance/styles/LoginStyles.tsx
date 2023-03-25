@@ -1,6 +1,7 @@
 import {StyleSheet} from 'react-native';
-//TODO: remove any? set data type
-export const styles = (theme: any) =>
+import {iTheme} from '../theme/ThemeContext';
+
+export const styles = (theme: iTheme) =>
   StyleSheet.create({
     loginContainer: {
       backgroundColor: theme.backgroundColor,
