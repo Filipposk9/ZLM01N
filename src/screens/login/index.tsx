@@ -25,7 +25,6 @@ function Login({navigation}: {navigation: any}): JSX.Element {
 
   const [isLoading, setIsLoading] = useState(false);
 
-  //TODO: return setInterpolate instead of whole class
   //TODO: animation triggers on every button press
   const animation = HorizontalRotation.setInterpolate();
 
@@ -38,7 +37,6 @@ function Login({navigation}: {navigation: any}): JSX.Element {
       const users = await Repository.getUsers();
 
       setUsers(users);
-      //TODO: get only 1 user instead of all?
     }
     fetchUsers();
   }, []);

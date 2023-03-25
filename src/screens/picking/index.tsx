@@ -176,7 +176,6 @@ function Picking({navigation}: {navigation: any}): JSX.Element {
                 style={styles(theme).outboundDeliveryItem}
                 onPress={() => {
                   animation.setInterpolate(50);
-                  // onChangeLayout(index)
                 }}>
                 <View style={styles(theme).outboundDeliveryLineLeft}>
                   <Text style={styles(theme).outboundDeliveryLineTextLeft}>
