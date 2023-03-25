@@ -8,10 +8,7 @@ class Slide {
   constructor() {}
 
   setInterpolate(height: number = 0) {
-    console.log(this.currentValue);
-    console.log(height, 'h');
     if (this.currentValue >= 1) {
-      console.log('gonig up');
       Animated.timing(this.animatedValue, {
         toValue: 0,
         duration: 500,
