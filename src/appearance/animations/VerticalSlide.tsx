@@ -1,6 +1,6 @@
 import {Animated, Easing} from 'react-native';
 
-class Slide {
+class VerticalSlide {
   private animatedValue: Animated.Value = new Animated.Value(0);
   private currentValue: number = 0;
   private init: boolean = true;
@@ -40,4 +40,4 @@ class Slide {
   }
 }
 
-export default new Slide();
+export default new VerticalSlide();
