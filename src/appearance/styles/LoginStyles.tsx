@@ -29,7 +29,6 @@ export const styles = (theme: any) =>
     },
     loginButtonContainer: {
       borderRadius: 20,
-      //borderWidth: 1,
       borderColor: theme.buttonBorderColor,
       marginTop: '15%',
       width: '60%',
