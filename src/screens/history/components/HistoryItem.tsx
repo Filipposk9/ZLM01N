@@ -10,12 +10,14 @@ interface HistoryItemProps {
   count: number;
 }
 
+//TODO: support goods issues, picking
+
 function HistoryItem(props: HistoryItemProps): JSX.Element {
   const {theme} = useContext(ThemeContext);
 
   const {goodsMovementLog, count} = props;
 
-  const animation = VerticalSlide;
+  const animation = new VerticalSlide();
 
   type HashedDescriptions = {[key: string]: string};
 

@@ -1,23 +1,15 @@
 import React, {useContext, useState, useRef} from 'react';
-import {
-  View,
-  Text,
-  TextInput,
-  Pressable,
-  Alert,
-  FlatList,
-  Animated,
-} from 'react-native';
+import {View, Text, TextInput, Alert, FlatList} from 'react-native';
 import Spinner from 'react-native-loading-spinner-overlay';
 import {styles} from '../../appearance/styles/PickingStyles';
 import {ThemeContext} from '../../appearance/theme/ThemeContext';
 import BarcodeScanner from '../../utilities/components/BarcodeScanner';
 import Repository from '../../data/Repository';
 import {OutboundDelivery} from '../../shared/Types';
-import HandlingUnitComponent from './components/HandlingUnitComponent';
 import VerticalSlide from '../../appearance/animations/VerticalSlide';
 import BarcodeValidator from '../../utilities/validators/BarcodeValidator';
 import SapStructureValidator from '../../utilities/validators/SapStructureValidator';
+import OutboundDeliveryItemComponent from './components/OutboundDeliveryItemComponent';
 
 function Picking({navigation}: {navigation: any}): JSX.Element {
   const {theme} = useContext(ThemeContext);
@@ -136,43 +128,14 @@ function Picking({navigation}: {navigation: any}): JSX.Element {
         </Text>
       </View>
 
-      <Animated.View style={styles(theme).outboundDeliveryLinesContainer}>
+      <View style={styles(theme).outboundDeliveryLinesContainer}>
         <FlatList
           data={outboundDeliveryData?.items}
-          renderItem={({item, index}) => (
-            <View style={styles(theme).outboundDeliveryLine}>
-              <Pressable
-                style={styles(theme).outboundDeliveryItem}
-                onPress={() => {
-                  animation.setInterpolate(85 * item.handlingUnits.length);
-                }}>
-                <View style={styles(theme).outboundDeliveryLineLeft}>
-                  <Text style={styles(theme).outboundDeliveryLineTextLeft}>
-                    {item.positionNumber}
-                  </Text>
-                </View>
-                <View style={styles(theme).outboundDeliveryLineRight}>
-                  <Text style={styles(theme).outboundDeliveryLineTextRight}>
-                    <Text>
-                      {item.materialText}
-                      {'\n'}
-                    </Text>
-                    <Text>
-                      Picked: {item.pickedQuantity}/{item.requirementQuantity}{' '}
-                      {item.unitOfMeasure}
-                      {'\n'}
-                    </Text>
-                    <Text>Scanned: {item.handlingUnits.length} PAL</Text>
-                  </Text>
-                </View>
-              </Pressable>
-              <HandlingUnitComponent
-                scannedHandlingUnits={
-                  item.handlingUnits
-                }></HandlingUnitComponent>
-            </View>
+          renderItem={({item}) => (
+            <OutboundDeliveryItemComponent
+              item={item}></OutboundDeliveryItemComponent>
           )}></FlatList>
-      </Animated.View>
+      </View>
 
       <View style={{height: 0}}>
         <BarcodeScanner

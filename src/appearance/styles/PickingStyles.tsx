@@ -66,34 +66,4 @@ export const styles = (theme: iTheme) =>
     outboundDeliveryLinesContainer: {
       margin: '4%',
     },
-    outboundDeliveryLine: {
-      elevation: 4,
-      backgroundColor: theme.foregroundColor,
-      marginBottom: '2%',
-      borderRadius: 10,
-    },
-    outboundDeliveryItem: {
-      margin: '2%',
-      flexDirection: 'row',
-    },
-    outboundDeliveryLineLeft: {
-      justifyContent: 'center',
-      marginLeft: '2%',
-      width: '16%',
-    },
-    outboundDeliveryLineTextLeft: {
-      color: theme.buttonTextColor,
-      fontWeight: 'bold',
-      fontSize: 32,
-    },
-    outboundDeliveryLineRight: {
-      justifyContent: 'center',
-      width: '84%',
-      borderRadius: 10,
-    },
-    outboundDeliveryLineTextRight: {
-      color: theme.buttonTextColor,
-      width: '95%',
-      margin: '2%',
-    },
   });

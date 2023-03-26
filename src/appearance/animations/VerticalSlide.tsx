@@ -40,4 +40,4 @@ class VerticalSlide {
   }
 }
 
-export default new VerticalSlide();
+export default VerticalSlide;
