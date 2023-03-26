@@ -44,7 +44,7 @@ const themes: {[key: string]: iTheme} = {
     buttonTextColor: '#ffffff',
     secondaryTextColor: '#444444',
 
-    tabBorderColor: '#95aa9d',
+    tabBorderColor: '#6c8776',
 
     rippleColor: '#a0c4c2',
   },
