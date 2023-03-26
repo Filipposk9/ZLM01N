@@ -77,6 +77,7 @@ function MainMenu({navigation}: {navigation: any}): JSX.Element {
 export default React.memo(MainMenu);
 
 //TODO: on back button -> perform logout actions, handle queue remnants
+//TODO: bottom tabs, home,  settings, profile
 // useEffect(() => {
 //   //   //FIXME: this runs even if i go back TO this screen,
 //   //   //FIXME: should only work when i go back FROM this csreen
