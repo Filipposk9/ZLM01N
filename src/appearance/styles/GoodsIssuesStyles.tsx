@@ -10,9 +10,7 @@ export const styles = (theme: iTheme) =>
     goodsIssuesContainer: {
       backgroundColor: theme.foregroundColor,
       elevation: 5,
-      marginTop: '2%',
-      marginLeft: '4%',
-      marginRight: '4%',
+      margin: '4%',
       borderRadius: 10,
     },
     productionOrderInputContainer: {
@@ -75,7 +73,7 @@ export const styles = (theme: iTheme) =>
     },
     componentMaterialText: {
       fontSize: 12,
-      width: '65%',
+      width: '67%',
       color: theme.buttonTextColor,
     },
     componentQuantity: {
