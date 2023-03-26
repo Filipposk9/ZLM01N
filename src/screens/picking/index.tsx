@@ -6,7 +6,6 @@ import {ThemeContext} from '../../appearance/theme/ThemeContext';
 import BarcodeScanner from '../../utilities/components/BarcodeScanner';
 import Repository from '../../data/Repository';
 import {OutboundDelivery} from '../../shared/Types';
-import VerticalSlide from '../../appearance/animations/VerticalSlide';
 import BarcodeValidator from '../../utilities/validators/BarcodeValidator';
 import SapStructureValidator from '../../utilities/validators/SapStructureValidator';
 import OutboundDeliveryItemComponent from './components/OutboundDeliveryItemComponent';
@@ -64,10 +63,6 @@ function Picking({navigation}: {navigation: any}): JSX.Element {
     };
     pickLabel(lastScannedBarcode);
   };
-
-  //TODO: animate flatlist spawning
-
-  const animation = VerticalSlide;
 
   return (
     <View style={styles(theme).pickingContainer}>
