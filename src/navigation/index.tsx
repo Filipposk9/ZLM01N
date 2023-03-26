@@ -2,10 +2,11 @@ import React, {useContext} from 'react';
 
 import {createNativeStackNavigator} from '@react-navigation/native-stack';
 import {createMaterialTopTabNavigator} from '@react-navigation/material-top-tabs';
-import {createMaterialBottomTabNavigator} from '@react-navigation/material-bottom-tabs';
 
 import Login from '../screens/login/index';
 import MainMenu from '../screens/mainmenu/index';
+import Profile from '../screens/profile/index';
+import Settings from '../screens/settings/index';
 import TransferPosting from '../screens/transferposting/index';
 import TransferPostingLog from '../screens/transferpostinglog/index';
 import History from '../screens/history/index';
@@ -17,7 +18,7 @@ import {ThemeContext} from '../appearance/theme/ThemeContext';
 
 const AppStack = createNativeStackNavigator<RootStackParamList>();
 const Tab = createMaterialTopTabNavigator();
-const BottomTab = createMaterialBottomTabNavigator();
+const BottomTab = createMaterialTopTabNavigator();
 
 function TransferPostingTabs({navigation}: {navigation: any}): JSX.Element {
   const {theme} = useContext(ThemeContext);
@@ -150,41 +151,42 @@ function HomeTabs({navigation}: {navigation: any}): JSX.Element {
 
   return (
     <BottomTab.Navigator
-    // screenOptions={
-    //   {
-    //   tabBarActiveTintColor: theme.textColor,
-    //   tabBarInactiveTintColor: '#7a7a7a',
-    //   tabBarPressColor: '#33333330',
-    //   tabBarStyle: {
-    //     backgroundColor: theme.backgroundColor,
-    //   },
+      tabBarPosition="bottom"
+      screenOptions={{
+        tabBarActiveTintColor: theme.textColor,
+        tabBarInactiveTintColor: '#7a7a7a',
+        tabBarPressColor: '#33333330',
+        tabBarStyle: {
+          backgroundColor: theme.backgroundColor,
+        },
 
-    //   tabBarIndicatorStyle: {
-    //     borderRadius: 20,
-    //     borderWidth: 1,
-    //     borderColor: theme.tabBorderColor,
-    //     height: 20,
-    //     backgroundColor: '#00000000',
-    //     marginBottom: '3%',
-    //   },
-    //   tabBarLabelStyle: {
-    //     fontSize: 16,
-    //     fontWeight: 'bold',
-    //     textTransform: 'none',
-    //     borderColor: theme.tabBorderColor,
-    //   },
-    // }}
-    >
+        tabBarIndicatorStyle: {
+          borderWidth: 1,
+          borderColor: theme.tabBorderColor,
+          backgroundColor: '#00000000',
+        },
+        tabBarLabelStyle: {
+          fontSize: 16,
+          fontWeight: 'bold',
+          textTransform: 'none',
+          borderColor: theme.tabBorderColor,
+        },
+      }}>
       <BottomTab.Screen
         name="Home"
         component={MainMenu}
         options={{title: 'MainMenu'}}
       />
-      {/* <BottomTab.Screen
+      <BottomTab.Screen
+        name="Profile"
+        component={Profile}
+        options={{title: 'Profile'}}
+      />
+      <BottomTab.Screen
         name="Settings"
         component={Settings}
         options={{title: 'Settings'}}
-      /> */}
+      />
     </BottomTab.Navigator>
   );
 }
@@ -203,8 +205,8 @@ function AppNavigation(): JSX.Element {
       />
       <AppStack.Screen
         name="MainMenu"
-        component={MainMenu}
-        options={{title: 'MainMenu'}}
+        component={HomeTabs}
+        options={{title: 'Home'}}
       />
       <AppStack.Screen
         name={'TransferPosting'}
