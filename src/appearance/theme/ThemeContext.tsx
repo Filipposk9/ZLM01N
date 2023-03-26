@@ -76,4 +76,4 @@ function ThemeProvider({children}: any) {
   );
 }
 
-export {ThemeProvider, ThemeContext, iTheme};
+export {ThemeProvider, ThemeContext};
