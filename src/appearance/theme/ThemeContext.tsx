@@ -1,5 +1,5 @@
 import React from 'react';
-import {iTheme} from './Types';
+import {iTheme} from './types';
 
 const themes: {[key: string]: iTheme} = {
   dark: {

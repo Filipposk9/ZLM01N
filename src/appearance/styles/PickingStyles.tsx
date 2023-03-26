@@ -1,5 +1,5 @@
 import {StyleSheet} from 'react-native';
-import {iTheme} from '../theme/Types';
+import {iTheme} from '../theme/types';
 
 export const styles = (theme: iTheme) =>
   StyleSheet.create({
