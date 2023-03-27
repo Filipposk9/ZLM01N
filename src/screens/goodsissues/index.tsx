@@ -2,6 +2,7 @@ import React, {useContext, useRef, useState} from 'react';
 import {View, Text, TextInput, Alert} from 'react-native';
 import {FlatList} from 'react-native-gesture-handler';
 import BarcodeScanner from '../../utilities/components/BarcodeScanner';
+import ManualLabelInputModal from '../../utilities/components/ManualLabelInputModal';
 import Repository from '../../data/Repository';
 import {
   Label,
@@ -14,7 +15,6 @@ import {ThemeContext} from '../../appearance/theme/ThemeContext';
 import {GOODS_MOVEMENT_CODE, MOVEMENT_TYPE} from '../../shared/Constants';
 import BarcodeValidator from '../../utilities/validators/BarcodeValidator';
 import SapStructureValidator from '../../utilities/validators/SapStructureValidator';
-import ManualLabelInputModal from '../../utilities/components/ManualLabelInputModal';
 
 function GoodsIssues({navigation}: {navigation: any}): JSX.Element {
   const {theme} = useContext(ThemeContext);
@@ -39,9 +39,15 @@ function GoodsIssues({navigation}: {navigation: any}): JSX.Element {
   >([]);
 
   const [manualLabelInputVisibility, setManualLabelInputVisibility] =
-    useState(false);
+    useState(true);
 
-  const [scannedLabels, setScannedLabels] = useState<Label[]>();
+  // const [scannedLabels, setScannedLabels] = useState<Label[]>();
+
+  const [lastScannedBarcode, setLastScannedBarcode] = useState(
+    '210000521-11111CU123-1',
+  );
+
+  const [materialText, setMaterialText] = useState('');
 
   const getProductionOrderData = () => {
     const getProductionOrderData = async () => {
@@ -90,42 +96,27 @@ function GoodsIssues({navigation}: {navigation: any}): JSX.Element {
     getProductionOrderData();
   };
 
-  // const addLabel = async (lastScannedBarcode: string) => {
-  //   const [materialNumber, batch, quantityString] =
-  //     lastScannedBarcode.split('-');
-  //   const quantity = Number(quantityString.replace(',', '.'));
+  const getMaterialText = (
+    materialNumber: string,
+  ): Promise<string | undefined> | undefined => {
+    const getMaterialText = async (materialNumber: string) => {
+      const response = await Repository.getMaterialBasicData(materialNumber);
 
-  //   const validity = await fetchBatchData(
-  //     materialNumber,
-  //     batch,
-  //     storageLocationIn,
-  //   );
+      if (response !== undefined) {
+        const materialText = response.description;
+        return materialText;
+      } else {
+        return undefined;
+      }
+    };
 
-  //   if (lastScannedBarcode !== '') {
-  //     if (scannedLabels.length > 0) {
-  //       setScannedLabels([
-  //         ...scannedLabels,
-  //         {
-  //           count: scannedLabels[scannedLabels.length - 1].count + 1,
-  //           materialNumber: materialNumber,
-  //           batch: batch,
-  //           quantity: quantity,
-  //           validity: validity,
-  //         },
-  //       ]);
-  //     } else {
-  //       setScannedLabels([
-  //         {
-  //           count: 1,
-  //           materialNumber: materialNumber,
-  //           batch: batch,
-  //           quantity: quantity,
-  //           validity: validity,
-  //         },
-  //       ]);
-  //     }
-  //   }
-  // };
+    const materialText = getMaterialText(materialNumber);
+    if (materialText) {
+      return materialText;
+    } else {
+      return undefined;
+    }
+  };
 
   const storageLocationIsValid = (stgLoc: string) => {
     return true;
@@ -149,8 +140,6 @@ function GoodsIssues({navigation}: {navigation: any}): JSX.Element {
           MOVEMENT_TYPE.GOODS_ISSUE,
           productionOrder,
         );
-
-        // resetScreenComponents();
 
         return materialDocument;
       } else {
@@ -277,9 +266,15 @@ function GoodsIssues({navigation}: {navigation: any}): JSX.Element {
         )}></FlatList>
 
       <ManualLabelInputModal
+        headerText={materialText}
+        materialNumberText={lastScannedBarcode.split('-')[0]}
+        batchText={lastScannedBarcode.split('-')[1]}
+        quantityText={lastScannedBarcode.split('-')[2]}
+        buttonText={'Ανάλωση'}
+        editable={false}
         visibility={manualLabelInputVisibility}
-        onSubmit={lastScannedBarcode => {
-          // addLabel(lastScannedBarcode);
+        onSubmit={() => {
+          // submitGoodsMovement();
           setManualLabelInputVisibility(false);
         }}
       />
@@ -290,7 +285,14 @@ function GoodsIssues({navigation}: {navigation: any}): JSX.Element {
           onScan={lastScannedBarcode => {
             if (productionOrder !== '') {
               // addLabel(lastScannedBarcode);
-              setManualLabelInputVisibility(true);
+              setLastScannedBarcode(lastScannedBarcode);
+              if (lastScannedBarcode) {
+                const materialText = getMaterialText(
+                  lastScannedBarcode.split('-')[0],
+                );
+                setMaterialText(materialText);
+                setManualLabelInputVisibility(true);
+              }
             }
           }}
           validator={lastScannedBarcode =>
