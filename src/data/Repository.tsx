@@ -16,25 +16,36 @@ import {
 } from '../shared/Types';
 
 class Repository {
-  async initLocalDB(): Promise<void> {
-    const remoteMaterialList = await MasterDataService.getMaterials();
+  async initLocalDB(
+    username: string,
+    password: string,
+  ): Promise<boolean | undefined> {
+    const response = await MasterDataService.setSapCredentials(
+      username,
+      password,
+    );
 
-    if (remoteMaterialList && remoteMaterialList.length > 0) {
-      await MaterialDao.createMaterials(remoteMaterialList);
+    if (response !== undefined) {
+      const remoteMaterialList = await MasterDataService.getMaterials();
+
+      if (remoteMaterialList && remoteMaterialList.length > 0) {
+        await MaterialDao.createMaterials(remoteMaterialList);
+      }
+
+      const remoteStorageLocationList =
+        await MasterDataService.getStorageLocations();
+
+      if (remoteStorageLocationList && remoteStorageLocationList.length > 0) {
+        await StorageLocationDao.createStorageLocations(
+          remoteStorageLocationList,
+        );
+      }
+
+      await UserDao.setUser({username: username, password: password});
+      return true;
+    } else {
+      return undefined;
     }
-
-    const remoteStorageLocationList =
-      await MasterDataService.getStorageLocations();
-
-    if (remoteStorageLocationList && remoteStorageLocationList.length > 0) {
-      await StorageLocationDao.createStorageLocations(
-        remoteStorageLocationList,
-      );
-    }
-
-    const users = {username: 'FILKOZ', password: 'COMPO2SITION4'};
-
-    await UserDao.setUser(users);
   }
 
   async getUsers(): Promise<User[] | undefined> {
