@@ -115,17 +115,17 @@ function TransferPosting({navigation}: {navigation: any}): JSX.Element {
   };
 
   const addLabel = async (lastScannedBarcode: string) => {
-    const [materialNumber, batch, quantityString] =
-      lastScannedBarcode.split('-');
-    const quantity = Number(quantityString.replace(',', '.'));
-
-    const validity = await fetchBatchData(
-      materialNumber,
-      batch,
-      storageLocationIn,
-    );
-
     if (lastScannedBarcode !== '') {
+      const [materialNumber, batch, quantityString] =
+        lastScannedBarcode.split('-');
+      const quantity = Number(quantityString.replace(',', '.'));
+
+      const validity = await fetchBatchData(
+        materialNumber,
+        batch,
+        storageLocationIn,
+      );
+
       if (scannedLabels.length > 0) {
         setScannedLabels([
           ...scannedLabels,
