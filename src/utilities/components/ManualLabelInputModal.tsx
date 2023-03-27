@@ -9,24 +9,61 @@ import {
 } from 'react-native';
 import Modal from 'react-native-modal';
 
-import {GlobalStyles} from '../../../appearance/styles/GlobalStyles';
-import {ThemeContext} from '../../../appearance/theme/ThemeContext';
-import BarcodeValidator from '../../../utilities/validators/BarcodeValidator';
+import {GlobalStyles} from '../../appearance/styles/GlobalStyles';
+import {ThemeContext} from '../../appearance/theme/ThemeContext';
+import BarcodeValidator from '../validators/BarcodeValidator';
 
 interface ManualLabelInputModalProps {
+  headerText?: string;
+  materialNumberText?: string;
+  batchText?: string;
+  quantityText?: string;
   visibility: boolean;
   onSubmit: (scannedBarcode: string) => void;
 }
 
+const defaultProps: ManualLabelInputModalProps = {
+  headerText: 'Χειροκίνητη Καταχώριση',
+  materialNumberText: 'Κωδικός Υλικού',
+  batchText: 'Παρτίδα',
+  quantityText: 'Ποσότητα',
+  visibility: false,
+  onSubmit: (scannedBarcode: string) => {},
+};
+
 function ManualLabelInputModal(props: ManualLabelInputModalProps): JSX.Element {
-  const {visibility, onSubmit} = props;
+  const {
+    headerText,
+    materialNumberText,
+    batchText,
+    quantityText,
+    visibility,
+    onSubmit,
+  } = props;
 
   const {theme} = useContext(ThemeContext);
 
-  const [materialNumber, setMaterialNumber] =
-    useState<string>('Κωδικός Υλικού');
-  const [batch, setBatch] = useState<string>('Παρτίδα');
-  const [quantity, setQuantity] = useState<string>('Ποσότητα');
+  const [materialNumber, setMaterialNumber] = useState<string>(
+    materialNumberText
+      ? materialNumberText
+      : defaultProps.materialNumberText
+      ? defaultProps.materialNumberText
+      : '',
+  );
+  const [batch, setBatch] = useState<string>(
+    batchText
+      ? batchText
+      : defaultProps.batchText
+      ? defaultProps.batchText
+      : '',
+  );
+  const [quantity, setQuantity] = useState<string>(
+    quantityText
+      ? quantityText
+      : defaultProps.quantityText
+      ? defaultProps.quantityText
+      : '',
+  );
 
   return (
     <Modal
@@ -37,7 +74,7 @@ function ManualLabelInputModal(props: ManualLabelInputModalProps): JSX.Element {
       <View style={styles(theme).popupContainer}>
         <View style={styles(theme).popupHeaderContainer}>
           <Text style={styles(theme).popupHeaderText}>
-            Χειροκίνητη Καταχώριση
+            {headerText ? headerText : defaultProps.headerText}
           </Text>
         </View>
 

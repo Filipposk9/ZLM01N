@@ -14,6 +14,7 @@ import {ThemeContext} from '../../appearance/theme/ThemeContext';
 import {GOODS_MOVEMENT_CODE, MOVEMENT_TYPE} from '../../shared/Constants';
 import BarcodeValidator from '../../utilities/validators/BarcodeValidator';
 import SapStructureValidator from '../../utilities/validators/SapStructureValidator';
+import ManualLabelInputModal from '../../utilities/components/ManualLabelInputModal';
 
 function GoodsIssues({navigation}: {navigation: any}): JSX.Element {
   const {theme} = useContext(ThemeContext);
@@ -36,6 +37,9 @@ function GoodsIssues({navigation}: {navigation: any}): JSX.Element {
   const [byProductsGroup, setByProductsGroup] = useState<
     ProductionOrderComponent[] | undefined
   >([]);
+
+  const [manualLabelInputVisibility, setManualLabelInputVisibility] =
+    useState(false);
 
   const [scannedLabels, setScannedLabels] = useState<Label[]>();
 
@@ -272,12 +276,21 @@ function GoodsIssues({navigation}: {navigation: any}): JSX.Element {
           </View>
         )}></FlatList>
 
+      <ManualLabelInputModal
+        visibility={manualLabelInputVisibility}
+        onSubmit={lastScannedBarcode => {
+          // addLabel(lastScannedBarcode);
+          setManualLabelInputVisibility(false);
+        }}
+      />
+
       <View style={{height: 0}}>
         <BarcodeScanner
           reference={scannerRef}
           onScan={lastScannedBarcode => {
             if (productionOrder !== '') {
-              addLabel(lastScannedBarcode);
+              // addLabel(lastScannedBarcode);
+              setManualLabelInputVisibility(true);
             }
           }}
           validator={lastScannedBarcode =>

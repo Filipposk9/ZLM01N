@@ -11,7 +11,7 @@ import Spinner from 'react-native-loading-spinner-overlay/lib';
 import BarcodeScanner from '../../utilities/components/BarcodeScanner';
 import StorageLocationDropdown from './components/StorageLocationDropdown';
 import LabelComponent from './components/LabelComponent';
-import ManualLabelInputModal from './components/ManualLabelInputModal';
+import ManualLabelInputModal from '../../utilities/components/ManualLabelInputModal';
 import Repository from '../../data/Repository';
 import {Label, MaterialDocument} from '../../shared/Types';
 import {
