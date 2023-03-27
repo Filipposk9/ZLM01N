@@ -41,24 +41,6 @@ function Login({navigation}: {navigation: any}): JSX.Element {
     fetchUsers();
   }, []);
 
-  const userIsValid = (username: string, password: string): boolean => {
-    if (users !== undefined) {
-      return users.some(element => {
-        if (element.username === username) {
-          if (element.password === password) {
-            return true;
-          } else {
-            return false;
-          }
-        } else {
-          return false;
-        }
-      });
-    }
-
-    return false;
-  };
-
   return (
     <View style={styles(theme).loginContainer}>
       <Spinner
@@ -97,12 +79,16 @@ function Login({navigation}: {navigation: any}): JSX.Element {
           onPress={async () => {
             setIsLoading(true);
 
-            if (userIsValid(username, password)) {
+            const userIsValid = await Repository.initLocalDB(
+              username,
+              password,
+            );
+
+            if (userIsValid !== undefined) {
               dispatch(
                 setCurrentUser({username: username, password: password}),
               );
 
-              await Repository.initLocalDB();
               navigation.navigate('MainMenu');
             } else {
               Alert.alert('Λάθος όνομα/κωδικός χρήστη');
