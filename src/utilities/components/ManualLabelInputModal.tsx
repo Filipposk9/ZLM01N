@@ -19,6 +19,7 @@ interface ManualLabelInputModalProps {
   batchText?: string;
   quantityText?: string;
   buttonText?: string;
+  editable?: boolean;
   visibility: boolean;
   onSubmit: (scannedBarcode: string) => void;
 }
@@ -29,6 +30,7 @@ const defaultProps: ManualLabelInputModalProps = {
   batchText: 'Παρτίδα',
   quantityText: 'Ποσότητα',
   buttonText: 'Προσθήκη',
+  editable: true,
   visibility: false,
   onSubmit: (scannedBarcode: string) => {},
 };
@@ -40,6 +42,7 @@ function ManualLabelInputModal(props: ManualLabelInputModalProps): JSX.Element {
     batchText,
     quantityText,
     buttonText,
+    editable,
     visibility,
     onSubmit,
   } = props;
@@ -84,6 +87,13 @@ function ManualLabelInputModal(props: ManualLabelInputModalProps): JSX.Element {
         <View style={styles(theme).popupBodyContainer}>
           <TextInput
             style={styles(theme).popupBodyText}
+            editable={
+              editable === false
+                ? editable
+                : defaultProps.editable
+                ? defaultProps.editable
+                : true
+            }
             onFocus={() => {
               if (materialNumber === 'Κωδικός Υλικού') {
                 setMaterialNumber('');
@@ -100,6 +110,13 @@ function ManualLabelInputModal(props: ManualLabelInputModalProps): JSX.Element {
 
           <TextInput
             style={styles(theme).popupBodyText}
+            editable={
+              editable === false
+                ? editable
+                : defaultProps.editable
+                ? defaultProps.editable
+                : true
+            }
             onFocus={() => {
               if (batch === 'Παρτίδα') {
                 setBatch('');
@@ -116,6 +133,13 @@ function ManualLabelInputModal(props: ManualLabelInputModalProps): JSX.Element {
 
           <TextInput
             style={styles(theme).popupBodyText}
+            editable={
+              editable === false
+                ? editable
+                : defaultProps.editable
+                ? defaultProps.editable
+                : true
+            }
             onFocus={() => {
               if (quantity === 'Ποσότητα') {
                 setQuantity('');
