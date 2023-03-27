@@ -4,7 +4,7 @@ import SapRequestParameters from '../SapRequestParameters';
 import RequestGateway, {isError} from '../RequestGateway';
 import {MaterialDocumentResponse} from '../model/MaterialDocumentModel';
 import {materialDocumentModelToMaterialDocument} from '../Mappers';
-
+//TODO: variable multi-queue
 class ApiPostBuffer {
   private isLocked: boolean = false;
 
