@@ -161,7 +161,7 @@ function ManualLabelInputModal(props: ManualLabelInputModalProps): JSX.Element {
   );
 }
 
-export const styles = (theme: any) =>
+const styles = (theme: any) =>
   StyleSheet.create({
     popupContainer: {
       borderRadius: 20,
@@ -176,6 +176,7 @@ export const styles = (theme: any) =>
       color: theme.secondaryTextColor,
       fontSize: 24,
       fontWeight: 'bold',
+      textAlign: 'center',
     },
     popupBodyContainer: {},
     popupBodyText: {
