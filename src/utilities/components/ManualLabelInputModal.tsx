@@ -18,6 +18,7 @@ interface ManualLabelInputModalProps {
   materialNumberText?: string;
   batchText?: string;
   quantityText?: string;
+  buttonText?: string;
   visibility: boolean;
   onSubmit: (scannedBarcode: string) => void;
 }
@@ -27,6 +28,7 @@ const defaultProps: ManualLabelInputModalProps = {
   materialNumberText: 'Κωδικός Υλικού',
   batchText: 'Παρτίδα',
   quantityText: 'Ποσότητα',
+  buttonText: 'Προσθήκη',
   visibility: false,
   onSubmit: (scannedBarcode: string) => {},
 };
@@ -37,6 +39,7 @@ function ManualLabelInputModal(props: ManualLabelInputModalProps): JSX.Element {
     materialNumberText,
     batchText,
     quantityText,
+    buttonText,
     visibility,
     onSubmit,
   } = props;
@@ -144,7 +147,13 @@ function ManualLabelInputModal(props: ManualLabelInputModalProps): JSX.Element {
               Keyboard.dismiss();
             }}
             android_ripple={GlobalStyles(theme).rippleColor}>
-            <Text style={styles(theme).popupSubmitBtnText}>Προσθήκη</Text>
+            <Text style={styles(theme).popupSubmitBtnText}>
+              {buttonText
+                ? buttonText
+                : defaultProps.buttonText
+                ? defaultProps.buttonText
+                : ''}
+            </Text>
           </Pressable>
         </View>
       </View>
