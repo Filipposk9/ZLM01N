@@ -21,6 +21,21 @@ import SapRequestParameters from '../SapRequestParameters';
 import {BatchResponse} from '../model/BatchModel';
 
 class MasterDataService {
+  async setSapCredentials(
+    username: string,
+    password: string,
+  ): Promise<boolean | undefined> {
+    const response = await SapRequestParameters.setSapCredentials(
+      username,
+      password,
+    );
+    if (response !== undefined) {
+      return true;
+    } else {
+      return undefined;
+    }
+  }
+
   async getStorageLocations(): Promise<StorageLocation[]> {
     const timeout = 5000;
     const sapRequestHeaders = await SapRequestParameters.getSapRequestHeaders(
