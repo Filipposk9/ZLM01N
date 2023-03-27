@@ -8,7 +8,6 @@ import {
   Keyboard,
 } from 'react-native';
 import Modal from 'react-native-modal';
-
 import {GlobalStyles} from '../../appearance/styles/GlobalStyles';
 import {ThemeContext} from '../../appearance/theme/ThemeContext';
 import BarcodeValidator from '../validators/BarcodeValidator';
@@ -32,7 +31,7 @@ const defaultProps: ManualLabelInputModalProps = {
   buttonText: 'Προσθήκη',
   editable: true,
   visibility: false,
-  onSubmit: (scannedBarcode: string) => {},
+  onSubmit: () => {},
 };
 
 function ManualLabelInputModal(props: ManualLabelInputModalProps): JSX.Element {
