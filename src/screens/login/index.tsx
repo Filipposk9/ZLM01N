@@ -19,8 +19,8 @@ import {UserState} from '../../redux/ReduxTypes';
 function Login({navigation}: {navigation: any}): JSX.Element {
   const {theme} = useContext(ThemeContext);
 
-  const [username, setUsername] = useState('FILKOZ');
-  const [password, setPassword] = useState('COMPO2SITION4');
+  const [username, setUsername] = useState<string>('');
+  const [password, setPassword] = useState<string>('');
   const [users, setUsers] = useState<User[] | undefined>([]);
 
   const [isLoading, setIsLoading] = useState(false);
