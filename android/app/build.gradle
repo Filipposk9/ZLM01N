@@ -122,6 +122,12 @@ android {
             keyAlias 'androiddebugkey'
             keyPassword 'android'
         }
+        release {
+            storeFile file('ZLM01NKey.keystore')
+            storePassword 'x34h8j27a*&LA'
+            keyAlias 'ZLM01NKey.Keystore'
+            keyPassword 'x34h8j27a*&LA'
+        }
     }
     buildTypes {
         debug {
