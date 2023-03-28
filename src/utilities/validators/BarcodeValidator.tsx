@@ -32,7 +32,7 @@ class BarcodeValidator {
   }
 
   validatePalletLabel(barcode: string): boolean {
-    const ssccRegex = new RegExp('^5201409000[0-9]{7}');
+    const ssccRegex = new RegExp('^[0]*5201409000[0-9]{7}');
 
     if (!ssccRegex.test(barcode)) {
       return false;
