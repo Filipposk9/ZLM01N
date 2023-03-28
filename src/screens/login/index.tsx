@@ -19,8 +19,8 @@ import {UserState} from '../../redux/ReduxTypes';
 function Login({navigation}: {navigation: any}): JSX.Element {
   const {theme} = useContext(ThemeContext);
 
-  const [username, setUsername] = useState<string>('');
-  const [password, setPassword] = useState<string>('');
+  const [username, setUsername] = useState<string>('Όνομα Χρήστη');
+  const [password, setPassword] = useState<string>('Κωδικός Πρόσβασης');
   const [users, setUsers] = useState<User[] | undefined>([]);
 
   const [isLoading, setIsLoading] = useState(false);
@@ -60,16 +60,34 @@ function Login({navigation}: {navigation: any}): JSX.Element {
       </View>
       <TextInput
         style={styles(theme).usernameInput}
-        placeholder="Username"
         placeholderTextColor="white"
+        onFocus={() => {
+          if (username === 'Όνομα Χρήστη') {
+            setUsername('');
+          }
+        }}
+        onBlur={() => {
+          if (username === '') {
+            setUsername('Όνομα Χρήστη');
+          }
+        }}
         onChangeText={username => setUsername(username)}
         value={username}
       />
       <TextInput
         style={styles(theme).passwordInput}
-        placeholder="Password"
         placeholderTextColor="white"
         secureTextEntry={true}
+        onFocus={() => {
+          if (password === 'Κωδικός Πρόσβασης') {
+            setPassword('');
+          }
+        }}
+        onBlur={() => {
+          if (password === '') {
+            setPassword('Κωδικός Πρόσβασης');
+          }
+        }}
         onChangeText={password => setPassword(password)}
         value={password}
       />
@@ -97,7 +115,7 @@ function Login({navigation}: {navigation: any}): JSX.Element {
             setIsLoading(false);
           }}
           android_ripple={GlobalStyles(theme).rippleColor}>
-          <Text style={styles(theme).loginButtonText}>Login</Text>
+          <Text style={styles(theme).loginButtonText}>Είσοδος</Text>
         </Pressable>
       </View>
     </View>
