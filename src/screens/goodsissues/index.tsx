@@ -94,7 +94,6 @@ function GoodsIssues({navigation}: {navigation: any}): JSX.Element {
     };
 
     getProductionOrderData();
-    setManualLabelInputVisibility(true);
   };
 
   const getMaterialText = (
