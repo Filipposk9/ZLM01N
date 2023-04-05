@@ -30,4 +30,4 @@ const codePushOptions = {
 
 const AppStackWithCodePush = CodePush(codePushOptions)(AppStack);
 
-export default withAppStore<typeof AppStack>(AppStack);
+export default withAppStore<typeof AppStackWithCodePush>(AppStackWithCodePush);

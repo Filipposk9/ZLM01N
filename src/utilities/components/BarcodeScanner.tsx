@@ -19,11 +19,11 @@ function BarcodeScanner(props: BarcodeScannerProps): JSX.Element {
   const startListener = () => {
     KeyEvent.onKeyMultipleListener((keyEvent: KeyEventProps) => {
       console.log(`Barcode:  ${keyEvent.characters}`);
-      if (validator(keyEvent.characters)) {
-        onScan(keyEvent.characters);
-      } else {
-        Alert.alert('Invalid Barcode Format');
-      }
+      // if (validator(keyEvent.characters)) {
+      onScan(keyEvent.characters);
+      // } else {
+      // Alert.alert('Invalid Barcode Format');
+      // }
     });
   };
 

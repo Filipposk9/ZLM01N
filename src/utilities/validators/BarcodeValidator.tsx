@@ -14,7 +14,7 @@ class BarcodeValidator {
       '^(0{2}[0-9]{8}|[0-9]{5}(X|F)[0-9]{4}|[0-9]{5}((BS(A|B|C|D)[0-9]{2})|(C(B|I|P|S|T|U|X|Y)[0-9]{3})|(M(B|C|P|U)[0-9]{3})|(XPD(B|C))[0-9]{1}|(DS|KS|EU|KC|KD)[0-9]{3}))',
       'i',
     );
-    const quantityRegex = new RegExp('^[0-9]+[, | .]*[0-9]*');
+    const quantityRegex = new RegExp('^[0-9]+[, | .]*[0-9]*$');
 
     if (!materialNumberRegex.test(materialNumber)) {
       return false;

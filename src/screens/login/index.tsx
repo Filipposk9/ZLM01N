@@ -19,7 +19,7 @@ import {UserState} from '../../redux/ReduxTypes';
 function Login({navigation}: {navigation: any}): JSX.Element {
   const {theme} = useContext(ThemeContext);
 
-  const [username, setUsername] = useState<string>('Όνομα Χρήστη');
+  const [username, setUsername] = useState<string>('FILKOZ');
   const [password, setPassword] = useState<string>('Κωδικός Πρόσβασης');
   const [users, setUsers] = useState<User[] | undefined>([]);
 
