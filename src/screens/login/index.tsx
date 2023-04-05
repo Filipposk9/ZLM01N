@@ -30,7 +30,7 @@ function Login({navigation}: {navigation: any}): JSX.Element {
 
   const dispatch = useAppDispatch();
 
-  const currentUser = useSelector((state: UserState) => state.user);
+  // const currentUser = useSelector((state: UserState) => state.user);
 
   useEffect((): void => {
     async function fetchUsers() {
