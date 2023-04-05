@@ -19,7 +19,7 @@ import {UserState} from '../../redux/ReduxTypes';
 function Login({navigation}: {navigation: any}): JSX.Element {
   const {theme} = useContext(ThemeContext);
 
-  const [username, setUsername] = useState<string>('FILKOZ');
+  const [username, setUsername] = useState<string>('Όνομα Χρήστη');
   const [password, setPassword] = useState<string>('Κωδικός Πρόσβασης');
   const [users, setUsers] = useState<User[] | undefined>([]);
 
@@ -30,7 +30,7 @@ function Login({navigation}: {navigation: any}): JSX.Element {
 
   const dispatch = useAppDispatch();
 
-  // const currentUser = useSelector((state: UserState) => state.user);
+  const currentUser = useSelector((state: UserState) => state.user);
 
   useEffect((): void => {
     async function fetchUsers() {
