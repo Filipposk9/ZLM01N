@@ -26,7 +26,7 @@ class SapRequestParameters {
     username: string,
     password: string,
   ): Promise<boolean | undefined> {
-    CookieManager.clearAll();
+    // CookieManager.clearAll();
     this.username = username;
     this.password = password;
 
