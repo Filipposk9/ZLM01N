@@ -1,4 +1,4 @@
-import CookieManager from '@react-native-cookies/cookies';
+// import CookieManager from '@react-native-cookies/cookies';
 import base64 from 'react-native-base64';
 import RequestGateway, {isError} from './RequestGateway';
 
