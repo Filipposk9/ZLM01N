@@ -199,6 +199,7 @@ export const productionOrderModelToProductionOrder = (
     customerNumber: productionOrderModel.HEADER.CUSTOMERNUMBER,
     customerName: productionOrderModel.HEADER.CUSTOMERNAME,
     workCenterDescription: productionOrderModel.HEADER.WORKCENTERDESCRIPTION,
+    status: productionOrderModel.HEADER.STATUS,
   });
 
   return Object.freeze({
