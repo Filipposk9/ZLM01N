@@ -104,7 +104,7 @@ function ManualLabelInputModal(props: ManualLabelInputModalProps): JSX.Element {
               }
             }}
             onChangeText={newText => setMaterialNumber(newText)}
-            value={materialNumber}
+            value={editable === false ? materialNumberText : materialNumber}
           />
 
           <TextInput
@@ -127,7 +127,7 @@ function ManualLabelInputModal(props: ManualLabelInputModalProps): JSX.Element {
               }
             }}
             onChangeText={newText => setBatch(newText)}
-            value={batch}
+            value={editable === false ? batchText : batch}
           />
 
           <TextInput
@@ -150,7 +150,7 @@ function ManualLabelInputModal(props: ManualLabelInputModalProps): JSX.Element {
               }
             }}
             onChangeText={newText => setQuantity(newText)}
-            value={quantity}
+            value={editable === false ? quantityText : quantity}
           />
         </View>
 
@@ -158,13 +158,20 @@ function ManualLabelInputModal(props: ManualLabelInputModalProps): JSX.Element {
           <Pressable
             style={styles(theme).popupSubmitBtn}
             onPress={() => {
-              const barcode = materialNumber + '-' + batch + '-' + quantity;
+              let barcode = '';
+
+              if (editable) {
+                barcode = materialNumber + '-' + batch + '-' + quantity;
+              } else {
+                barcode =
+                  materialNumberText + '-' + batchText + '-' + quantityText;
+              }
 
               if (BarcodeValidator.validateBarrelLabel(barcode)) {
+                onSubmit(barcode);
                 setMaterialNumber('Κωδικός Υλικού');
                 setBatch('Παρτίδα');
                 setQuantity('Ποσότητα');
-                onSubmit(barcode);
               }
 
               Keyboard.dismiss();
