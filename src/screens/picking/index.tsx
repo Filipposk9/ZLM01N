@@ -20,6 +20,7 @@ function Picking({navigation}: {navigation: any}): JSX.Element {
   >();
 
   const scannerRef = useRef<TextInput>(null);
+  const itemListRef = useRef<FlatList>(null);
 
   const getOutboundDeliveryData = () => {
     const getOutboundDeliveryData = async () => {
@@ -53,6 +54,17 @@ function Picking({navigation}: {navigation: any}): JSX.Element {
           if (response !== undefined) {
             if (response.code === 0) {
               getOutboundDeliveryData();
+
+              const scannedIndex = outboundDeliveryData?.items.findIndex(
+                item => item.positionNumber === response.positionNumberHandled,
+              );
+
+              if (scannedIndex) {
+                itemListRef.current?.scrollToIndex({
+                  index: scannedIndex,
+                  animated: true,
+                });
+              }
             } else {
               Alert.alert(response.message);
             }
@@ -125,6 +137,7 @@ function Picking({navigation}: {navigation: any}): JSX.Element {
 
       <View style={styles(theme).outboundDeliveryLinesContainer}>
         <FlatList
+          ref={itemListRef}
           data={outboundDeliveryData?.items}
           renderItem={({item}) => (
             <OutboundDeliveryItemComponent
