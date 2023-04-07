@@ -65,5 +65,6 @@ export const styles = (theme: iTheme) =>
     },
     outboundDeliveryLinesContainer: {
       margin: '4%',
+      height: '60%',
     },
   });
