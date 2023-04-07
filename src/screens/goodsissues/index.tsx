@@ -43,11 +43,12 @@ function GoodsIssues({navigation}: {navigation: any}): JSX.Element {
   const [manualLabelInputVisibility, setManualLabelInputVisibility] =
     useState(false);
 
-  const [lastScannedBarcode, setLastScannedBarcode] = useState<string>(
-    '210000590-23028F0000-1',
-  );
+  const [lastScannedBarcode, setLastScannedBarcode] = useState<string>('');
 
   const [materialText, setMaterialText] = useState('');
+  const [materialNumberText, setMaterialNumberText] = useState('');
+  const [batchText, setBatchText] = useState('');
+  const [quantityText, setQuantityText] = useState('');
 
   const getProductionOrderData = () => {
     const getProductionOrderData = async () => {
@@ -94,6 +95,25 @@ function GoodsIssues({navigation}: {navigation: any}): JSX.Element {
     };
 
     getProductionOrderData();
+  };
+
+  const setModalFields = (barcode: string) => {
+    const setModalFields = async (barcode: string) => {
+      if (barcode) {
+        const [materialNumber, batch, quantity] = barcode.split('-');
+
+        const materialText = await getMaterialText(materialNumber);
+        setMaterialText(materialText);
+
+        setMaterialNumberText(materialNumber);
+        setBatchText(batch);
+        setQuantityText(quantity);
+
+        setManualLabelInputVisibility(true);
+      }
+    };
+
+    setModalFields(barcode);
   };
 
   const getMaterialText = (
@@ -259,41 +279,45 @@ function GoodsIssues({navigation}: {navigation: any}): JSX.Element {
 
       <ManualLabelInputModal
         headerText={materialText}
-        materialNumberText={lastScannedBarcode.split('-')[0]}
-        batchText={lastScannedBarcode.split('-')[1]}
-        quantityText={lastScannedBarcode.split('-')[2]}
+        materialNumberText={materialNumberText}
+        batchText={batchText}
+        quantityText={quantityText}
         buttonText={'Ανάλωση'}
         editable={false}
         visibility={manualLabelInputVisibility}
-        onSubmit={async () => {
+        onSubmit={(barcode: string) => {
           setManualLabelInputVisibility(false);
-          setIsLoading(true);
-          const [materialNumber, batch, quantityString] =
-            lastScannedBarcode.split('-');
-          const quantity = Number(quantityString.replace(',', '.'));
 
-          const component = productionOrderData?.components.find(item => {
-            const matnr = Number(item.materialNumber);
-            return matnr === Number(materialNumber);
-          });
+          // if (barcode !== '') {
+          //   setIsLoading(true);
 
-          const response = await submitGoodsMovement(
-            [
-              {
-                count: 1,
-                materialNumber: materialNumber,
-                batch: batch,
-                quantity: quantity,
-                validity: true,
-              },
-            ],
-            component?.storageLocation ? component.storageLocation : '',
-          );
+          //   const [materialNumber, batch, quantityString] =
+          //     lastScannedBarcode.split('-');
+          //   const quantity = Number(quantityString.replace(',', '.'));
 
-          if (response !== undefined) {
-            console.log(response, 'RESPONSE');
-          }
-          setIsLoading(false);
+          //   const component = productionOrderData?.components.find(item => {
+          //     const matnr = Number(item.materialNumber);
+          //     return matnr === Number(materialNumber);
+          //   });
+
+          //   const response = submitGoodsMovement(
+          //     [
+          //       {
+          //         count: 1,
+          //         materialNumber: materialNumber,
+          //         batch: batch,
+          //         quantity: quantity,
+          //         validity: true,
+          //       },
+          //     ],
+          //     component?.storageLocation ? component.storageLocation : '',
+          //   );
+
+          //   if (response !== undefined) {
+          //     console.log(response, 'RESPONSE');
+          //   }
+          //   setIsLoading(false);
+          // }
         }}
       />
 
@@ -303,13 +327,7 @@ function GoodsIssues({navigation}: {navigation: any}): JSX.Element {
           onScan={lastScannedBarcode => {
             if (productionOrder !== '') {
               setLastScannedBarcode(lastScannedBarcode);
-              if (lastScannedBarcode) {
-                const materialText = getMaterialText(
-                  lastScannedBarcode.split('-')[0],
-                );
-                setMaterialText(materialText);
-                setManualLabelInputVisibility(true);
-              }
+              setModalFields(lastScannedBarcode);
             }
           }}
           validator={lastScannedBarcode =>
