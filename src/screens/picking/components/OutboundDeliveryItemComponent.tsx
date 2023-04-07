@@ -87,7 +87,7 @@ const styles = (theme: any) =>
     outboundDeliveryLineLeft: {
       justifyContent: 'center',
       marginLeft: '2%',
-      width: '16%',
+      width: '18%',
     },
     outboundDeliveryLineTextLeft: {
       color: theme.buttonTextColor,
@@ -96,7 +96,7 @@ const styles = (theme: any) =>
     },
     outboundDeliveryLineRight: {
       justifyContent: 'center',
-      width: '84%',
+      width: '82%',
       borderRadius: 10,
     },
     outboundDeliveryLineTextRight: {
