@@ -138,6 +138,50 @@ function GoodsIssues({navigation}: {navigation: any}): JSX.Element {
     }
   };
 
+  const confirmGoodsIssue = (lastScannedBarcode: string) => {
+    const confirmGoodsIssue = async (lastScannedBarcode: string) => {
+      if (lastScannedBarcode !== '') {
+        const [materialNumber, batch, quantityString] =
+          lastScannedBarcode.split('-');
+
+        const quantity = Number(quantityString.replace(',', '.'));
+
+        const component = productionOrderData?.components.find(item => {
+          const matnr = Number(item.materialNumber);
+          return matnr === Number(materialNumber);
+        });
+
+        setIsLoading(true);
+
+        const response = await submitGoodsMovement(
+          [
+            {
+              count: 1,
+              materialNumber: materialNumber,
+              batch: batch,
+              quantity: quantity,
+              validity: true,
+            },
+          ],
+          component?.storageLocation ? component.storageLocation : '',
+        );
+
+        setIsLoading(false);
+
+        if (response?.items[0].iserror) {
+          Alert.alert(
+            'Η ανάλωση δεν πραγματοποιήθηκε',
+            'Το σφάλμα έχει αποσταλεί στο γραφείο παραγωγής',
+          );
+        } else {
+          Alert.alert('Επιτυχής ανάλωση');
+        }
+      }
+    };
+
+    confirmGoodsIssue(lastScannedBarcode);
+  };
+
   const submitGoodsMovement = (labels: Label[], stgLocIn: string) => {
     const submitGoodsMovement = async (
       labels: Label[],
@@ -162,7 +206,7 @@ function GoodsIssues({navigation}: {navigation: any}): JSX.Element {
     }
   };
 
-  //TODO: storage location list tab, my goods issues tab
+  //TODO: storage location list tab
 
   return (
     <View style={styles(theme).topContainer}>
@@ -285,39 +329,9 @@ function GoodsIssues({navigation}: {navigation: any}): JSX.Element {
         buttonText={'Ανάλωση'}
         editable={false}
         visibility={manualLabelInputVisibility}
-        onSubmit={(barcode: string) => {
+        onSubmit={(lastScannedBarcode: string) => {
+          confirmGoodsIssue(lastScannedBarcode);
           setManualLabelInputVisibility(false);
-
-          // if (barcode !== '') {
-          //   setIsLoading(true);
-
-          //   const [materialNumber, batch, quantityString] =
-          //     lastScannedBarcode.split('-');
-          //   const quantity = Number(quantityString.replace(',', '.'));
-
-          //   const component = productionOrderData?.components.find(item => {
-          //     const matnr = Number(item.materialNumber);
-          //     return matnr === Number(materialNumber);
-          //   });
-
-          //   const response = submitGoodsMovement(
-          //     [
-          //       {
-          //         count: 1,
-          //         materialNumber: materialNumber,
-          //         batch: batch,
-          //         quantity: quantity,
-          //         validity: true,
-          //       },
-          //     ],
-          //     component?.storageLocation ? component.storageLocation : '',
-          //   );
-
-          //   if (response !== undefined) {
-          //     console.log(response, 'RESPONSE');
-          //   }
-          //   setIsLoading(false);
-          // }
         }}
       />
 
@@ -325,9 +339,18 @@ function GoodsIssues({navigation}: {navigation: any}): JSX.Element {
         <BarcodeScanner
           reference={scannerRef}
           onScan={lastScannedBarcode => {
-            if (productionOrder !== '') {
+            if (
+              productionOrder !== '' &&
+              productionOrderData?.header.status !== 'I0045'
+            ) {
               setLastScannedBarcode(lastScannedBarcode);
               setModalFields(lastScannedBarcode);
+            } else {
+              if (productionOrder === '') {
+                Alert.alert('Παρακαλώ εισάγετε εντολή παραγωγής');
+              } else {
+                Alert.alert('Η Εντολή παραγωγής έχει ήδη ολοκληρωθεί');
+              }
             }
           }}
           validator={lastScannedBarcode =>

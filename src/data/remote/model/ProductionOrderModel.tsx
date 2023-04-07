@@ -16,6 +16,7 @@ interface ProductionOrderHeader {
   CUSTOMERNUMBER: string;
   CUSTOMERNAME: string;
   WORKCENTERDESCRIPTION: string;
+  STATUS: string;
 }
 
 interface ProductionOrderComponent {

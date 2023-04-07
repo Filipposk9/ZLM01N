@@ -136,6 +136,7 @@ export interface ProductionOrderHeader {
   customerNumber: string;
   customerName: string;
   workCenterDescription: string;
+  status: string;
 }
 
 export interface ProductionOrderComponent {
