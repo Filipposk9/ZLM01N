@@ -13,6 +13,7 @@ import {
   Picking,
   ProductionOrder,
   Batch,
+  iTankCharacteristics,
 } from '../shared/Types';
 
 class Repository {
@@ -209,6 +210,18 @@ class Repository {
 
     if (productionOrder) {
       return productionOrder;
+    }
+  }
+
+  async getTankCharacteristics(
+    tank: string,
+  ): Promise<iTankCharacteristics | undefined> {
+    const tankCharacteristics = await MasterDataService.getTankCharacteristics(
+      tank,
+    );
+
+    if (tankCharacteristics) {
+      return tankCharacteristics;
     }
   }
 }
