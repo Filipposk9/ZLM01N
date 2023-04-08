@@ -10,6 +10,8 @@ class ApiPostBuffer {
 
   private goodsMovementQueue: GoodsMovement[] = [];
 
+  //TODO: ask user to take empty queue manually
+
   constructor() {
     NetInfo.addEventListener(async state => {
       if (state.isConnected) {
