@@ -8,6 +8,7 @@ import {
   OutboundDelivery,
   ProductionOrder,
   StorageLocation,
+  iTankCharacteristics,
   User,
 } from '../../../shared/Types';
 import RequestGateway, {isError} from '../RequestGateway';
@@ -17,11 +18,13 @@ import {
   outboundDeliveryModelToOutboundDelivery,
   productionOrderModelToProductionOrder,
   storageLocationModelToStorageLocation,
+  tankCharacteristicsModelToTankCharacteristics,
   userModelToUser,
 } from '../Mappers';
 import SapRequestParameters from '../SapRequestParameters';
 import {BatchResponse} from '../model/BatchModel';
 import {UserResponse} from '../model/UserModel';
+import {TankCharacteristicsResponse} from '../model/TankCharacteristicsModel';
 
 class MasterDataService {
   async setSapCredentials(
@@ -201,6 +204,25 @@ class MasterDataService {
       return undefined;
     } else {
       return productionOrderModelToProductionOrder(response.result.data);
+    }
+  }
+
+  async getTankCharacteristics(
+    tank: string,
+  ): Promise<iTankCharacteristics | undefined> {
+    const sapRequestHeaders = await SapRequestParameters.getSapRequestHeaders();
+
+    const response = await RequestGateway.get<TankCharacteristicsResponse>(
+      '/tanks?tank=' + tank,
+      sapRequestHeaders,
+    );
+
+    if (isError(response)) {
+      return undefined;
+    } else {
+      return tankCharacteristicsModelToTankCharacteristics(
+        response.result.data,
+      );
     }
   }
 }
