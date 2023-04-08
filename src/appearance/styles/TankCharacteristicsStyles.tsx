@@ -9,11 +9,15 @@ export const styles = (theme: iTheme) =>
     },
     tankNameContainer: {
       margin: '4%',
+      flexDirection: 'row',
     },
     tankNameText: {
       fontSize: 30,
       fontWeight: 'bold',
       color: theme.textColor,
+    },
+    tankNameInput: {
+      width: '55%',
     },
     characteristicsContainer: {
       backgroundColor: theme.secondaryForegroundColor,
