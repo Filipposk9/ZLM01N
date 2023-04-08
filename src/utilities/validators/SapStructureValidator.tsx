@@ -10,6 +10,12 @@ class SapStructureValidator {
 
     return productionOrderRegex.test(productionOrder);
   }
+
+  validateTank(tank: string): boolean {
+    const tankRegex = new RegExp('^(BS|CB|CP|CS|CU|CY|DS)[0-9]{3}$', 'i');
+
+    return tankRegex.test(tank);
+  }
 }
 
 export default new SapStructureValidator();
