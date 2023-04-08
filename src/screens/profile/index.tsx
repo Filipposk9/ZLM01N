@@ -15,7 +15,9 @@ function Profile({navigation}: {navigation: any}): JSX.Element {
       <View style={styles(theme).profileEmblemContainer}>
         <View style={styles(theme).profileEmblem}>
           <Text style={styles(theme).profileEmblemText}>
-            {user.firstName[0] + user.lastName[0]}
+            {user.firstName !== undefined
+              ? user.firstName[0] + user.lastName[0]
+              : ''}
           </Text>
         </View>
         <Text style={styles(theme).profileEmblemDescription}>

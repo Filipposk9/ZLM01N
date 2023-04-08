@@ -1,4 +1,4 @@
-import React, {useState, useContext, useEffect} from 'react';
+import React, {useState, useContext} from 'react';
 import {View, TextInput, Pressable, Text, Alert} from 'react-native';
 import {styles} from '../../appearance/styles/LoginStyles';
 import {GlobalStyles} from '../../appearance/styles/GlobalStyles';
@@ -8,7 +8,6 @@ import Spinner from 'react-native-loading-spinner-overlay';
 import {ThemeContext} from '../../appearance/theme/ThemeContext';
 import {useAppDispatch} from '../../redux/Store';
 import Repository from '../../data/Repository';
-import {User} from '../../shared/Types';
 import {setCurrentUser} from '../../redux/actions/UserActions';
 
 function Login({navigation}: {navigation: any}): JSX.Element {
@@ -16,7 +15,6 @@ function Login({navigation}: {navigation: any}): JSX.Element {
 
   const [username, setUsername] = useState<string>('Όνομα Χρήστη');
   const [password, setPassword] = useState<string>('Κωδικός Πρόσβασης');
-  const [users, setUsers] = useState<User[] | undefined>([]);
 
   const [isLoading, setIsLoading] = useState(false);
 
