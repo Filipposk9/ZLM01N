@@ -4,6 +4,7 @@ import {iTheme} from './types';
 const themes: {[key: string]: iTheme} = {
   dark: {
     backgroundColor: '#1c2228',
+    secondaryBackgroundColor: '#29313a',
     foregroundColor: '#29313a',
     secondaryForegroundColor: '#4a525b',
 
@@ -26,7 +27,8 @@ const themes: {[key: string]: iTheme} = {
     tabBorderColor: '#5070F4',
   },
   light: {
-    backgroundColor: '#ffffff',
+    backgroundColor: '#f2f2f6',
+    secondaryBackgroundColor: '#ffffff',
     foregroundColor: '#95aa9d',
     secondaryForegroundColor: '#6c8776',
 

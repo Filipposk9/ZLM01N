@@ -1,5 +1,6 @@
 export interface iTheme {
   backgroundColor: string;
+  secondaryBackgroundColor: string;
   foregroundColor: string;
   secondaryForegroundColor: string;
   buttonBackgroundColor: string;
