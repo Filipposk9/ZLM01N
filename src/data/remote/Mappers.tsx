@@ -30,6 +30,8 @@ export const userModelToUser = (userModel: UserModel): User => {
     username: userModel.USERNAME,
     password: '',
     buildingCode: userModel.BUILDINGCODE,
+    firstName: userModel.FIRSTNAME,
+    lastName: userModel.LASTNAME,
   });
 };
 

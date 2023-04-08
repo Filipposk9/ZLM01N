@@ -2,6 +2,8 @@ export interface User {
   username: string;
   password: string;
   buildingCode: string;
+  firstName: string;
+  lastName: string;
 }
 
 export interface Material {
