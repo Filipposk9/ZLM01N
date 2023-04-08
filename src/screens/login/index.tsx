@@ -7,11 +7,9 @@ import HorizontalRotation from '../../appearance/animations/HorizontalRotation';
 import Spinner from 'react-native-loading-spinner-overlay';
 import {ThemeContext} from '../../appearance/theme/ThemeContext';
 import {useAppDispatch} from '../../redux/Store';
-import {setCurrentUser} from '../../redux/actions/UserActions';
-import {useSelector} from 'react-redux';
 import Repository from '../../data/Repository';
 import {User} from '../../shared/Types';
-import {UserState} from '../../redux/ReduxTypes';
+import {setCurrentUser} from '../../redux/actions/UserActions';
 
 function Login({navigation}: {navigation: any}): JSX.Element {
   const {theme} = useContext(ThemeContext);
@@ -26,17 +24,6 @@ function Login({navigation}: {navigation: any}): JSX.Element {
   const animation = HorizontalRotation.setInterpolate();
 
   const dispatch = useAppDispatch();
-
-  const currentUser = useSelector((state: UserState) => state.user);
-
-  useEffect((): void => {
-    async function fetchUsers() {
-      const users = await Repository.getUsers();
-
-      setUsers(users);
-    }
-    fetchUsers();
-  }, []);
 
   return (
     <View style={styles(theme).loginContainer}>
@@ -94,15 +81,10 @@ function Login({navigation}: {navigation: any}): JSX.Element {
           onPress={async () => {
             setIsLoading(true);
 
-            const userIsValid = await Repository.initLocalDB(
-              username,
-              password,
-            );
+            const user = await Repository.initLocalDB(username, password);
 
-            if (userIsValid !== undefined) {
-              dispatch(
-                setCurrentUser({username: username, password: password}),
-              );
+            if (user !== undefined) {
+              dispatch(setCurrentUser(user));
 
               navigation.navigate('MainMenu');
             } else {
