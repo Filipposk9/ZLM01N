@@ -1,16 +1,50 @@
-import React, {useContext} from 'react';
-import {View, Dimensions, Text} from 'react-native';
+import React, {useContext, useState} from 'react';
+import {View, Dimensions, Text, Alert} from 'react-native';
 import Icon from '../../appearance/assets/Icon';
 import {styles} from '../../appearance/styles/TankCharacteristicsStyles';
 import {ThemeContext} from '../../appearance/theme/ThemeContext';
+import {TextInput} from 'react-native-gesture-handler';
+import {iTankCharacteristics} from '../../shared/Types';
+import SapStructureValidator from '../../utilities/validators/SapStructureValidator';
+import Repository from '../../data/Repository';
 
 function TankCharacteristics({navigation}: {navigation: any}): JSX.Element {
-  const {theme, dark} = useContext(ThemeContext);
+  const {theme} = useContext(ThemeContext);
+
+  const [tank, setTank] = useState<string>('');
+  const [tankCharacteristicsData, setTankCharacteristicsData] =
+    useState<iTankCharacteristics>();
+
+  const getTankCharacteristics = () => {
+    const getTankCharacteristics = async () => {
+      if (SapStructureValidator.validateTank(tank)) {
+        const response = await Repository.getTankCharacteristics(tank);
+
+        if (response !== undefined) {
+          setTankCharacteristicsData(response);
+        }
+      } else {
+        Alert.alert('Λάθος όνομα δεξαμενής');
+      }
+    };
+
+    getTankCharacteristics();
+  };
 
   return (
     <View style={styles(theme).tankCharacteristicsContainer}>
       <View style={styles(theme).tankNameContainer}>
-        <Text style={styles(theme).tankNameText}>Δεξαμενή: CU123</Text>
+        <Text style={styles(theme).tankNameText}>Δεξαμενή: </Text>
+        <TextInput
+          style={styles(theme).tankNameInput}
+          autoCapitalize="characters"
+          onChangeText={tank => {
+            setTank(tank);
+          }}
+          value={tank}
+          onSubmitEditing={() => {
+            getTankCharacteristics();
+          }}></TextInput>
       </View>
 
       <View style={styles(theme).topContainer}>
@@ -23,9 +57,11 @@ function TankCharacteristics({navigation}: {navigation: any}): JSX.Element {
 
         <View style={styles(theme).tankInfoContainer}>
           <Text style={styles(theme).tankInfoText}>
-            ΕΛ ΠΡΑ ΧΑΛ ΣΥΜ ΙΣΠ ΟΛΟΚ ΑΔ ΠΑΡ 71-140
+            {tankCharacteristicsData?.materialText}
           </Text>
-          <Text style={styles(theme).tankInfoText}>CU12322052</Text>
+          {tankCharacteristicsData?.batch.map(item => {
+            return <Text>{item}</Text>;
+          })}
         </View>
       </View>
 
