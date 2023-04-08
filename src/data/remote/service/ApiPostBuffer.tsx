@@ -9,6 +9,7 @@ class ApiPostBuffer {
   private isLocked: boolean = false;
 
   private goodsMovementQueue: GoodsMovement[] = [];
+  readonly unlockThreshold: number = 20;
 
   //TODO: ask user to take empty queue manually
 
@@ -18,7 +19,7 @@ class ApiPostBuffer {
         const {strength} = state.details as NetInfoWifiState['details'];
 
         if (strength) {
-          if (strength >= 30) {
+          if (strength >= this.unlockThreshold) {
             if (!this.isLocked) {
               if (this.goodsMovementQueue) {
                 if (this.goodsMovementQueue.length > 0) {
