@@ -156,7 +156,7 @@ export interface ProductionOrderComponent {
   materialGroup: string;
 }
 
-export interface TankCharacteristics {
+export interface iTankCharacteristics {
   tank: string;
   materialNumber: string;
   materialText: string;
