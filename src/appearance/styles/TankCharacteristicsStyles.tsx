@@ -15,9 +15,13 @@ export const styles = (theme: iTheme) =>
       fontSize: 30,
       fontWeight: 'bold',
       color: theme.textColor,
+      marginTop: '2%',
     },
     tankNameInput: {
       width: '55%',
+      fontSize: 30,
+      fontWeight: 'bold',
+      color: theme.textColor,
     },
     characteristicsContainer: {
       backgroundColor: theme.secondaryForegroundColor,
