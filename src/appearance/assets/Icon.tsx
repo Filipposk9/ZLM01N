@@ -36,6 +36,8 @@ function Icon(props: IconProps): JSX.Element {
       return <IconAntDesign {...otherProps} name={name} />;
     case 'issue-reopened':
       return <IconOcticons {...otherProps} name={name} />;
+    case 'moon':
+      return <IconFeather {...otherProps} name={name} />;
     default:
       return <Text> </Text>;
   }
