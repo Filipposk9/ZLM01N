@@ -206,8 +206,6 @@ function GoodsIssues({navigation}: {navigation: any}): JSX.Element {
     }
   };
 
-  //TODO: storage location list tab
-
   return (
     <View style={styles(theme).topContainer}>
       <Spinner
