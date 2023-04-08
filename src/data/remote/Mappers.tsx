@@ -15,6 +15,7 @@ import {
   ProductionOrderHeader,
   Batch,
   User,
+  iTankCharacteristics,
 } from '../../shared/Types';
 import {MaterialModel} from './model/MaterialModel';
 import {StorageLocationModel} from './model/StorageLocationModel';
@@ -24,6 +25,7 @@ import {PickingModel} from './model/PickingModel';
 import {ProductionOrderModel} from './model/ProductionOrderModel';
 import {BatchModel} from './model/BatchModel';
 import {UserModel} from './model/UserModel';
+import {TankCharacteristicsModel} from './model/TankCharacteristicsModel';
 
 export const userModelToUser = (userModel: UserModel): User => {
   return Object.freeze({
@@ -217,5 +219,33 @@ export const productionOrderModelToProductionOrder = (
   return Object.freeze({
     header: header,
     components: components,
+  });
+};
+
+export const tankCharacteristicsModelToTankCharacteristics = (
+  tankCharacteristicsModel: TankCharacteristicsModel,
+): iTankCharacteristics => {
+  return Object.freeze({
+    tank: tankCharacteristicsModel.TANK,
+    materialNumber: tankCharacteristicsModel.MATERIALNUMBER,
+    materialText: tankCharacteristicsModel.MATERIALTEXT,
+    batch: tankCharacteristicsModel.BATCH,
+    quantity: tankCharacteristicsModel.QUANTITY,
+    storageLocation: tankCharacteristicsModel.STORAGELOCATION,
+    materialGroup: tankCharacteristicsModel.MATERIALGROUP,
+    externalMaterialGroup: tankCharacteristicsModel.EXTERNALMATERIALGROUP,
+    lab: tankCharacteristicsModel.LAB,
+    color: tankCharacteristicsModel.COLOR,
+    quality: tankCharacteristicsModel.QUALITY,
+    crop: tankCharacteristicsModel.CROP,
+    unitsPerKg: tankCharacteristicsModel.UNITSPERKG,
+    oliveFly: tankCharacteristicsModel.OLIVEFLY,
+    gliospore: tankCharacteristicsModel.GLIOSPORE,
+    colorQuality: tankCharacteristicsModel.COLORQUALITY,
+    hardness: tankCharacteristicsModel.HARDNESS,
+    analysis: tankCharacteristicsModel.ANALYSIS,
+    redness: tankCharacteristicsModel.REDNESS,
+    pH: tankCharacteristicsModel.PH,
+    salt: tankCharacteristicsModel.SALT,
   });
 };
