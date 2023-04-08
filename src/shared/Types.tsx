@@ -155,3 +155,27 @@ export interface ProductionOrderComponent {
   unitOfMeasure: string;
   materialGroup: string;
 }
+
+export interface TankCharacteristics {
+  tank: string;
+  materialNumber: string;
+  materialText: string;
+  batch: string[];
+  quantity: number;
+  storageLocation: string;
+  materialGroup: string;
+  externalMaterialGroup: string;
+  lab: string;
+  color: string;
+  quality: string;
+  crop: string;
+  unitsPerKg: string;
+  oliveFly: string;
+  gliospore: string;
+  colorQuality: string;
+  hardness: number;
+  analysis: string;
+  redness: number;
+  pH: number;
+  salt: number;
+}
