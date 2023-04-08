@@ -1,14 +1,11 @@
 import React, {useState, useContext, useEffect} from 'react';
-import {View, TextInput, Pressable, Alert, Text} from 'react-native';
+import {View, TextInput, Pressable, Text, Alert} from 'react-native';
 import {styles} from '../../appearance/styles/LoginStyles';
 import {GlobalStyles} from '../../appearance/styles/GlobalStyles';
-
 import DarkModeSwitch from '../../utilities/components/DarkModeSwitch';
 import HorizontalRotation from '../../appearance/animations/HorizontalRotation';
-
 import Spinner from 'react-native-loading-spinner-overlay';
 import {ThemeContext} from '../../appearance/theme/ThemeContext';
-
 import {useAppDispatch} from '../../redux/Store';
 import {setCurrentUser} from '../../redux/actions/UserActions';
 import {useSelector} from 'react-redux';
