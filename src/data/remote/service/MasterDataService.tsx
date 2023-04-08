@@ -8,6 +8,7 @@ import {
   OutboundDelivery,
   ProductionOrder,
   StorageLocation,
+  User,
 } from '../../../shared/Types';
 import RequestGateway, {isError} from '../RequestGateway';
 import {
@@ -16,9 +17,11 @@ import {
   outboundDeliveryModelToOutboundDelivery,
   productionOrderModelToProductionOrder,
   storageLocationModelToStorageLocation,
+  userModelToUser,
 } from '../Mappers';
 import SapRequestParameters from '../SapRequestParameters';
 import {BatchResponse} from '../model/BatchModel';
+import {UserResponse} from '../model/UserModel';
 
 class MasterDataService {
   async setSapCredentials(
@@ -33,6 +36,26 @@ class MasterDataService {
       return true;
     } else {
       return undefined;
+    }
+  }
+
+  async getUser(username: string): Promise<User | undefined> {
+    const timeout = 5000;
+    const sapRequestHeaders = await SapRequestParameters.getSapRequestHeaders(
+      timeout,
+    );
+
+    if (sapRequestHeaders) {
+      const response = await RequestGateway.get<UserResponse>(
+        '/users?bname=' + username,
+        sapRequestHeaders,
+      );
+
+      if (isError(response)) {
+        return undefined;
+      } else {
+        return userModelToUser(response.result.data);
+      }
     }
   }
 

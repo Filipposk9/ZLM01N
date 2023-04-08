@@ -3,7 +3,7 @@ import {UserState} from '../ReduxTypes';
 import {setCurrentUser} from '../actions/UserActions';
 
 const initialState: UserState = {
-  user: {username: '', password: ''},
+  user: {username: '', password: '', buildingCode: ''},
 };
 
 export const userReducer = createReducer(initialState, builder => {

@@ -14,6 +14,7 @@ import {
   ProductionOrderComponent,
   ProductionOrderHeader,
   Batch,
+  User,
 } from '../../shared/Types';
 import {MaterialModel} from './model/MaterialModel';
 import {StorageLocationModel} from './model/StorageLocationModel';
@@ -22,6 +23,15 @@ import {OutboundDeliveryModel} from './model/OutboundDeliveryModel';
 import {PickingModel} from './model/PickingModel';
 import {ProductionOrderModel} from './model/ProductionOrderModel';
 import {BatchModel} from './model/BatchModel';
+import {UserModel} from './model/UserModel';
+
+export const userModelToUser = (userModel: UserModel): User => {
+  return Object.freeze({
+    username: userModel.USERNAME,
+    password: '',
+    buildingCode: userModel.BUILDINGCODE,
+  });
+};
 
 export const materialModelToMaterial = (
   materialModel: MaterialModel,

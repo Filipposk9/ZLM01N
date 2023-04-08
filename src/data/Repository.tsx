@@ -19,13 +19,19 @@ class Repository {
   async initLocalDB(
     username: string,
     password: string,
-  ): Promise<boolean | undefined> {
+  ): Promise<User | undefined> {
     const response = await MasterDataService.setSapCredentials(
       username,
       password,
     );
 
     if (response !== undefined) {
+      const remoteUser = await MasterDataService.getUser(username);
+
+      if (remoteUser) {
+        await UserDao.setUser(remoteUser);
+      }
+
       const remoteMaterialList = await MasterDataService.getMaterials();
 
       if (remoteMaterialList && remoteMaterialList.length > 0) {
@@ -41,8 +47,7 @@ class Repository {
         );
       }
 
-      await UserDao.setUser({username: username, password: password});
-      return true;
+      return remoteUser;
     } else {
       return undefined;
     }
@@ -59,6 +64,12 @@ class Repository {
   }
 
   async getUser(username: string): Promise<User | undefined> {
+    const remoteUser = await MasterDataService.getUser(username);
+
+    if (remoteUser) {
+      return remoteUser;
+    }
+
     const localUser = await UserDao.getUser(username);
 
     if (localUser) {

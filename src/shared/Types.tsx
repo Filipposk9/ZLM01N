@@ -1,6 +1,7 @@
 export interface User {
   username: string;
   password: string;
+  buildingCode: string;
 }
 
 export interface Material {
