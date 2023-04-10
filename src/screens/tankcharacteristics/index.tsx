@@ -18,7 +18,9 @@ function TankCharacteristics({navigation}: {navigation: any}): JSX.Element {
   const getTankCharacteristics = () => {
     const getTankCharacteristics = async () => {
       if (SapStructureValidator.validateTank(tank)) {
-        const response = await Repository.getTankCharacteristics(tank);
+        const response = await Repository.getTankCharacteristics(
+          tank.toUpperCase(),
+        );
 
         if (response !== undefined) {
           setTankCharacteristicsData(response);
@@ -59,9 +61,11 @@ function TankCharacteristics({navigation}: {navigation: any}): JSX.Element {
           <Text style={styles(theme).tankInfoText}>
             {tankCharacteristicsData?.materialText}
           </Text>
-          {tankCharacteristicsData?.batch.map(item => {
-            return <Text>{item}</Text>;
-          })}
+          {tankCharacteristicsData?.batch.length
+            ? tankCharacteristicsData?.batch.map(item => {
+                return <Text>{item}</Text>;
+              })
+            : null}
         </View>
       </View>
 
