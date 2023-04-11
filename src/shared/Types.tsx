@@ -160,7 +160,7 @@ export interface iTankCharacteristics {
   tank: string;
   materialNumber: string;
   materialText: string;
-  batch: string[];
+  batch: string;
   quantity: number;
   storageLocation: string;
   materialGroup: string;
