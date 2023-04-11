@@ -19,12 +19,14 @@ import {
   productionOrderModelToProductionOrder,
   storageLocationModelToStorageLocation,
   tankCharacteristicsModelToTankCharacteristics,
+  tankModelToTank,
   userModelToUser,
 } from '../Mappers';
 import SapRequestParameters from '../SapRequestParameters';
 import {BatchResponse} from '../model/BatchModel';
 import {UserResponse} from '../model/UserModel';
 import {TankCharacteristicsResponse} from '../model/TankCharacteristicsModel';
+import {TankResponse} from '../model/TankModel';
 
 class MasterDataService {
   async setSapCredentials(
@@ -223,6 +225,21 @@ class MasterDataService {
       return tankCharacteristicsModelToTankCharacteristics(
         response.result.data,
       );
+    }
+  }
+
+  async getTanks() {
+    const sapRequestHeaders = await SapRequestParameters.getSapRequestHeaders();
+
+    const response = await RequestGateway.get<TankResponse>(
+      '/tanks?tank=1',
+      sapRequestHeaders,
+    );
+
+    if (isError(response)) {
+      return undefined;
+    } else {
+      return response.result.data.map(item => tankModelToTank(item));
     }
   }
 }

@@ -14,6 +14,7 @@ import {
   ProductionOrder,
   Batch,
   iTankCharacteristics,
+  Tank,
 } from '../shared/Types';
 
 class Repository {
@@ -223,6 +224,16 @@ class Repository {
     if (tankCharacteristics) {
       return tankCharacteristics;
     }
+  }
+
+  async getTanks(): Promise<Tank[] | undefined> {
+    const tanks = await MasterDataService.getTanks();
+
+    if (tanks && tanks.length > 0) {
+      return tanks;
+    }
+
+    return undefined;
   }
 }
 
