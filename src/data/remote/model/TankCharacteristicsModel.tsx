@@ -2,7 +2,7 @@ export interface TankCharacteristicsModel {
   TANK: string;
   MATERIALNUMBER: string;
   MATERIALTEXT: string;
-  BATCH: string[];
+  BATCH: string;
   QUANTITY: number;
   STORAGELOCATION: string;
   MATERIALGROUP: string;
