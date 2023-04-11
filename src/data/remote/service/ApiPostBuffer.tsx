@@ -9,7 +9,7 @@ class ApiPostBuffer {
   private isLocked: boolean = false;
 
   private goodsMovementQueue: GoodsMovement[] = [];
-  readonly unlockThreshold: number = 20;
+  readonly unlockThreshold: number = 10;
 
   //TODO: ask user to take empty queue manually
 
