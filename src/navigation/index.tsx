@@ -13,6 +13,7 @@ import History from '../screens/history/index';
 import Picking from '../screens/picking/index';
 import GoodsIssues from '../screens/goodsissues/index';
 import TankCharacteristics from '../screens/tankcharacteristics/index';
+import TankMap from '../screens/tankmap/index';
 import {RootStackParamList} from './types';
 import {ThemeContext} from '../appearance/theme/ThemeContext';
 
@@ -146,6 +147,48 @@ function GoodsIssuesTabs({navigation}: {navigation: any}): JSX.Element {
   );
 }
 
+function TankCharacteristicsTabs({navigation}: {navigation: any}): JSX.Element {
+  const {theme} = useContext(ThemeContext);
+
+  return (
+    <Tab.Navigator
+      screenOptions={{
+        tabBarActiveTintColor: theme.textColor,
+        tabBarInactiveTintColor: '#7a7a7a',
+        tabBarPressColor: '#33333330',
+        tabBarStyle: {
+          backgroundColor: theme.backgroundColor,
+        },
+
+        tabBarIndicatorStyle: {
+          borderRadius: 20,
+          borderWidth: 1,
+          borderColor: theme.tabBorderColor,
+          height: 35,
+          backgroundColor: '#00000000',
+          marginBottom: '3%',
+        },
+        tabBarLabelStyle: {
+          fontSize: 16,
+          fontWeight: 'bold',
+          textTransform: 'none',
+          borderColor: theme.tabBorderColor,
+        },
+      }}>
+      <Tab.Screen
+        name="TankCharacteristicsM"
+        component={TankCharacteristics}
+        options={{title: 'Καταχώριση Χαρακτηριστικών'}}
+      />
+      <Tab.Screen
+        name="TankMap"
+        component={TankMap}
+        options={{title: 'Χάρτης Δεξαμενών'}}
+      />
+    </Tab.Navigator>
+  );
+}
+
 function HomeTabs({navigation}: {navigation: any}): JSX.Element {
   const {theme} = useContext(ThemeContext);
 
@@ -235,7 +278,7 @@ function AppNavigation(): JSX.Element {
       />
       <AppStack.Screen
         name="TankCharacteristics"
-        component={TankCharacteristics}
+        component={TankCharacteristicsTabs}
         options={{title: 'TankCharacteristics'}}
       />
     </AppStack.Navigator>
