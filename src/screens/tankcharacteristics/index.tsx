@@ -1,5 +1,5 @@
 import React, {useContext, useState} from 'react';
-import {View, Dimensions, Text, Alert} from 'react-native';
+import {View, ScrollView, Dimensions, Text, Alert} from 'react-native';
 import Icon from '../../appearance/assets/Icon';
 import {styles} from '../../appearance/styles/TankCharacteristicsStyles';
 import {ThemeContext} from '../../appearance/theme/ThemeContext';
@@ -35,52 +35,84 @@ function TankCharacteristics({navigation}: {navigation: any}): JSX.Element {
 
   return (
     <View style={styles(theme).tankCharacteristicsContainer}>
-      <View style={styles(theme).tankNameContainer}>
-        <Text style={styles(theme).tankNameText}>Δεξαμενή: </Text>
-        <TextInput
-          style={styles(theme).tankNameInput}
-          autoCapitalize="characters"
-          onChangeText={tank => {
-            setTank(tank);
-          }}
-          value={tank}
-          onSubmitEditing={() => {
-            getTankCharacteristics();
-          }}></TextInput>
-      </View>
-
       <View style={styles(theme).topContainer}>
-        <View style={styles(theme).tankIconContainer}>
-          <Icon
-            name={'propane-tank'}
-            color={'white'}
-            size={Dimensions.get('window').width / 2.2}></Icon>
-        </View>
-
-        <View style={styles(theme).tankInfoContainer}>
-          <Text style={styles(theme).tankInfoText}>
+        <View style={styles(theme).tankInfoHeader}>
+          <Text style={styles(theme).tankInfoHeaderText}>
             {tankCharacteristicsData?.materialText}
           </Text>
-          {tankCharacteristicsData?.batch.length
-            ? tankCharacteristicsData?.batch.map(item => {
-                return <Text>{item}</Text>;
-              })
-            : null}
+        </View>
+        <View style={styles(theme).headerContainer}>
+          <View style={styles(theme).tankInfoContainer}>
+            <Text style={styles(theme).tankInfoText}>
+              Παρτίδα: {tankCharacteristicsData?.batch}
+            </Text>
+            <Text style={styles(theme).tankInfoText}>
+              Ποσότητα: {tankCharacteristicsData?.quantity} KG
+            </Text>
+
+            <Text style={styles(theme).tankInfoText}>
+              Ποιότητα: {tankCharacteristicsData?.quality}
+            </Text>
+
+            <Text style={styles(theme).tankInfoText}>
+              Σοδειά: {tankCharacteristicsData?.crop}
+            </Text>
+          </View>
+
+          <View style={styles(theme).tankIconContainer}>
+            <Icon
+              name={'propane-tank'}
+              color={'white'}
+              size={Dimensions.get('window').width / 2.5}></Icon>
+            <TextInput
+              style={styles(theme).textInsideIcon}
+              autoCapitalize="characters"
+              onChangeText={tank => {
+                setTank(tank);
+              }}
+              value={tank}
+              onSubmitEditing={() => {
+                getTankCharacteristics();
+              }}></TextInput>
+          </View>
         </View>
       </View>
 
       <View style={styles(theme).characteristicsContainer}>
         <Text style={styles(theme).characteristicText}>
-          Characteristic 1: Value
+          Τεμαχισμός: {tankCharacteristicsData?.unitsPerKg}
         </Text>
+
         <Text style={styles(theme).characteristicText}>
-          Characteristic 2: Value
+          Δάκος: {tankCharacteristicsData?.oliveFly}
         </Text>
+
         <Text style={styles(theme).characteristicText}>
-          Characteristic 3: Value
+          Γλοιοσπόριο: {tankCharacteristicsData?.gliospore}
         </Text>
+
         <Text style={styles(theme).characteristicText}>
-          Characteristic 4: Value
+          Ποιότητα Χρώματος: {tankCharacteristicsData?.colorQuality}
+        </Text>
+
+        <Text style={styles(theme).characteristicText}>
+          Σκληρότητα: {tankCharacteristicsData?.hardness}
+        </Text>
+
+        <Text style={styles(theme).characteristicText}>
+          Ανάλυση: {tankCharacteristicsData?.analysis}
+        </Text>
+
+        <Text style={styles(theme).characteristicText}>
+          Κόκκινα: {tankCharacteristicsData?.oliveFly}
+        </Text>
+
+        <Text style={styles(theme).characteristicText}>
+          pH: {tankCharacteristicsData?.pH}
+        </Text>
+
+        <Text style={styles(theme).characteristicText}>
+          Αλάτι: {tankCharacteristicsData?.salt}
         </Text>
       </View>
     </View>
