@@ -160,18 +160,22 @@ function ManualLabelInputModal(props: ManualLabelInputModalProps): JSX.Element {
             onPress={() => {
               let barcode = '';
 
+              console.log(editable);
+
               if (editable) {
                 barcode = materialNumber + '-' + batch + '-' + quantity;
+                console.log(materialNumber);
               } else {
                 barcode =
                   materialNumberText + '-' + batchText + '-' + quantityText;
               }
 
               if (BarcodeValidator.validateBarrelLabel(barcode)) {
-                onSubmit(barcode);
                 setMaterialNumber('Κωδικός Υλικού');
                 setBatch('Παρτίδα');
                 setQuantity('Ποσότητα');
+
+                onSubmit(barcode);
               }
 
               Keyboard.dismiss();

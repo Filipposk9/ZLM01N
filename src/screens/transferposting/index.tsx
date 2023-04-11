@@ -288,6 +288,7 @@ function TransferPosting({navigation}: {navigation: any}): JSX.Element {
 
       <ManualLabelInputModal
         visibility={manualLabelInputVisibility}
+        editable={true}
         onSubmit={lastScannedBarcode => {
           addLabel(lastScannedBarcode);
           setManualLabelInputVisibility(false);
