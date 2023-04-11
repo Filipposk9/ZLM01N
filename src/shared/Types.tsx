@@ -179,3 +179,7 @@ export interface iTankCharacteristics {
   pH: number;
   salt: number;
 }
+
+export interface Tank {
+  tank: string;
+}
