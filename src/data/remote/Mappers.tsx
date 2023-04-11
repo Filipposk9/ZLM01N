@@ -16,6 +16,7 @@ import {
   Batch,
   User,
   iTankCharacteristics,
+  Tank,
 } from '../../shared/Types';
 import {MaterialModel} from './model/MaterialModel';
 import {StorageLocationModel} from './model/StorageLocationModel';
@@ -26,6 +27,7 @@ import {ProductionOrderModel} from './model/ProductionOrderModel';
 import {BatchModel} from './model/BatchModel';
 import {UserModel} from './model/UserModel';
 import {TankCharacteristicsModel} from './model/TankCharacteristicsModel';
+import {TankModel} from './model/TankModel';
 
 export const userModelToUser = (userModel: UserModel): User => {
   return Object.freeze({
@@ -247,5 +249,11 @@ export const tankCharacteristicsModelToTankCharacteristics = (
     redness: tankCharacteristicsModel.REDNESS,
     pH: tankCharacteristicsModel.PH,
     salt: tankCharacteristicsModel.SALT,
+  });
+};
+
+export const tankModelToTank = (tankModel: TankModel): Tank => {
+  return Object.freeze({
+    tank: tankModel.TANK,
   });
 };
