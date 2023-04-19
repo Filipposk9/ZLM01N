@@ -20,6 +20,7 @@ export interface TankCharacteristicsModel {
   REDNESS: number;
   PH: number;
   SALT: number;
+  ACIDITY: number;
 }
 
 export interface TankCharacteristicsResponse {

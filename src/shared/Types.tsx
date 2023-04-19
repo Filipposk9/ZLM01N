@@ -178,6 +178,7 @@ export interface iTankCharacteristics {
   redness: number;
   pH: number;
   salt: number;
+  acidity: number;
 }
 
 export interface Tank {

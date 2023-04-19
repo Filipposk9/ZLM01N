@@ -249,6 +249,7 @@ export const tankCharacteristicsModelToTankCharacteristics = (
     redness: tankCharacteristicsModel.REDNESS,
     pH: tankCharacteristicsModel.PH,
     salt: tankCharacteristicsModel.SALT,
+    acidity: tankCharacteristicsModel.ACIDITY,
   });
 };
 
