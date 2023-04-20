@@ -4,8 +4,8 @@ import {iTheme} from '../theme/types';
 export const styles = (theme: iTheme) =>
   StyleSheet.create({
     tankMapContainer: {
-      height: '100%',
-      backgroundColor: theme.backgroundColor,
+      //   height: '100%',
+      //   backgroundColor: theme.backgroundColor,
     },
     tankContainer: {
       backgroundColor: theme.foregroundColor,

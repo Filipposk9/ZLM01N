@@ -17,16 +17,25 @@ function TankMap({navigation}: {navigation: any}): JSX.Element {
       }
     };
 
-    getTankList();
+    // getTankList();
   }, []);
 
   const {theme} = useContext(ThemeContext);
 
   return (
     <View style={styles(theme).tankMapContainer}>
-      <View style={styles(theme).tankContainer}>
+      {/* <View style={styles(theme).tankContainer}>
         <Text style={{color: 'white'}}>CB123</Text>
-      </View>
+      </View> */}
+
+      {/* <SvgUri
+        width="200"
+        height="200"
+        // source={{
+        //   uri: 'http://thenewcode.com/assets/images/thumbnails/homer-simpson.svg',
+        // }}
+        // source={require('../../appearance/assets/TanksTopViewB.svg')}
+      /> */}
     </View>
   );
 }
