@@ -12,7 +12,10 @@ class SapStructureValidator {
   }
 
   validateTank(tank: string): boolean {
-    const tankRegex = new RegExp('^(BS|CB|CP|CS|CU|CY|DS)[0-9]{3}$', 'i');
+    const tankRegex = new RegExp(
+      '^((BS(A|B|C|D|E)[0-9]{2})|(C(B|I|P|S|T|U|X|Y)[0-9]{3})|(M(B|C|P|U)[0-9]{3})|(XPD(B|C))[0-9]{1}|(DS|KS|EU|KC|KD)[0-9]{3})$',
+      'i',
+    );
 
     return tankRegex.test(tank);
   }
