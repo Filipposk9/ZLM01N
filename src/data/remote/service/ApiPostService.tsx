@@ -51,6 +51,8 @@ class ApiPostService {
         );
 
         if (isError(response)) {
+          ApiPostBuffer.setGoodsMovementQueue(materialDocument);
+
           return undefined;
         } else {
           return materialDocumentModelToMaterialDocument(response.result.data);
