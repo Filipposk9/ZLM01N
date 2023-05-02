@@ -5,18 +5,21 @@ import {
   GoodsMovement,
   PickingRequest,
   Picking,
+  iTankCharacteristics,
 } from '../../../shared/Types';
 import {
   handlingUnitToPickingRequest,
   labelToGoodsMovement,
   materialDocumentModelToMaterialDocument,
   pickingModelToPicking,
+  tankCharacteristicsModelToTankCharacteristics,
 } from '../Mappers';
 import {MaterialDocumentResponse} from '../model/MaterialDocumentModel';
 import {PickingResponse} from '../model/PickingModel';
 import RequestGateway, {isError} from '../RequestGateway';
 import SapRequestParameters from '../SapRequestParameters';
 import NetInfo, {NetInfoWifiState} from '@react-native-community/netinfo';
+import {TankCharacteristicsResponse} from '../model/TankCharacteristicsModel';
 
 class ApiPostService {
   async createGoodsMovement(
@@ -86,6 +89,26 @@ class ApiPostService {
       return undefined;
     } else {
       return pickingModelToPicking(response.result.data);
+    }
+  }
+
+  async changeBatchCharacteristics(
+    tankCharacteristics: iTankCharacteristics,
+  ): Promise<iTankCharacteristics | undefined> {
+    const sapRequestHeaders = await SapRequestParameters.getSapRequestHeaders();
+
+    const response = await RequestGateway.post<TankCharacteristicsResponse>(
+      '/batchclass',
+      sapRequestHeaders,
+      tankCharacteristics,
+    );
+
+    if (isError(response)) {
+      return undefined;
+    } else {
+      return tankCharacteristicsModelToTankCharacteristics(
+        response.result.data,
+      );
     }
   }
 

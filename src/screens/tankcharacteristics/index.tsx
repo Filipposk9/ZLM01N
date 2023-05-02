@@ -6,7 +6,6 @@ import {
   Text,
   Alert,
   Pressable,
-  KeyboardAvoidingView,
 } from 'react-native';
 import Icon from '../../appearance/assets/Icon';
 import {styles} from '../../appearance/styles/TankCharacteristicsStyles';
@@ -16,6 +15,7 @@ import {iTankCharacteristics} from '../../shared/Types';
 import SapStructureValidator from '../../utilities/validators/SapStructureValidator';
 import Repository from '../../data/Repository';
 import {GlobalStyles} from '../../appearance/styles/GlobalStyles';
+import Spinner from 'react-native-loading-spinner-overlay/lib';
 
 function TankCharacteristics({navigation}: {navigation: any}): JSX.Element {
   const {theme} = useContext(ThemeContext);
@@ -24,7 +24,7 @@ function TankCharacteristics({navigation}: {navigation: any}): JSX.Element {
   const [tankCharacteristicsData, setTankCharacteristicsData] =
     useState<iTankCharacteristics>();
 
-  const scrollViewRef = useRef<ScrollView>(null);
+  const [isLoading, setIsLoading] = useState<boolean>(false);
 
   const getTankCharacteristics = () => {
     const getTankCharacteristics = async () => {
@@ -44,8 +44,20 @@ function TankCharacteristics({navigation}: {navigation: any}): JSX.Element {
     getTankCharacteristics();
   };
 
+  const submitTankCharacteristics = async (
+    tankCharacteristics: iTankCharacteristics,
+  ) => {
+    const response = await Repository.changeBatchCharacteristics(
+      tankCharacteristics,
+    );
+  };
+
   return (
     <View style={styles(theme).tankCharacteristicsContainer}>
+      <Spinner
+        visible={isLoading}
+        textContent={'Καταχώριση χαρακτηριστικών...'}
+        textStyle={{color: 'white'}}></Spinner>
       <View style={styles(theme).topContainer}>
         <View style={styles(theme).tankInfoHeader}>
           <Text style={styles(theme).tankInfoHeaderText}>
@@ -92,42 +104,51 @@ function TankCharacteristics({navigation}: {navigation: any}): JSX.Element {
       <ScrollView style={styles(theme).characteristicsContainer}>
         {[
           {
+            title: 'quality',
             label: 'Ποιότητα Χρώματος',
             value: tankCharacteristicsData?.colorQuality,
           },
-          {label: 'Σκληρότητα', value: tankCharacteristicsData?.hardness},
-          {label: 'pH', value: tankCharacteristicsData?.pH},
-          {label: 'Αλάτι', value: tankCharacteristicsData?.salt},
           {
+            title: 'hardness',
+            label: 'Σκληρότητα',
+            value: tankCharacteristicsData?.hardness,
+          },
+          {title: 'pH', label: 'pH', value: tankCharacteristicsData?.pH},
+          {title: 'salt', label: 'Αλάτι', value: tankCharacteristicsData?.salt},
+          {
+            title: 'unitsPerKg',
             label: 'Τεμαχισμός',
             value: tankCharacteristicsData?.unitsPerKg,
             disabled: true,
           },
           {
+            title: 'oliveFly',
             label: 'Δάκος',
             value: tankCharacteristicsData?.oliveFly,
             disabled: true,
           },
           {
+            title: 'gliospore',
             label: 'Γλοιοσπόριο',
             value: tankCharacteristicsData?.gliospore,
             disabled: true,
           },
           {
+            title: 'analysis',
             label: 'Ανάλυση',
             value: tankCharacteristicsData?.analysis,
             disabled: true,
           },
           {
+            title: 'redness',
             label: 'Κόκκινα',
             value: tankCharacteristicsData?.redness,
             disabled: true,
           },
-        ].map((characteristic, index) => (
+        ].map(characteristic => (
           <Pressable
             key={characteristic.label}
-            style={styles(theme).characteristicLine}
-            onPress={() => scrollToElement(index)}>
+            style={styles(theme).characteristicLine}>
             <TextInput
               editable={false}
               autoCorrect={false}
@@ -138,9 +159,18 @@ function TankCharacteristics({navigation}: {navigation: any}): JSX.Element {
               <TextInput
                 keyboardType="numeric"
                 style={styles(theme).characteristicInput}
-                editable={!characteristic.disabled}>
-                {characteristic.value}
-              </TextInput>
+                editable={!characteristic.disabled}
+                value={characteristic.value?.toString()}
+                onChangeText={newValue => {
+                  if (tankCharacteristicsData !== undefined) {
+                    const newCharacteristicsData = {
+                      ...tankCharacteristicsData,
+                      [characteristic.title]: newValue,
+                    };
+
+                    setTankCharacteristicsData(newCharacteristicsData);
+                  }
+                }}></TextInput>
             </View>
           </Pressable>
         ))}
@@ -151,35 +181,21 @@ function TankCharacteristics({navigation}: {navigation: any}): JSX.Element {
           <Pressable
             style={styles(theme).submitButton}
             onPress={async () => {
-              // setIsLoading(true);
-              // const goodsMovementLog = await submitGoodsMovement(
-              //   scannedLabels,
-              //   storageLocationIn,
-              //   storageLocationOut,
-              // );
-              // setIsLoading(false);
-              // if (goodsMovementLog) {
-              //   dispatch(setGoodsMovementLog(goodsMovementLog));
-              //   navigation.navigate('TransferPostingLog', [
-              //     goodsMovementLog,
-              //     storageLocationIn,
-              //     storageLocationOut,
-              //   ]);
-              // } else {
-              //   if (
-              //     scannedLabels.length > 0 &&
-              //     storageLocationsAreValid(
-              //       storageLocationIn,
-              //       storageLocationOut,
-              //     )
-              //   ) {
-              //     resetScreenComponents();
-              //     Alert.alert(
-              //       'Ανεπαρκές Σήμα',
-              //       'Το παραστατικό προστέθηκε στην ουρά',
-              //     );
-              //   }
-              // }
+              setIsLoading(true);
+
+              if (tankCharacteristicsData !== undefined) {
+                const response = await submitTankCharacteristics(
+                  tankCharacteristicsData,
+                );
+
+                setIsLoading(false);
+
+                if (response !== undefined) {
+                  Alert.alert('Επιτυχής Καταχώριση');
+                } //if no signal?
+              } else {
+                Alert.alert('Εισάγετε δεξαμενή');
+              }
             }}
             android_ripple={GlobalStyles(theme).rippleColor}>
             <Text style={styles(theme).submitButtonText}>Καταχώριση</Text>

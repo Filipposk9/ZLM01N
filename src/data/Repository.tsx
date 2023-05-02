@@ -235,6 +235,17 @@ class Repository {
 
     return undefined;
   }
+
+  async changeBatchCharacteristics(
+    tankCharacteristics: iTankCharacteristics,
+  ): Promise<iTankCharacteristics | undefined> {
+    const batchCharacteristics =
+      await ApiPostService.changeBatchCharacteristics(tankCharacteristics);
+
+    if (batchCharacteristics) {
+      return batchCharacteristics;
+    }
+  }
 }
 
 export default new Repository();
