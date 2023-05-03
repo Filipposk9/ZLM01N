@@ -52,9 +52,6 @@ export const styles = (theme: iTheme) =>
       flexDirection: 'row',
       elevation: 5,
     },
-    tankIconContainer: {
-      // width: '100%',
-    },
     tankInfoContainer: {
       width: '54%',
       backgroundColor: theme.secondaryForegroundColor,
