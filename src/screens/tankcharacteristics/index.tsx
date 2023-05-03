@@ -50,6 +50,13 @@ function TankCharacteristics({navigation}: {navigation: any}): JSX.Element {
     const response = await Repository.changeBatchCharacteristics(
       tankCharacteristics,
     );
+
+    if (response !== undefined) {
+      setTankCharacteristicsData(response);
+      Alert.alert('Επιτυχής καταχώριση');
+    } else {
+      Alert.alert('Σφάλμα');
+    }
   };
 
   return (
@@ -82,7 +89,7 @@ function TankCharacteristics({navigation}: {navigation: any}): JSX.Element {
             </Text>
           </View>
 
-          <View style={styles(theme).tankIconContainer}>
+          <View>
             <Icon
               name={'propane-tank'}
               color={'white'}
@@ -104,7 +111,7 @@ function TankCharacteristics({navigation}: {navigation: any}): JSX.Element {
       <ScrollView style={styles(theme).characteristicsContainer}>
         {[
           {
-            title: 'quality',
+            title: 'colorQuality',
             label: 'Ποιότητα Χρώματος',
             value: tankCharacteristicsData?.colorQuality,
           },
