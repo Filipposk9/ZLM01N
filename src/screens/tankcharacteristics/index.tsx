@@ -52,7 +52,7 @@ function TankCharacteristics({navigation}: {navigation: any}): JSX.Element {
     );
 
     if (response !== undefined) {
-      setTankCharacteristicsData(response);
+      getTankCharacteristics();
       Alert.alert('Επιτυχής καταχώριση');
     } else {
       Alert.alert('Σφάλμα');
