@@ -1,5 +1,5 @@
 import React, {useContext, useRef, useState} from 'react';
-import {View, Text, TextInput, Alert} from 'react-native';
+import {View, Text, TextInput, Alert, Pressable} from 'react-native';
 import {FlatList} from 'react-native-gesture-handler';
 import BarcodeScanner from '../../utilities/components/BarcodeScanner';
 import ManualLabelInputModal from '../../utilities/components/ManualLabelInputModal';
@@ -16,6 +16,7 @@ import {GOODS_MOVEMENT_CODE, MOVEMENT_TYPE} from '../../shared/Constants';
 import BarcodeValidator from '../../utilities/validators/BarcodeValidator';
 import SapStructureValidator from '../../utilities/validators/SapStructureValidator';
 import Spinner from 'react-native-loading-spinner-overlay/lib';
+import {GlobalStyles} from '../../appearance/styles/GlobalStyles';
 
 function GoodsIssues({navigation}: {navigation: any}): JSX.Element {
   const {theme} = useContext(ThemeContext);
@@ -42,10 +43,12 @@ function GoodsIssues({navigation}: {navigation: any}): JSX.Element {
 
   const [manualLabelInputVisibility, setManualLabelInputVisibility] =
     useState(false);
+  const [manualLabelInputEditability, setManualLabelInputEditability] =
+    useState<boolean>(false);
 
   const [lastScannedBarcode, setLastScannedBarcode] = useState<string>('');
 
-  const [materialText, setMaterialText] = useState('');
+  const [materialText, setMaterialText] = useState<string>('');
   const [materialNumberText, setMaterialNumberText] = useState('');
   const [batchText, setBatchText] = useState('');
   const [quantityText, setQuantityText] = useState('');
@@ -103,7 +106,9 @@ function GoodsIssues({navigation}: {navigation: any}): JSX.Element {
         const [materialNumber, batch, quantity] = barcode.split('-');
 
         const materialText = await getMaterialText(materialNumber);
-        setMaterialText(materialText);
+        if (materialText !== undefined) {
+          setMaterialText(materialText);
+        }
 
         setMaterialNumberText(materialNumber);
         setBatchText(batch);
@@ -319,17 +324,33 @@ function GoodsIssues({navigation}: {navigation: any}): JSX.Element {
           </View>
         )}></FlatList>
 
+      <View style={styles(theme).manualLabelInputButtonContainer}>
+        <Pressable
+          style={styles(theme).manualLabelInputButton}
+          onPress={async () => {
+            setManualLabelInputEditability(true);
+            setManualLabelInputVisibility(true);
+          }}
+          android_ripple={GlobalStyles(theme).rippleColor}>
+          <Text style={styles(theme).manualLabelInputButtonText}>
+            Χειροκίνητη Καταχώριση
+          </Text>
+        </Pressable>
+      </View>
+
       <ManualLabelInputModal
         headerText={materialText}
         materialNumberText={materialNumberText}
         batchText={batchText}
         quantityText={quantityText}
         buttonText={'Ανάλωση'}
-        editable={false}
+        editable={manualLabelInputEditability}
         visibility={manualLabelInputVisibility}
         onSubmit={(lastScannedBarcode: string) => {
           confirmGoodsIssue(lastScannedBarcode);
           setManualLabelInputVisibility(false);
+          setManualLabelInputEditability(false);
+          setMaterialText('');
         }}
       />
 

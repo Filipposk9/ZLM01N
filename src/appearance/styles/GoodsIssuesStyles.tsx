@@ -10,7 +10,9 @@ export const styles = (theme: iTheme) =>
     goodsIssuesContainer: {
       backgroundColor: theme.foregroundColor,
       elevation: 5,
-      margin: '4%',
+      marginLeft: '4%',
+      marginRight: '4%',
+      marginTop: '2%',
       borderRadius: 10,
     },
     productionOrderInputContainer: {
@@ -85,6 +87,26 @@ export const styles = (theme: iTheme) =>
       fontSize: 20,
       marginTop: '2%',
       marginBottom: '2%',
+      color: theme.buttonTextColor,
+    },
+    manualLabelInputButtonContainer: {
+      elevation: 50,
+      borderRadius: 30,
+      borderColor: theme.borderColor,
+      backgroundColor: theme.buttonThirdBackgroundColor,
+      alignItems: 'center',
+      justifyContent: 'center',
+      margin: '4%',
+    },
+    manualLabelInputButton: {
+      height: 50,
+      alignItems: 'center',
+      justifyContent: 'center',
+      width: '100%',
+    },
+    manualLabelInputButtonText: {
+      fontSize: 20,
+      fontWeight: 'bold',
       color: theme.buttonTextColor,
     },
   });
