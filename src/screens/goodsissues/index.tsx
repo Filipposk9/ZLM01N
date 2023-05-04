@@ -17,9 +17,14 @@ import BarcodeValidator from '../../utilities/validators/BarcodeValidator';
 import SapStructureValidator from '../../utilities/validators/SapStructureValidator';
 import Spinner from 'react-native-loading-spinner-overlay/lib';
 import {GlobalStyles} from '../../appearance/styles/GlobalStyles';
+import {useAppDispatch} from '../../redux/Store';
+import {setGoodsMovementLog} from '../../redux/actions/GoodsMovementLogActions';
 
 function GoodsIssues({navigation}: {navigation: any}): JSX.Element {
   const {theme} = useContext(ThemeContext);
+
+  const dispatch = useAppDispatch();
+
   const scannerRef = useRef<TextInput>(null);
 
   const [isLoading, setIsLoading] = useState<boolean>(false);
@@ -158,7 +163,7 @@ function GoodsIssues({navigation}: {navigation: any}): JSX.Element {
 
         setIsLoading(true);
 
-        const response = await submitGoodsMovement(
+        const goodsMovementLog = await submitGoodsMovement(
           [
             {
               count: 1,
@@ -171,9 +176,13 @@ function GoodsIssues({navigation}: {navigation: any}): JSX.Element {
           component?.storageLocation ? component.storageLocation : '',
         );
 
+        if (goodsMovementLog !== undefined) {
+          dispatch(setGoodsMovementLog(goodsMovementLog));
+        }
+
         setIsLoading(false);
 
-        if (response?.items[0].iserror) {
+        if (goodsMovementLog?.items[0].iserror) {
           Alert.alert(
             'Η ανάλωση δεν πραγματοποιήθηκε',
             'Το σφάλμα έχει αποσταλεί στο γραφείο παραγωγής',

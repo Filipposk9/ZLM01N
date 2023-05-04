@@ -10,8 +10,6 @@ interface HistoryItemProps {
   count: number;
 }
 
-//TODO: support goods issues, picking
-
 function HistoryItem(props: HistoryItemProps): JSX.Element {
   const {theme} = useContext(ThemeContext);
 
@@ -88,7 +86,9 @@ function HistoryItem(props: HistoryItemProps): JSX.Element {
           <View>
             <Text style={styles(theme).historyItemHeaderContainer}>
               <Text style={styles(theme).historyItemHeaderText}>
-                Ενδοδιακίνηση:{' '}
+                {goodsMovementLog.items[0].movementType === '261'
+                  ? 'Ανάλωση: '
+                  : 'Ενδοδιακίνηση'}
               </Text>
               <Text style={styles(theme).historyItemHeaderText2}>
                 {goodsMovementLog.materialDocumentNumber}
