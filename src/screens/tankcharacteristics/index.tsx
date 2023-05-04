@@ -1,4 +1,4 @@
-import React, {useContext, useRef, useState} from 'react';
+import React, {useContext, useState} from 'react';
 import {
   View,
   ScrollView,
@@ -7,6 +7,7 @@ import {
   Alert,
   Pressable,
 } from 'react-native';
+import Spinner from 'react-native-loading-spinner-overlay/lib';
 import Icon from '../../appearance/assets/Icon';
 import {styles} from '../../appearance/styles/TankCharacteristicsStyles';
 import {ThemeContext} from '../../appearance/theme/ThemeContext';
@@ -15,7 +16,6 @@ import {iTankCharacteristics} from '../../shared/Types';
 import SapStructureValidator from '../../utilities/validators/SapStructureValidator';
 import Repository from '../../data/Repository';
 import {GlobalStyles} from '../../appearance/styles/GlobalStyles';
-import Spinner from 'react-native-loading-spinner-overlay/lib';
 
 function TankCharacteristics({navigation}: {navigation: any}): JSX.Element {
   const {theme} = useContext(ThemeContext);
@@ -110,6 +110,8 @@ function TankCharacteristics({navigation}: {navigation: any}): JSX.Element {
 
       <ScrollView style={styles(theme).characteristicsContainer}>
         {[
+          {title: 'pH', label: 'pH', value: tankCharacteristicsData?.pH},
+          {title: 'salt', label: 'Αλάτι', value: tankCharacteristicsData?.salt},
           {
             title: 'colorQuality',
             label: 'Ποιότητα Χρώματος',
@@ -120,8 +122,7 @@ function TankCharacteristics({navigation}: {navigation: any}): JSX.Element {
             label: 'Σκληρότητα',
             value: tankCharacteristicsData?.hardness,
           },
-          {title: 'pH', label: 'pH', value: tankCharacteristicsData?.pH},
-          {title: 'salt', label: 'Αλάτι', value: tankCharacteristicsData?.salt},
+
           {
             title: 'unitsPerKg',
             label: 'Τεμαχισμός',
