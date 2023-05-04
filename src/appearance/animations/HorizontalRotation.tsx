@@ -4,11 +4,7 @@ class HorizontalRotation {
   private animatedValue: Animated.Value = new Animated.Value(0);
   private currentValue: number = 0;
 
-  constructor() {
-    this.animatedValue.addListener(({value}) => {
-      this.currentValue = value;
-    });
-  }
+  constructor() {}
 
   setInterpolate() {
     if (this.currentValue >= 90) {
