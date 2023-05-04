@@ -47,6 +47,11 @@ function Picking({navigation}: {navigation: any}): JSX.Element {
           Alert.alert('To picking έχει ήδη ολοκληρωθεί');
         } else {
           setLoading(true);
+
+          if (lastScannedBarcode.includes('-')) {
+            lastScannedBarcode = lastScannedBarcode.replace(',', '.');
+          }
+
           const response = await Repository.createPickingRequest(
             outboundDelivery,
             lastScannedBarcode,
@@ -154,7 +159,8 @@ function Picking({navigation}: {navigation: any}): JSX.Element {
             }
           }}
           validator={lastScannedBarcode =>
-            BarcodeValidator.validatePalletLabel(lastScannedBarcode)
+            BarcodeValidator.validatePalletLabel(lastScannedBarcode) ||
+            BarcodeValidator.validateBarrelLabel(lastScannedBarcode)
           }
         />
       </View>
