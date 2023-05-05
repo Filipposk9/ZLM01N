@@ -47,23 +47,19 @@ function TransferPosting({navigation}: {navigation: any}): JSX.Element {
 
   const scrollViewRef = useRef<ScrollView>(null);
 
-  const fetchBatchData = async (
+  const checkInventoryAvailability = async (
     materialNumber: string,
     batch: string,
     storageLocation: string,
-  ) => {
+  ): Promise<boolean> => {
     const batchData = await Repository.getBatchData(
       materialNumber,
       batch,
       storageLocation,
     );
 
-    if (batchData) {
-      if (batchData.quantity > 0) {
-        return true;
-      } else {
-        return false;
-      }
+    if (batchData && batchData.quantity > 0) {
+      return true;
     } else {
       return false;
     }
@@ -72,25 +68,20 @@ function TransferPosting({navigation}: {navigation: any}): JSX.Element {
   const onStorageLocationInChange = async (storageLocationIn: string) => {
     setStorageLocationIn(storageLocationIn);
 
-    let updatedLabels: Label[] = [];
+    const updatedLabels: Label[] = await Promise.all(
+      scannedLabels.map(async label => {
+        const validity = await checkInventoryAvailability(
+          label.materialNumber,
+          label.batch,
+          storageLocationIn,
+        );
 
-    for (const label of scannedLabels) {
-      const validity = await fetchBatchData(
-        label.materialNumber,
-        label.batch,
-        storageLocationIn,
-      );
-
-      const item = {
-        count: label.count,
-        materialNumber: label.materialNumber,
-        batch: label.batch,
-        quantity: label.quantity,
-        validity: validity,
-      };
-
-      updatedLabels.push(item);
-    }
+        return {
+          ...label,
+          validity,
+        };
+      }),
+    );
 
     if (updatedLabels && updatedLabels.length > 0) {
       setScannedLabels([]);
@@ -103,15 +94,7 @@ function TransferPosting({navigation}: {navigation: any}): JSX.Element {
   };
 
   const storageLocationsAreValid = (stgLocIn: string, stgLocOut: string) => {
-    if (stgLocIn !== '' && stgLocOut !== '') {
-      if (stgLocIn !== stgLocOut) {
-        return true;
-      } else {
-        return false;
-      }
-    } else {
-      return false;
-    }
+    return stgLocIn !== '' && stgLocOut !== '' && stgLocIn !== stgLocOut;
   };
 
   const addLabel = async (lastScannedBarcode: string) => {
@@ -120,7 +103,7 @@ function TransferPosting({navigation}: {navigation: any}): JSX.Element {
         lastScannedBarcode.split('-');
       const quantity = Number(quantityString.replace(',', '.'));
 
-      const validity = await fetchBatchData(
+      const validity = await checkInventoryAvailability(
         materialNumber,
         batch,
         storageLocationIn,
