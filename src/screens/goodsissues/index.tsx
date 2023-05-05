@@ -47,16 +47,16 @@ function GoodsIssues({navigation}: {navigation: any}): JSX.Element {
   >([]);
 
   const [manualLabelInputVisibility, setManualLabelInputVisibility] =
-    useState(false);
+    useState<boolean>(false);
   const [manualLabelInputEditability, setManualLabelInputEditability] =
     useState<boolean>(false);
 
   const [lastScannedBarcode, setLastScannedBarcode] = useState<string>('');
 
   const [materialText, setMaterialText] = useState<string>('');
-  const [materialNumberText, setMaterialNumberText] = useState('');
-  const [batchText, setBatchText] = useState('');
-  const [quantityText, setQuantityText] = useState('');
+  const [materialNumberText, setMaterialNumberText] = useState<string>('');
+  const [batchText, setBatchText] = useState<string>('');
+  const [quantityText, setQuantityText] = useState<string>('');
 
   const getProductionOrderData = () => {
     const getProductionOrderData = async () => {
