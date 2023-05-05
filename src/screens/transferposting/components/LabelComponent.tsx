@@ -11,8 +11,6 @@ interface LabelComponentProps {
   onDeletePressed: () => void;
 }
 
-//TODO: add animation spawn from top/left
-
 function LabelComponent(props: LabelComponentProps): JSX.Element {
   const {count, barcode, onDeletePressed} = props;
   const {theme} = useContext(ThemeContext);
