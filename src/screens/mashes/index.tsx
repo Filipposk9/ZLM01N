@@ -22,6 +22,7 @@ import {
   GOODS_MOVEMENT_CODE,
   MOVEMENT_TYPE,
   PRODUCTION_ORDER,
+  STORAGE_LOCATION,
 } from '../../shared/Constants';
 import {setGoodsMovementLog} from '../../redux/actions/GoodsMovementLogActions';
 
@@ -66,7 +67,7 @@ function Mashes({navigation}: {navigation: any}): JSX.Element {
       const validity = await checkInventoryAvailability(
         materialNumber,
         batch,
-        '3200',
+        STORAGE_LOCATION.BUILDING_C_YARD,
       );
 
       if (scannedLabels.length > 0) {
@@ -117,22 +118,18 @@ function Mashes({navigation}: {navigation: any}): JSX.Element {
       stgLocIn: string,
       stgLocOut: string,
     ): Promise<MaterialDocument | undefined> => {
-      if (storageLocationsAreValid(stgLocIn, stgLocOut)) {
-        const materialDocument = await Repository.createGoodsMovement(
-          GOODS_MOVEMENT_CODE.TRANSFER_POSTING,
-          labels,
-          stgLocIn,
-          stgLocOut,
-          MOVEMENT_TYPE.TRANSFER_POSTING,
-          PRODUCTION_ORDER.BLANK,
-        );
+      const materialDocument = await Repository.createGoodsMovement(
+        GOODS_MOVEMENT_CODE.TRANSFER_POSTING,
+        labels,
+        stgLocIn,
+        stgLocOut,
+        MOVEMENT_TYPE.TRANSFER_POSTING,
+        PRODUCTION_ORDER.BLANK,
+      );
 
-        resetScreenComponents();
+      resetScreenComponents();
 
-        return materialDocument;
-      } else {
-        Alert.alert('Σφάλμα', 'Εισάγετε αποθηκευτικό χώρο');
-      }
+      return materialDocument;
     };
 
     if (labels.length > 0) {
@@ -140,10 +137,6 @@ function Mashes({navigation}: {navigation: any}): JSX.Element {
     } else {
       Alert.alert('Σφάλμα', 'Αδειο παραστατικό');
     }
-  };
-
-  const storageLocationsAreValid = (stgLocIn: string, stgLocOut: string) => {
-    return stgLocIn !== '' && stgLocOut !== '' && stgLocIn !== stgLocOut;
   };
 
   return (
@@ -231,8 +224,8 @@ function Mashes({navigation}: {navigation: any}): JSX.Element {
 
               const goodsMovementLog = await submitGoodsMovement(
                 scannedLabels,
-                '3200',
-                '3200',
+                STORAGE_LOCATION.BUILDING_C_YARD,
+                STORAGE_LOCATION.BUILDING_C_SCRAP,
               );
               setIsLoading(false);
 
@@ -241,14 +234,11 @@ function Mashes({navigation}: {navigation: any}): JSX.Element {
 
                 navigation.navigate('TransferPostingLog', [
                   goodsMovementLog,
-                  '3200',
-                  '3200',
+                  STORAGE_LOCATION.BUILDING_C_YARD,
+                  STORAGE_LOCATION.BUILDING_C_YARD,
                 ]);
               } else {
-                if (
-                  scannedLabels.length > 0 &&
-                  storageLocationsAreValid('3200', '3200')
-                ) {
+                if (scannedLabels.length > 0) {
                   resetScreenComponents();
                   Alert.alert(
                     'Ανεπαρκές Σήμα',

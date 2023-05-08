@@ -11,3 +11,9 @@ export const MOVEMENT_TYPE = {
 export const PRODUCTION_ORDER = {
   BLANK: '',
 };
+
+export const STORAGE_LOCATION = {
+  BUILDING_B_YARD: '2200',
+  BUILDING_C_YARD: '3200',
+  BUILDING_C_SCRAP: '3209',
+};
