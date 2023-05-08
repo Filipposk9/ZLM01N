@@ -55,7 +55,7 @@ function MainMenu({navigation}: {navigation: any}): JSX.Element {
         <View style={styles(theme).mainMenuLine}>
           <MainMenuButton
             navigation={navigation}
-            navigationLocation={''}
+            navigationLocation={'Mashes'}
             icon={'trash-2'}
             iconColor={'#222222'}
             text={'Λιώματα'}

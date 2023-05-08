@@ -8,6 +8,6 @@ export type RootStackParamList = {
   Picking: JSX.Element;
   GoodsIssues: JSX.Element;
   TankCharacteristics: JSX.Element;
+  Mashes: JSX.Element;
   History: JSX.Element;
-  StorageLocationList: JSX.Element;
 };

@@ -14,8 +14,11 @@ import Picking from '../screens/picking/index';
 import GoodsIssues from '../screens/goodsissues/index';
 import TankCharacteristics from '../screens/tankcharacteristics/index';
 import TankMap from '../screens/tankmap/index';
+import Mashes from '../screens/mashes/index';
 import {RootStackParamList} from './types';
 import {ThemeContext} from '../appearance/theme/ThemeContext';
+
+//TODO: fix repeatable code
 
 const AppStack = createNativeStackNavigator<RootStackParamList>();
 const Tab = createMaterialTopTabNavigator();
@@ -189,6 +192,48 @@ function TankCharacteristicsTabs({navigation}: {navigation: any}): JSX.Element {
   );
 }
 
+function MashesTabs({navigation}: {navigation: any}): JSX.Element {
+  const {theme} = useContext(ThemeContext);
+
+  return (
+    <Tab.Navigator
+      screenOptions={{
+        tabBarActiveTintColor: theme.textColor,
+        tabBarInactiveTintColor: '#7a7a7a',
+        tabBarPressColor: '#33333330',
+        tabBarStyle: {
+          backgroundColor: theme.backgroundColor,
+        },
+
+        tabBarIndicatorStyle: {
+          borderRadius: 20,
+          borderWidth: 1,
+          borderColor: theme.tabBorderColor,
+          height: 20,
+          backgroundColor: '#00000000',
+          marginBottom: '3%',
+        },
+        tabBarLabelStyle: {
+          fontSize: 16,
+          fontWeight: 'bold',
+          textTransform: 'none',
+          borderColor: theme.tabBorderColor,
+        },
+      }}>
+      <Tab.Screen
+        name="MashesMain"
+        component={Mashes}
+        options={{title: 'Λιώματα'}}
+      />
+      <Tab.Screen
+        name="History"
+        component={History}
+        options={{title: 'Ιστορικό'}}
+      />
+    </Tab.Navigator>
+  );
+}
+
 function HomeTabs({navigation}: {navigation: any}): JSX.Element {
   const {theme} = useContext(ThemeContext);
 
@@ -280,6 +325,11 @@ function AppNavigation(): JSX.Element {
         name="TankCharacteristics"
         component={TankCharacteristicsTabs}
         options={{title: 'TankCharacteristics'}}
+      />
+      <AppStack.Screen
+        name="Mashes"
+        component={MashesTabs}
+        options={{title: 'Mashes'}}
       />
     </AppStack.Navigator>
   );
