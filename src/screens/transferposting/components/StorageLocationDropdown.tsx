@@ -55,8 +55,12 @@ function StorageLocationDropdown(
           filteredStorageLocations = storageLocations.filter(item => {
             return (
               item.storageLocation[0] === '3' ||
+              item.storageLocation === '2002' ||
+              item.storageLocation === '2003' ||
               item.storageLocation === '2100' ||
               item.storageLocation === '2200' ||
+              item.storageLocation === '1002' ||
+              item.storageLocation === '1003' ||
               item.storageLocation === '1005' ||
               item.storageLocation === '1100'
             );
