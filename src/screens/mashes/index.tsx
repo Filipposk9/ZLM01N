@@ -98,7 +98,7 @@ function Mashes({navigation}: {navigation: any}): JSX.Element {
   const removeLabel = (index: number) => {
     const updatedLabels = scannedLabels.filter((item, i) => i !== index);
 
-    if (updatedLabels && updatedLabels.length > 0) {
+    if (updatedLabels) {
       setScannedLabels([]);
       setScannedLabels(updatedLabels);
     }
