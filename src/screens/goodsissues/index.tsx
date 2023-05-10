@@ -53,6 +53,9 @@ function GoodsIssues({navigation}: {navigation: any}): JSX.Element {
 
   const [lastScannedBarcode, setLastScannedBarcode] = useState<string>('');
 
+  const [productionOrderEditability, setProductionOrderEditability] =
+    useState<boolean>(true);
+
   const [materialText, setMaterialText] = useState<string>('');
   const [materialNumberText, setMaterialNumberText] = useState<string>('');
   const [batchText, setBatchText] = useState<string>('');
@@ -226,16 +229,22 @@ function GoodsIssues({navigation}: {navigation: any}): JSX.Element {
         visible={isLoading}
         textContent={'Ανάλωση...'}
         textStyle={{color: 'white'}}></Spinner>
-      <View style={styles(theme).productionOrderInputContainer}>
+      <View
+        style={styles(theme).productionOrderInputContainer}
+        onTouchStart={() => {
+          setProductionOrderEditability(true);
+        }}>
         <Text style={styles(theme).productionOrderInputText}>
           Εντολή Παραγωγής:{' '}
         </Text>
         <TextInput
           style={styles(theme).productionOrderInputField}
+          editable={productionOrderEditability}
           keyboardType="number-pad"
           onChangeText={productionOrder => setProductionOrder(productionOrder)}
           onSubmitEditing={() => {
             getProductionOrderData();
+            setProductionOrderEditability(false);
           }}
           value={productionOrder}></TextInput>
       </View>
