@@ -1,11 +1,33 @@
 import React, {useContext} from 'react';
-import {ScrollView, View, Text} from 'react-native';
+import {ScrollView, View, Text, BackHandler, Alert} from 'react-native';
 import {styles} from '../../appearance/styles/MainMenuStyles';
 import {ThemeContext} from '../../appearance/theme/ThemeContext';
 import MainMenuButton from './components/MainMenuButton';
+import {useFocusEffect} from '@react-navigation/native';
 
 function MainMenu({navigation}: {navigation: any}): JSX.Element {
   const {theme} = useContext(ThemeContext);
+
+  useFocusEffect(
+    React.useCallback(() => {
+      const handleBackPress = (): boolean => {
+        // if (goodsMovementQueue.goodsMovementQueue.length > 0) {
+        //   Alert.alert(
+        //     'Υπάρχουν κινήσεις στην ούρα οι οποίες δεν έχουν πραγματοποιηθεί, παρακαλώ...',
+        //   );
+        // }Handle Queue && CookieManager.clearAll();
+
+        navigation.goBack();
+        return true;
+      };
+
+      BackHandler.addEventListener('hardwareBackPress', handleBackPress);
+
+      return () => {
+        BackHandler.removeEventListener('hardwareBackPress', handleBackPress);
+      };
+    }, []),
+  );
 
   return (
     <View style={styles(theme).mainMenuContainer}>
@@ -75,23 +97,3 @@ function MainMenu({navigation}: {navigation: any}): JSX.Element {
 }
 
 export default React.memo(MainMenu);
-
-//TODO: on back button -> perform logout actions, handle queue remnants
-// useEffect(() => {
-//   //   //FIXME: this runs even if i go back TO this screen,
-//   //   //FIXME: should only work when i go back FROM this csreen
-//   //   const handleBackPress = (): boolean => {
-//   //     console.log(goodsMovementQueue);
-//   //     if (goodsMovementQueue.goodsMovementQueue.length > 0) {
-//   //       Alert.alert(
-//   //         'Υπάρχουν κινήσεις στην ούρα οι οποίες δεν έχουν πραγματοποιηθεί, παρακαλώ...',
-//   //       );
-//   //     }
-//   //     navigation.goBack();
-//   //     return true;
-//   //   };
-//   //   BackHandler.addEventListener('hardwareBackPress', handleBackPress);
-//   //   return () => {
-//   //     BackHandler.removeEventListener('hardwareBackPress', handleBackPress);
-//   //   };
-// }, []);
