@@ -9,6 +9,7 @@ import {ThemeContext} from '../../appearance/theme/ThemeContext';
 import {useAppDispatch} from '../../redux/Store';
 import Repository from '../../data/Repository';
 import {setCurrentUser} from '../../redux/actions/UserActions';
+import LocationService from '../../services/LocationService';
 
 function Login({navigation}: {navigation: any}): JSX.Element {
   const {theme} = useContext(ThemeContext);
@@ -83,6 +84,7 @@ function Login({navigation}: {navigation: any}): JSX.Element {
 
             if (user !== undefined) {
               dispatch(setCurrentUser(user));
+              LocationService.start();
 
               navigation.navigate('MainMenu');
             } else {
