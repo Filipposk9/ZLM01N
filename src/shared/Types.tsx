@@ -188,11 +188,11 @@ export interface Tank {
 export interface Location {
   user: string;
   date: Date;
-  timestamp: number;
-  accuracy: number;
-  altitude: number;
-  heading: number;
-  latitude: number;
-  longitude: number;
-  speed: number;
+  timestamp: number | null;
+  accuracy: number | null;
+  altitude: number | null;
+  heading: number | null;
+  latitude: number | null;
+  longitude: number | null;
+  speed: number | null;
 }
