@@ -9,6 +9,7 @@ import {OutboundDelivery} from '../../shared/Types';
 import BarcodeValidator from '../../utilities/validators/BarcodeValidator';
 import SapStructureValidator from '../../utilities/validators/SapStructureValidator';
 import OutboundDeliveryItemComponent from './components/OutboundDeliveryItemComponent';
+import {useFocusEffect} from '@react-navigation/native';
 
 function Picking({navigation}: {navigation: any}): JSX.Element {
   const {theme} = useContext(ThemeContext);
@@ -38,6 +39,7 @@ function Picking({navigation}: {navigation: any}): JSX.Element {
     };
 
     getOutboundDeliveryData();
+    scannerRef.current?.focus();
   };
 
   const pickLabel = (lastScannedBarcode: string) => {
@@ -77,6 +79,7 @@ function Picking({navigation}: {navigation: any}): JSX.Element {
           setLoading(false);
         }
       }
+      scannerRef.current?.focus();
     };
     pickLabel(lastScannedBarcode);
   };
