@@ -1,12 +1,22 @@
 import Geolocation from '@react-native-community/geolocation';
 import {PermissionsAndroid} from 'react-native';
+import ApiPostBuffer from '../data/remote/service/ApiPostBuffer';
+import {User} from '../shared/Types';
 
 class LocationService {
   private currentLongitude: string = '';
   private currentLatitude: string = '';
   private locationStatus: string = '';
+  private currentUser: User = {
+    buildingCode: '',
+    username: '',
+    password: '',
+    firstName: '',
+    lastName: '',
+  };
 
-  start(): void {
+  start(user: User): void {
+    this.currentUser = user;
     this.requestLocationPermission();
   }
 
@@ -22,6 +32,7 @@ class LocationService {
       );
       if (granted === PermissionsAndroid.RESULTS.GRANTED) {
         this.subscribeLocationLocation();
+        console.log('Permission granted');
         return true;
       } else {
         this.locationStatus = 'Permission Denied';
@@ -44,12 +55,15 @@ class LocationService {
 
         this.currentLongitude = currentLongitude;
         this.currentLatitude = currentLatitude;
+
+        ApiPostBuffer.setLocationQueue(position, this.currentUser);
       },
       error => {
         this.locationStatus = error.message;
+        console.log(error.message);
       },
       {
-        enableHighAccuracy: false,
+        enableHighAccuracy: true,
         distanceFilter: 10,
         maximumAge: 1000,
       },
