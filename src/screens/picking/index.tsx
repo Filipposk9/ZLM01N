@@ -9,7 +9,6 @@ import {OutboundDelivery} from '../../shared/Types';
 import BarcodeValidator from '../../utilities/validators/BarcodeValidator';
 import SapStructureValidator from '../../utilities/validators/SapStructureValidator';
 import OutboundDeliveryItemComponent from './components/OutboundDeliveryItemComponent';
-import {useFocusEffect} from '@react-navigation/native';
 
 function Picking({navigation}: {navigation: any}): JSX.Element {
   const {theme} = useContext(ThemeContext);
