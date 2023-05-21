@@ -184,3 +184,15 @@ export interface iTankCharacteristics {
 export interface Tank {
   tank: string;
 }
+
+export interface Location {
+  user: string;
+  date: Date;
+  timestamp: number;
+  accuracy: number;
+  altitude: number;
+  heading: number;
+  latitude: number;
+  longitude: number;
+  speed: number;
+}
