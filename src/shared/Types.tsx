@@ -187,7 +187,6 @@ export interface Tank {
 
 export interface Location {
   user: string;
-  date: Date;
   timestamp: number | null;
   accuracy: number | null;
   altitude: number | null;
