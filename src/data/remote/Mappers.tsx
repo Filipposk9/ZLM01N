@@ -17,6 +17,7 @@ import {
   User,
   iTankCharacteristics,
   Tank,
+  Location,
 } from '../../shared/Types';
 import {MaterialModel} from './model/MaterialModel';
 import {StorageLocationModel} from './model/StorageLocationModel';
@@ -28,6 +29,7 @@ import {BatchModel} from './model/BatchModel';
 import {UserModel} from './model/UserModel';
 import {TankCharacteristicsModel} from './model/TankCharacteristicsModel';
 import {TankModel} from './model/TankModel';
+import {GeolocationResponse} from '@react-native-community/geolocation';
 
 export const userModelToUser = (userModel: UserModel): User => {
   return Object.freeze({
@@ -256,5 +258,21 @@ export const tankCharacteristicsModelToTankCharacteristics = (
 export const tankModelToTank = (tankModel: TankModel): Tank => {
   return Object.freeze({
     tank: tankModel.TANK,
+  });
+};
+
+export const geolocationResponseToLocation = (
+  geolocationResponse: GeolocationResponse,
+  currentUser: User,
+): Location => {
+  return Object.freeze({
+    user: currentUser.username,
+    timestamp: geolocationResponse.timestamp,
+    accuracy: geolocationResponse.coords.accuracy,
+    altitude: geolocationResponse.coords.altitude,
+    heading: geolocationResponse.coords.heading,
+    latitude: geolocationResponse.coords.latitude,
+    longitude: geolocationResponse.coords.longitude,
+    speed: geolocationResponse.coords.speed,
   });
 };
