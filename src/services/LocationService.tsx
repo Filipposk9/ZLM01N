@@ -32,7 +32,7 @@ class LocationService {
       );
       if (granted === PermissionsAndroid.RESULTS.GRANTED) {
         this.subscribeLocationLocation();
-        console.log('Permission granted');
+
         return true;
       } else {
         this.locationStatus = 'Permission Denied';
@@ -48,7 +48,6 @@ class LocationService {
     const watchID = Geolocation.watchPosition(
       position => {
         this.locationStatus = 'You are Here';
-        console.log(position);
 
         const currentLongitude = JSON.stringify(position.coords.longitude);
         const currentLatitude = JSON.stringify(position.coords.latitude);
