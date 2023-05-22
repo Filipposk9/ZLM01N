@@ -49,8 +49,8 @@ class ApiPostService {
 
         const response = await RequestGateway.post<MaterialDocumentResponse>(
           '/goodsmovement',
-          sapRequestHeaders,
           materialDocument,
+          sapRequestHeaders,
         );
 
         if (isError(response)) {
@@ -81,8 +81,8 @@ class ApiPostService {
 
     const response = await RequestGateway.post<PickingResponse>(
       '/picking',
-      sapRequestHeaders,
       pickingRequest,
+      sapRequestHeaders,
     );
 
     if (isError(response)) {
@@ -99,8 +99,8 @@ class ApiPostService {
 
     const response = await RequestGateway.post<TankCharacteristicsResponse>(
       '/batchclass',
-      sapRequestHeaders,
       tankCharacteristics,
+      sapRequestHeaders,
     );
 
     if (isError(response)) {
