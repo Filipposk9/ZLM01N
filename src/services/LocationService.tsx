@@ -2,6 +2,9 @@ import Geolocation from '@react-native-community/geolocation';
 import {PermissionsAndroid} from 'react-native';
 import ApiPostBuffer from '../data/remote/service/ApiPostBuffer';
 import {User} from '../shared/Types';
+import {geolocationResponseToLocation} from '../data/remote/Mappers';
+import RemoteDBService from './RemoteDBService';
+import {LocationResponse} from '../data/remote/model/LocationModel';
 
 class LocationService {
   private currentLongitude: string = '';
@@ -46,7 +49,7 @@ class LocationService {
 
   private subscribeLocationLocation = (): void => {
     const watchID = Geolocation.watchPosition(
-      position => {
+      async position => {
         this.locationStatus = 'You are Here';
 
         const currentLongitude = JSON.stringify(position.coords.longitude);
@@ -55,7 +58,20 @@ class LocationService {
         this.currentLongitude = currentLongitude;
         this.currentLatitude = currentLatitude;
 
-        ApiPostBuffer.setLocationQueue(position, this.currentUser);
+        const locationStamp = geolocationResponseToLocation(
+          position,
+          this.currentUser,
+        );
+
+        const headers = {
+          'Content-type': 'application/json',
+        };
+
+        const response = await RemoteDBService.post<LocationResponse>(
+          '/location',
+          locationStamp,
+          headers,
+        );
       },
       error => {
         this.locationStatus = error.message;
