@@ -42,24 +42,22 @@ class ApiPostService {
     const connectionStrength: number | null =
       await this.getConnectionStrength();
 
-    if (connectionStrength) {
-      if (connectionStrength > 0) {
-        const sapRequestHeaders =
-          await SapRequestParameters.getSapRequestHeaders();
+    if (connectionStrength && connectionStrength > 0) {
+      const sapRequestHeaders =
+        await SapRequestParameters.getSapRequestHeaders();
 
-        const response = await RequestGateway.post<MaterialDocumentResponse>(
-          '/goodsmovement',
-          materialDocument,
-          sapRequestHeaders,
-        );
+      const response = await RequestGateway.post<MaterialDocumentResponse>(
+        '/goodsmovement',
+        materialDocument,
+        sapRequestHeaders,
+      );
 
-        if (isError(response)) {
-          ApiPostBuffer.setGoodsMovementQueue(materialDocument);
+      if (isError(response)) {
+        ApiPostBuffer.setGoodsMovementQueue(materialDocument);
 
-          return undefined;
-        } else {
-          return materialDocumentModelToMaterialDocument(response.result.data);
-        }
+        return undefined;
+      } else {
+        return materialDocumentModelToMaterialDocument(response.result.data);
       }
     } else {
       ApiPostBuffer.setGoodsMovementQueue(materialDocument);
@@ -95,20 +93,31 @@ class ApiPostService {
   async changeBatchCharacteristics(
     tankCharacteristics: iTankCharacteristics,
   ): Promise<iTankCharacteristics | undefined> {
-    const sapRequestHeaders = await SapRequestParameters.getSapRequestHeaders();
+    const connectionStrength: number | null =
+      await this.getConnectionStrength();
 
-    const response = await RequestGateway.post<TankCharacteristicsResponse>(
-      '/batchclass',
-      tankCharacteristics,
-      sapRequestHeaders,
-    );
+    if (connectionStrength && connectionStrength > 0) {
+      const sapRequestHeaders =
+        await SapRequestParameters.getSapRequestHeaders();
 
-    if (isError(response)) {
-      return undefined;
-    } else {
-      return tankCharacteristicsModelToTankCharacteristics(
-        response.result.data,
+      const response = await RequestGateway.post<TankCharacteristicsResponse>(
+        '/batchclass',
+        tankCharacteristics,
+        sapRequestHeaders,
       );
+
+      if (isError(response)) {
+        ApiPostBuffer.setTankCharacteristicsQueue(tankCharacteristics);
+        return undefined;
+      } else {
+        return tankCharacteristicsModelToTankCharacteristics(
+          response.result.data,
+        );
+      }
+    } else {
+      ApiPostBuffer.setTankCharacteristicsQueue(tankCharacteristics);
+
+      return undefined;
     }
   }
 

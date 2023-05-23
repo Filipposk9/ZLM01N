@@ -1,4 +1,9 @@
-import {GoodsMovement, Location, User} from '../../../shared/Types';
+import {
+  GoodsMovement,
+  Location,
+  User,
+  iTankCharacteristics,
+} from '../../../shared/Types';
 import NetInfo, {NetInfoWifiState} from '@react-native-community/netinfo';
 import SapRequestParameters from '../SapRequestParameters';
 import RequestGateway, {isError} from '../RequestGateway';
@@ -6,17 +11,22 @@ import {MaterialDocumentResponse} from '../model/MaterialDocumentModel';
 import {
   geolocationResponseToLocation,
   materialDocumentModelToMaterialDocument,
+  tankCharacteristicsModelToTankCharacteristics,
 } from '../Mappers';
 import {LocationResponse} from '../model/LocationModel';
 import {GeolocationResponse} from '@react-native-community/geolocation';
 import RemoteDBService from '../../../services/RemoteDBService';
+import {TankCharacteristicsResponse} from '../model/TankCharacteristicsModel';
 //TODO: variable multi-queue using generics
 class ApiPostBuffer {
   private goodsMovementQueueIsLocked: boolean = false;
   private locationQueueIsLocked: boolean = false;
+  private tankCharacteristicsQueueIsLocked: boolean = false;
 
   private goodsMovementQueue: GoodsMovement[] = [];
   private locationQueue: GeolocationResponse[] = [];
+  private tankCharacteristicsQueue: iTankCharacteristics[] = [];
+
   readonly unlockThreshold: number = 10;
   private currentUser: User = {
     buildingCode: '',
@@ -49,6 +59,16 @@ class ApiPostBuffer {
                 await this.handleLocationQueue();
               }
             }
+
+            if (!this.tankCharacteristicsQueueIsLocked) {
+              if (
+                this.tankCharacteristicsQueue &&
+                this.tankCharacteristicsQueue.length > 0
+              ) {
+                this.tankCharacteristicsQueueIsLocked = true;
+                await this.handleTankCharacteristicsQueue();
+              }
+            }
           }
         }
       }
@@ -59,9 +79,14 @@ class ApiPostBuffer {
     this.goodsMovementQueue = this.goodsMovementQueue.concat(newQueue);
   }
 
-  async setLocationQueue(newQueue: GeolocationResponse, currentUser: User) {
+  setLocationQueue(newQueue: GeolocationResponse, currentUser: User) {
     this.currentUser = currentUser;
     this.locationQueue = this.locationQueue.concat(newQueue);
+  }
+
+  setTankCharacteristicsQueue(newQueue: iTankCharacteristics) {
+    this.tankCharacteristicsQueue =
+      this.tankCharacteristicsQueue.concat(newQueue);
   }
 
   private async handleGoodsMovementQueue() {
@@ -122,6 +147,37 @@ class ApiPostBuffer {
     if (locationResponses) {
       this.locationQueue = newLocationQueue;
       this.locationQueueIsLocked = false;
+    }
+  }
+
+  private async handleTankCharacteristicsQueue() {
+    const tankCharacteristicsQueue = this.tankCharacteristicsQueue;
+
+    let newTankCharacteristicsQueue: iTankCharacteristics[] = [];
+
+    const sapRequestHeaders = await SapRequestParameters.getSapRequestHeaders();
+
+    const tankCharacteristicsResponses = tankCharacteristicsQueue.map(
+      async tankCharacteristics => {
+        const response = await RequestGateway.post<TankCharacteristicsResponse>(
+          '/batchclass',
+          tankCharacteristics,
+          sapRequestHeaders,
+        );
+
+        if (isError(response)) {
+          newTankCharacteristicsQueue.push(tankCharacteristics);
+        } else {
+          return tankCharacteristicsModelToTankCharacteristics(
+            response.result.data,
+          );
+        }
+      },
+    );
+
+    if (tankCharacteristicsResponses) {
+      this.tankCharacteristicsQueue = newTankCharacteristicsQueue;
+      this.goodsMovementQueueIsLocked = false;
     }
   }
 }
