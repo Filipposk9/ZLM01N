@@ -38,7 +38,6 @@ function Picking({navigation}: {navigation: any}): JSX.Element {
     };
 
     getOutboundDeliveryData();
-    scannerRef.current?.focus();
   };
 
   const pickLabel = (lastScannedBarcode: string) => {
@@ -78,7 +77,6 @@ function Picking({navigation}: {navigation: any}): JSX.Element {
           setLoading(false);
         }
       }
-      scannerRef.current?.focus();
     };
     pickLabel(lastScannedBarcode);
   };
