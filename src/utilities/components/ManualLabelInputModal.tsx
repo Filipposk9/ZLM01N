@@ -133,11 +133,12 @@ function ManualLabelInputModal(props: ManualLabelInputModalProps): JSX.Element {
           <TextInput
             style={styles(theme).popupBodyText}
             editable={
-              editable === false
-                ? editable
-                : defaultProps.editable
-                ? defaultProps.editable
-                : true
+              // editable === false
+              //   ? editable
+              //   : defaultProps.editable
+              //   ? defaultProps.editable
+              //   : true
+              true
             }
             onFocus={() => {
               if (quantity === 'Ποσότητα') {
