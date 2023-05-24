@@ -1,6 +1,5 @@
 import Geolocation from '@react-native-community/geolocation';
 import {PermissionsAndroid} from 'react-native';
-import {User} from '../shared/Types';
 import {geolocationResponseToLocation} from '../data/remote/Mappers';
 import RemoteDBService from './RemoteDBService';
 import {LocationResponse} from '../data/remote/model/LocationModel';
