@@ -62,13 +62,17 @@ function ManualLabelInputModal(props: ManualLabelInputModalProps): JSX.Element {
       ? defaultProps.batchText
       : '',
   );
-  const [quantity, setQuantity] = useState<string>(
+  const [quantity, setQuantity] = useState<string | undefined>(
     quantityText
       ? quantityText
       : defaultProps.quantityText
       ? defaultProps.quantityText
       : '',
   );
+
+  React.useEffect(() => {
+    setQuantity(quantityText);
+  }, [quantityText]);
 
   return (
     <Modal
@@ -132,14 +136,7 @@ function ManualLabelInputModal(props: ManualLabelInputModalProps): JSX.Element {
 
           <TextInput
             style={styles(theme).popupBodyText}
-            editable={
-              // editable === false
-              //   ? editable
-              //   : defaultProps.editable
-              //   ? defaultProps.editable
-              //   : true
-              true
-            }
+            editable={true}
             onFocus={() => {
               if (quantity === 'Ποσότητα') {
                 setQuantity('');
@@ -151,7 +148,6 @@ function ManualLabelInputModal(props: ManualLabelInputModalProps): JSX.Element {
               }
             }}
             onChangeText={newText => setQuantity(newText)}
-            // value={editable === false ? quantityText : quantity}
             value={quantity}
           />
         </View>
@@ -166,10 +162,8 @@ function ManualLabelInputModal(props: ManualLabelInputModalProps): JSX.Element {
 
               if (editable) {
                 barcode = materialNumber + '-' + batch + '-' + quantity;
-                console.log(materialNumber);
               } else {
-                barcode =
-                  materialNumberText + '-' + batchText + '-' + quantityText;
+                barcode = materialNumberText + '-' + batchText + '-' + quantity;
               }
 
               if (BarcodeValidator.validateBarrelLabel(barcode)) {
