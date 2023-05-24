@@ -84,7 +84,7 @@ function Login({navigation}: {navigation: any}): JSX.Element {
 
             if (user !== undefined) {
               dispatch(setCurrentUser(user));
-              LocationService.start(user.username);
+              LocationService.start(username);
 
               navigation.navigate('MainMenu');
             } else {
