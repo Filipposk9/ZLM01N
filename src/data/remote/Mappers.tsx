@@ -263,10 +263,10 @@ export const tankModelToTank = (tankModel: TankModel): Tank => {
 
 export const geolocationResponseToLocation = (
   geolocationResponse: GeolocationResponse,
-  currentUser: User,
+  currentUser: string,
 ): Location => {
   return Object.freeze({
-    user: currentUser.username,
+    user: currentUser,
     timestamp: geolocationResponse.timestamp,
     accuracy: geolocationResponse.coords.accuracy,
     altitude: geolocationResponse.coords.altitude,

@@ -1,24 +1,14 @@
 import Geolocation from '@react-native-community/geolocation';
 import {PermissionsAndroid} from 'react-native';
-import ApiPostBuffer from '../data/remote/service/ApiPostBuffer';
 import {User} from '../shared/Types';
 import {geolocationResponseToLocation} from '../data/remote/Mappers';
 import RemoteDBService from './RemoteDBService';
 import {LocationResponse} from '../data/remote/model/LocationModel';
 
 class LocationService {
-  private currentLongitude: string = '';
-  private currentLatitude: string = '';
-  private locationStatus: string = '';
-  private currentUser: User = {
-    buildingCode: '',
-    username: '',
-    password: '',
-    firstName: '',
-    lastName: '',
-  };
+  private currentUser: string = '';
 
-  start(user: User): void {
+  start(user: string): void {
     this.currentUser = user;
     this.requestLocationPermission();
   }
@@ -38,7 +28,7 @@ class LocationService {
 
         return true;
       } else {
-        this.locationStatus = 'Permission Denied';
+        // this.locationStatus = 'Permission Denied';
       }
     } catch (err) {
       console.warn(err);
@@ -50,14 +40,6 @@ class LocationService {
   private subscribeLocationLocation = (): void => {
     const watchID = Geolocation.watchPosition(
       async position => {
-        this.locationStatus = 'You are Here';
-
-        const currentLongitude = JSON.stringify(position.coords.longitude);
-        const currentLatitude = JSON.stringify(position.coords.latitude);
-
-        this.currentLongitude = currentLongitude;
-        this.currentLatitude = currentLatitude;
-
         const locationStamp = geolocationResponseToLocation(
           position,
           this.currentUser,
@@ -74,8 +56,7 @@ class LocationService {
         );
       },
       error => {
-        this.locationStatus = error.message;
-        console.log(error.message);
+        // console.log(error.message);
       },
       {
         enableHighAccuracy: true,
