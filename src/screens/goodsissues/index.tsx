@@ -181,6 +181,7 @@ function GoodsIssues({navigation}: {navigation: any}): JSX.Element {
 
         if (goodsMovementLog !== undefined) {
           dispatch(setGoodsMovementLog(goodsMovementLog));
+          getProductionOrderData();
         }
 
         setIsLoading(false);
