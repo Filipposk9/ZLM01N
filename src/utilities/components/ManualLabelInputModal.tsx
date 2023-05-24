@@ -151,7 +151,8 @@ function ManualLabelInputModal(props: ManualLabelInputModalProps): JSX.Element {
               }
             }}
             onChangeText={newText => setQuantity(newText)}
-            value={editable === false ? quantityText : quantity}
+            // value={editable === false ? quantityText : quantity}
+            value={quantity}
           />
         </View>
 
