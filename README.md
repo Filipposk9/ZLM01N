@@ -9,10 +9,10 @@ Those include:
     Picking goods for dispatching
     Movements against production orders
     Changing batch characteristics
-    
+
 The data is handled by a REST endpoint running on a SAP server.
 
-## Changelog 
+## Changelog
 
 Quantity field in manually typed labels is now always editable.
 
