@@ -63,20 +63,19 @@ function ManualLabelInputModal(props: ManualLabelInputModalProps): JSX.Element {
       : '',
   );
   const [quantity, setQuantity] = useState<string | undefined>(
-    quantityText
+    quantityText !== ''
       ? quantityText
       : defaultProps.quantityText
       ? defaultProps.quantityText
       : '',
   );
 
-  React.useEffect(() => {
-    setQuantity(quantityText);
-  }, [quantityText]);
-
   return (
     <Modal
       isVisible={visibility}
+      onModalShow={() => {
+        setQuantity(quantityText);
+      }}
       onBackdropPress={() => {
         onSubmit('');
       }}>
@@ -231,4 +230,4 @@ const styles = (theme: any) =>
     },
   });
 
-export default ManualLabelInputModal;
+export default React.memo(ManualLabelInputModal);
