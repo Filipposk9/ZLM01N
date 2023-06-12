@@ -13,6 +13,7 @@ import {
   materialDocumentModelToMaterialDocument,
   pickingModelToPicking,
   tankCharacteristicsModelToTankCharacteristics,
+  tankCharacteristicsToFormattedTankCharacteristics,
 } from '../Mappers';
 import {MaterialDocumentResponse} from '../model/MaterialDocumentModel';
 import {PickingResponse} from '../model/PickingModel';
@@ -93,6 +94,9 @@ class ApiPostService {
   async changeBatchCharacteristics(
     tankCharacteristics: iTankCharacteristics,
   ): Promise<iTankCharacteristics | undefined> {
+    const formattedTankCharacteristics =
+      tankCharacteristicsToFormattedTankCharacteristics(tankCharacteristics);
+
     const connectionStrength: number | null =
       await this.getConnectionStrength();
 
@@ -102,7 +106,7 @@ class ApiPostService {
 
       const response = await RequestGateway.post<TankCharacteristicsResponse>(
         '/batchclass',
-        tankCharacteristics,
+        formattedTankCharacteristics,
         sapRequestHeaders,
       );
 
