@@ -173,12 +173,12 @@ export interface iTankCharacteristics {
   oliveFly: string;
   gliospore: string;
   colorQuality: string;
-  hardness: number;
+  hardness: string;
   analysis: string;
-  redness: number;
-  pH: number;
-  salt: number;
-  acidity: number;
+  redness: string;
+  pH: string;
+  salt: string;
+  acidity: string;
 }
 
 export interface Tank {
