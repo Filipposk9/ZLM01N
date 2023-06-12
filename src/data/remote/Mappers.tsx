@@ -261,6 +261,35 @@ export const tankModelToTank = (tankModel: TankModel): Tank => {
   });
 };
 
+export const tankCharacteristicsToFormattedTankCharacteristics = (
+  tankcharacteristics: iTankCharacteristics,
+): iTankCharacteristics => {
+  return Object.freeze({
+    tank: tankcharacteristics.tank,
+    materialNumber: tankcharacteristics.materialNumber,
+    materialText: tankcharacteristics.materialText,
+    batch: tankcharacteristics.batch,
+    quantity: tankcharacteristics.quantity,
+    storageLocation: tankcharacteristics.storageLocation,
+    materialGroup: tankcharacteristics.materialGroup,
+    externalMaterialGroup: tankcharacteristics.externalMaterialGroup,
+    lab: tankcharacteristics.lab,
+    color: tankcharacteristics.color,
+    quality: tankcharacteristics.quality,
+    crop: tankcharacteristics.crop,
+    unitsPerKg: tankcharacteristics.unitsPerKg,
+    oliveFly: tankcharacteristics.oliveFly,
+    gliospore: tankcharacteristics.gliospore,
+    colorQuality: tankcharacteristics.colorQuality.replace(',', '.'),
+    hardness: tankcharacteristics.hardness.replace(',', '.'),
+    analysis: tankcharacteristics.analysis,
+    redness: tankcharacteristics.redness,
+    pH: tankcharacteristics.pH.replace(',', '.'),
+    salt: tankcharacteristics.salt.replace(',', '.'),
+    acidity: tankcharacteristics.acidity.replace(',', '.'),
+  });
+};
+
 export const geolocationResponseToLocation = (
   geolocationResponse: GeolocationResponse,
   currentUser: string,
