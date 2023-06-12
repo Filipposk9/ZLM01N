@@ -15,12 +15,12 @@ export interface TankCharacteristicsModel {
   OLIVEFLY: string;
   GLIOSPORE: string;
   COLORQUALITY: string;
-  HARDNESS: number;
+  HARDNESS: string;
   ANALYSIS: string;
-  REDNESS: number;
-  PH: number;
-  SALT: number;
-  ACIDITY: number;
+  REDNESS: string;
+  PH: string;
+  SALT: string;
+  ACIDITY: string;
 }
 
 export interface TankCharacteristicsResponse {
