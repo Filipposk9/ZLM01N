@@ -156,8 +156,7 @@ export interface ProductionOrderComponent {
   materialGroup: string;
 }
 
-export interface iTankCharacteristics {
-  tank: string;
+export interface BatchCharacteristics {
   materialNumber: string;
   materialText: string;
   batch: string;
@@ -179,6 +178,10 @@ export interface iTankCharacteristics {
   pH: string;
   salt: string;
   acidity: string;
+}
+
+export interface iTankCharacteristics extends BatchCharacteristics {
+  tank: string;
 }
 
 export interface Tank {
