@@ -15,6 +15,7 @@ function MainMenu({navigation}: {navigation: any}): JSX.Element {
         //   Alert.alert(
         //     'Υπάρχουν κινήσεις στην ούρα οι οποίες δεν έχουν πραγματοποιηθεί, παρακαλώ...',
         //   );
+        //TODO: check remoteDBService entries and post them to remoteDB
         // }Handle Queue && CookieManager.clearAll();
 
         navigation.goBack();
@@ -85,11 +86,29 @@ function MainMenu({navigation}: {navigation: any}): JSX.Element {
 
           <MainMenuButton
             navigation={navigation}
+            navigationLocation={'BarrelCharacteristics'}
+            icon={'barrel'}
+            iconColor={'#222222'}
+            text={'Χαρακτηριστικά Βαρελιών'}
+            backgroundColor={'#653818'}></MainMenuButton>
+        </View>
+
+        <View style={styles(theme).mainMenuLine}>
+          <MainMenuButton
+            navigation={navigation}
             navigationLocation={''}
             icon={'barcode-scan'}
             iconColor={'white'}
             text={'Απογραφή'}
             backgroundColor={'#2E1A47'}></MainMenuButton>
+
+          {/* <MainMenuButton
+            navigation={navigation}
+            navigationLocation={''}
+            icon={'barcode-scan'}
+            iconColor={'white'}
+            text={'Απογραφή'}
+            backgroundColor={'#2E1A47'}></MainMenuButton> */}
         </View>
       </ScrollView>
     </View>
