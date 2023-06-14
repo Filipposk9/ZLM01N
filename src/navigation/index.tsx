@@ -234,6 +234,52 @@ function MashesTabs({navigation}: {navigation: any}): JSX.Element {
   );
 }
 
+function BarrelCharacteristicsTabs({
+  navigation,
+}: {
+  navigation: any;
+}): JSX.Element {
+  const {theme} = useContext(ThemeContext);
+
+  return (
+    <Tab.Navigator
+      screenOptions={{
+        tabBarActiveTintColor: theme.textColor,
+        tabBarInactiveTintColor: '#7a7a7a',
+        tabBarPressColor: '#33333330',
+        tabBarStyle: {
+          backgroundColor: theme.backgroundColor,
+        },
+
+        tabBarIndicatorStyle: {
+          borderRadius: 20,
+          borderWidth: 1,
+          borderColor: theme.tabBorderColor,
+          height: 35,
+          backgroundColor: '#00000000',
+          marginBottom: '3%',
+        },
+        tabBarLabelStyle: {
+          fontSize: 16,
+          fontWeight: 'bold',
+          textTransform: 'none',
+          borderColor: theme.tabBorderColor,
+        },
+      }}>
+      <Tab.Screen
+        name="BarrelCharacteristicsMain"
+        component={BarrelCharacteristics}
+        options={{title: 'Ποιοτικά Χαρακτηριστικά'}}
+      />
+      <Tab.Screen
+        name="History"
+        component={History}
+        options={{title: 'Ιστορικό'}}
+      />
+    </Tab.Navigator>
+  );
+}
+
 function HomeTabs({navigation}: {navigation: any}): JSX.Element {
   const {theme} = useContext(ThemeContext);
 
@@ -333,7 +379,7 @@ function AppNavigation(): JSX.Element {
       />
       <AppStack.Screen
         name="BarrelCharacteristics"
-        component={BarrelCharacteristics}
+        component={BarrelCharacteristicsTabs}
         options={{title: 'BarrelCharacteristics'}}
       />
     </AppStack.Navigator>
