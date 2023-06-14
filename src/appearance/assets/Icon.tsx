@@ -38,6 +38,8 @@ function Icon(props: IconProps): JSX.Element {
       return <IconOcticons {...otherProps} name={name} />;
     case 'moon':
       return <IconFeather {...otherProps} name={name} />;
+    case 'barrel':
+      return <IconMaterialCommunityIcons {...otherProps} name={name} />;
     default:
       return <Text> </Text>;
   }
