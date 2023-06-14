@@ -15,6 +15,7 @@ import GoodsIssues from '../screens/goodsissues/index';
 import TankCharacteristics from '../screens/tankcharacteristics/index';
 import TankMap from '../screens/tankmap/index';
 import Mashes from '../screens/mashes/index';
+import BarrelCharacteristics from '../screens/barrelcharacteristics/index';
 import {RootStackParamList} from './types';
 import {ThemeContext} from '../appearance/theme/ThemeContext';
 
@@ -36,7 +37,6 @@ function TransferPostingTabs({navigation}: {navigation: any}): JSX.Element {
         tabBarStyle: {
           backgroundColor: theme.backgroundColor,
         },
-
         tabBarIndicatorStyle: {
           borderRadius: 20,
           borderWidth: 1,
@@ -330,6 +330,11 @@ function AppNavigation(): JSX.Element {
         name="Mashes"
         component={MashesTabs}
         options={{title: 'Mashes'}}
+      />
+      <AppStack.Screen
+        name="BarrelCharacteristics"
+        component={BarrelCharacteristics}
+        options={{title: 'BarrelCharacteristics'}}
       />
     </AppStack.Navigator>
   );
