@@ -18,6 +18,7 @@ import {
   iTankCharacteristics,
   Tank,
   Location,
+  BatchCharacteristics,
 } from '../../shared/Types';
 import {MaterialModel} from './model/MaterialModel';
 import {StorageLocationModel} from './model/StorageLocationModel';
@@ -30,6 +31,7 @@ import {UserModel} from './model/UserModel';
 import {TankCharacteristicsModel} from './model/TankCharacteristicsModel';
 import {TankModel} from './model/TankModel';
 import {GeolocationResponse} from '@react-native-community/geolocation';
+import {BatchCharacteristicsModel} from './model/BatchCharacteristicsModel';
 
 export const userModelToUser = (userModel: UserModel): User => {
   return Object.freeze({
@@ -303,5 +305,33 @@ export const geolocationResponseToLocation = (
     latitude: geolocationResponse.coords.latitude,
     longitude: geolocationResponse.coords.longitude,
     speed: geolocationResponse.coords.speed,
+  });
+};
+
+export const batchCharacteristicsModelToBatchCharacteristics = (
+  batchCharacteristicsModel: BatchCharacteristicsModel,
+): BatchCharacteristics => {
+  return Object.freeze({
+    materialNumber: batchCharacteristicsModel.MATERIALNUMBER,
+    materialText: batchCharacteristicsModel.MATERIALTEXT,
+    batch: batchCharacteristicsModel.BATCH,
+    quantity: batchCharacteristicsModel.QUANTITY,
+    storageLocation: batchCharacteristicsModel.STORAGELOCATION,
+    materialGroup: batchCharacteristicsModel.MATERIALGROUP,
+    externalMaterialGroup: batchCharacteristicsModel.EXTERNALMATERIALGROUP,
+    lab: batchCharacteristicsModel.LAB,
+    color: batchCharacteristicsModel.COLOR,
+    quality: batchCharacteristicsModel.QUALITY,
+    crop: batchCharacteristicsModel.CROP,
+    unitsPerKg: batchCharacteristicsModel.UNITSPERKG,
+    oliveFly: batchCharacteristicsModel.OLIVEFLY,
+    gliospore: batchCharacteristicsModel.GLIOSPORE,
+    colorQuality: batchCharacteristicsModel.COLORQUALITY,
+    hardness: batchCharacteristicsModel.HARDNESS,
+    analysis: batchCharacteristicsModel.ANALYSIS,
+    redness: batchCharacteristicsModel.REDNESS,
+    pH: batchCharacteristicsModel.PH,
+    salt: batchCharacteristicsModel.SALT,
+    acidity: batchCharacteristicsModel.ACIDITY,
   });
 };

@@ -15,6 +15,7 @@ import {
   Batch,
   iTankCharacteristics,
   Tank,
+  BatchCharacteristics,
 } from '../shared/Types';
 
 class Repository {
@@ -241,6 +242,18 @@ class Repository {
   ): Promise<iTankCharacteristics | undefined> {
     const batchCharacteristics =
       await ApiPostService.changeBatchCharacteristics(tankCharacteristics);
+
+    if (batchCharacteristics) {
+      return batchCharacteristics;
+    }
+  }
+
+  async getBatchCharacteristics(
+    materialNumber: string,
+    batch: string,
+  ): Promise<BatchCharacteristics | undefined> {
+    const batchCharacteristics =
+      await MasterDataService.getBatchCharacteristics(materialNumber, batch);
 
     if (batchCharacteristics) {
       return batchCharacteristics;

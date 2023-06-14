@@ -10,9 +10,11 @@ import {
   StorageLocation,
   iTankCharacteristics,
   User,
+  BatchCharacteristics,
 } from '../../../shared/Types';
 import RequestGateway, {isError} from '../RequestGateway';
 import {
+  batchCharacteristicsModelToBatchCharacteristics,
   batchModelToBatch,
   materialModelToMaterial,
   outboundDeliveryModelToOutboundDelivery,
@@ -27,6 +29,7 @@ import {BatchResponse} from '../model/BatchModel';
 import {UserResponse} from '../model/UserModel';
 import {TankCharacteristicsResponse} from '../model/TankCharacteristicsModel';
 import {TankResponse} from '../model/TankModel';
+import {BatchCharacteristicsResponse} from '../model/BatchCharacteristicsModel';
 
 class MasterDataService {
   async setSapCredentials(
@@ -240,6 +243,26 @@ class MasterDataService {
       return undefined;
     } else {
       return response.result.data.map(item => tankModelToTank(item));
+    }
+  }
+
+  async getBatchCharacteristics(
+    materialNumber: string,
+    batch: string,
+  ): Promise<BatchCharacteristics | undefined> {
+    const sapRequestHeaders = await SapRequestParameters.getSapRequestHeaders();
+
+    const response = await RequestGateway.get<BatchCharacteristicsResponse>(
+      '/classification?matnr=' + materialNumber + '&charg=' + batch,
+      sapRequestHeaders,
+    );
+
+    if (isError(response)) {
+      return undefined;
+    } else {
+      return batchCharacteristicsModelToBatchCharacteristics(
+        response.result.data,
+      );
     }
   }
 }
