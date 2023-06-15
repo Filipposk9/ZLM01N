@@ -161,7 +161,11 @@ function BarrelCharacteristics({navigation}: {navigation: any}): JSX.Element {
               style={{width: '100%', height: 30}}
               value={
                 batchCharacteristics && batchCharacteristics.salt !== '?'
-                  ? Number(batchCharacteristics?.salt)
+                  ? Number(
+                      batchCharacteristics?.salt
+                        .replace('%', '')
+                        .replace(',', '.'),
+                    )
                   : 0
               }
               onValueChange={val => {
@@ -197,7 +201,7 @@ function BarrelCharacteristics({navigation}: {navigation: any}): JSX.Element {
               style={{width: '100%', height: 30}}
               value={
                 batchCharacteristics && batchCharacteristics.pH !== '?'
-                  ? Number(batchCharacteristics?.pH)
+                  ? Number(batchCharacteristics?.pH.replace(',', '.'))
                   : 0
               }
               onValueChange={val => {
