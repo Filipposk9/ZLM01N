@@ -47,7 +47,7 @@ function TankCharacteristics({navigation}: {navigation: any}): JSX.Element {
   const submitTankCharacteristics = async (
     tankCharacteristics: iTankCharacteristics,
   ) => {
-    const response = await Repository.changeBatchCharacteristics(
+    const response = await Repository.changeTankCharacteristics(
       tankCharacteristics,
     );
 
