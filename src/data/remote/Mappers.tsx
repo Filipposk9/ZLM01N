@@ -254,6 +254,7 @@ export const tankCharacteristicsModelToTankCharacteristics = (
     pH: tankCharacteristicsModel.PH,
     salt: tankCharacteristicsModel.SALT,
     acidity: tankCharacteristicsModel.ACIDITY,
+    defects: tankCharacteristicsModel.DEFECTS,
   });
 };
 
@@ -289,6 +290,10 @@ export const tankCharacteristicsToFormattedTankCharacteristics = (
     pH: tankcharacteristics.pH.replace(',', '.'),
     salt: tankcharacteristics.salt.replace(',', '.'),
     acidity: tankcharacteristics.acidity.replace(',', '.'),
+    defects:
+      tankcharacteristics.defects !== undefined
+        ? tankcharacteristics.defects.replace(',', '.')
+        : '',
   });
 };
 
@@ -333,5 +338,35 @@ export const batchCharacteristicsModelToBatchCharacteristics = (
     pH: batchCharacteristicsModel.PH,
     salt: batchCharacteristicsModel.SALT,
     acidity: batchCharacteristicsModel.ACIDITY,
+    defects: batchCharacteristicsModel.DEFECTS,
+  });
+};
+
+export const batchCharacteristicsToFormattedBatchCharacteristics = (
+  batchCharacteristics: BatchCharacteristics,
+): BatchCharacteristics => {
+  return Object.freeze({
+    materialNumber: batchCharacteristics.materialNumber,
+    materialText: batchCharacteristics.materialText,
+    batch: batchCharacteristics.batch,
+    quantity: batchCharacteristics.quantity,
+    storageLocation: batchCharacteristics.storageLocation,
+    materialGroup: batchCharacteristics.materialGroup,
+    externalMaterialGroup: batchCharacteristics.externalMaterialGroup,
+    lab: batchCharacteristics.lab,
+    color: batchCharacteristics.color,
+    quality: batchCharacteristics.quality,
+    crop: batchCharacteristics.crop,
+    unitsPerKg: batchCharacteristics.unitsPerKg,
+    oliveFly: batchCharacteristics.oliveFly,
+    gliospore: batchCharacteristics.gliospore,
+    colorQuality: batchCharacteristics.colorQuality.replace(',', '.'),
+    hardness: batchCharacteristics.hardness.replace(',', '.'),
+    analysis: batchCharacteristics.analysis,
+    redness: batchCharacteristics.redness,
+    pH: batchCharacteristics.pH.replace(',', '.'),
+    salt: batchCharacteristics.salt.replace(',', '.'),
+    acidity: batchCharacteristics.acidity.replace(',', '.'),
+    defects: batchCharacteristics.defects.replace(',', '.'),
   });
 };

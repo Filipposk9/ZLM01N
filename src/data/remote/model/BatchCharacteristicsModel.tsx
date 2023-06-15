@@ -20,6 +20,7 @@ export interface BatchCharacteristicsModel {
   PH: string;
   SALT: string;
   ACIDITY: string;
+  DEFECTS: string;
 }
 
 export interface BatchCharacteristicsResponse {

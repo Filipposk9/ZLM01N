@@ -18,6 +18,8 @@ import {
   BatchCharacteristics,
 } from '../shared/Types';
 
+//TODO: use polymorphism on tank/batch characteristics
+
 class Repository {
   async initLocalDB(
     username: string,
@@ -237,11 +239,12 @@ class Repository {
     return undefined;
   }
 
-  async changeBatchCharacteristics(
+  async changeTankCharacteristics(
     tankCharacteristics: iTankCharacteristics,
   ): Promise<iTankCharacteristics | undefined> {
-    const batchCharacteristics =
-      await ApiPostService.changeBatchCharacteristics(tankCharacteristics);
+    const batchCharacteristics = await ApiPostService.changeTankCharacteristics(
+      tankCharacteristics,
+    );
 
     if (batchCharacteristics) {
       return batchCharacteristics;
@@ -257,6 +260,17 @@ class Repository {
 
     if (batchCharacteristics) {
       return batchCharacteristics;
+    }
+  }
+
+  async changeBatchCharacteristics(
+    batchCharacteristics: BatchCharacteristics,
+  ): Promise<BatchCharacteristics | undefined> {
+    const batchCharacteristicsResponse =
+      await ApiPostService.changeBatchCharacteristics(batchCharacteristics);
+
+    if (batchCharacteristicsResponse) {
+      return batchCharacteristicsResponse;
     }
   }
 }
