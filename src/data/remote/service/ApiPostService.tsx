@@ -6,8 +6,11 @@ import {
   PickingRequest,
   Picking,
   iTankCharacteristics,
+  BatchCharacteristics,
 } from '../../../shared/Types';
 import {
+  batchCharacteristicsModelToBatchCharacteristics,
+  batchCharacteristicsToFormattedBatchCharacteristics,
   handlingUnitToPickingRequest,
   labelToGoodsMovement,
   materialDocumentModelToMaterialDocument,
@@ -21,6 +24,7 @@ import RequestGateway, {isError} from '../RequestGateway';
 import SapRequestParameters from '../SapRequestParameters';
 import NetInfo, {NetInfoWifiState} from '@react-native-community/netinfo';
 import {TankCharacteristicsResponse} from '../model/TankCharacteristicsModel';
+import {BatchCharacteristicsResponse} from '../model/BatchCharacteristicsModel';
 
 class ApiPostService {
   async createGoodsMovement(
@@ -91,7 +95,7 @@ class ApiPostService {
     }
   }
 
-  async changeBatchCharacteristics(
+  async changeTankCharacteristics(
     tankCharacteristics: iTankCharacteristics,
   ): Promise<iTankCharacteristics | undefined> {
     const formattedTankCharacteristics =
@@ -122,6 +126,29 @@ class ApiPostService {
       ApiPostBuffer.setTankCharacteristicsQueue(tankCharacteristics);
 
       return undefined;
+    }
+  }
+
+  async changeBatchCharacteristics(
+    batchCharacteristics: BatchCharacteristics,
+  ): Promise<BatchCharacteristics | undefined> {
+    const formattedBatchCharacteristics =
+      batchCharacteristicsToFormattedBatchCharacteristics(batchCharacteristics);
+
+    const sapRequestHeaders = await SapRequestParameters.getSapRequestHeaders();
+
+    const response = await RequestGateway.post<BatchCharacteristicsResponse>(
+      '/batchclass',
+      formattedBatchCharacteristics,
+      sapRequestHeaders,
+    );
+
+    if (isError(response)) {
+      return undefined;
+    } else {
+      return batchCharacteristicsModelToBatchCharacteristics(
+        response.result.data,
+      );
     }
   }
 
