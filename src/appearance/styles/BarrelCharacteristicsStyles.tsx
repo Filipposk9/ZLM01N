@@ -33,6 +33,11 @@ export const styles = (theme: iTheme) =>
     basicCharacteristicsSlider: {
       width: '83%',
     },
+    basicCharacteristicsTextContainer: {
+      flex: 1,
+      alignItems: 'flex-end',
+      marginRight: '2%',
+    },
     basicCharacteristicsText: {
       color: theme.buttonTextColor,
       marginLeft: '4%',

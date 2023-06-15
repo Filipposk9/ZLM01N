@@ -110,11 +110,13 @@ function BarrelCharacteristics({navigation}: {navigation: any}): JSX.Element {
             />
           </View>
 
-          <Text style={styles(theme).basicCharacteristicsValue}>
-            {batchCharacteristics?.colorQuality !== '?'
-              ? batchCharacteristics?.colorQuality
-              : 0}
-          </Text>
+          <View style={styles(theme).basicCharacteristicsTextContainer}>
+            <Text style={styles(theme).basicCharacteristicsValue}>
+              {batchCharacteristics?.colorQuality !== '?'
+                ? batchCharacteristics?.colorQuality
+                : 0}
+            </Text>
+          </View>
         </View>
 
         <Text style={styles(theme).basicCharacteristicsText}>Σκληρότητα</Text>
@@ -146,11 +148,13 @@ function BarrelCharacteristics({navigation}: {navigation: any}): JSX.Element {
             />
           </View>
 
-          <Text style={styles(theme).basicCharacteristicsValue}>
-            {batchCharacteristics?.hardness !== '?'
-              ? batchCharacteristics?.hardness
-              : 0}
-          </Text>
+          <View style={styles(theme).basicCharacteristicsTextContainer}>
+            <Text style={styles(theme).basicCharacteristicsValue}>
+              {batchCharacteristics?.hardness !== '?'
+                ? batchCharacteristics?.hardness
+                : 0}
+            </Text>
+          </View>
         </View>
 
         <Text style={styles(theme).basicCharacteristicsText}>Αλάτι</Text>
@@ -186,11 +190,13 @@ function BarrelCharacteristics({navigation}: {navigation: any}): JSX.Element {
             />
           </View>
 
-          <Text style={styles(theme).basicCharacteristicsValue}>
-            {batchCharacteristics?.salt !== '?'
-              ? batchCharacteristics?.salt
-              : 0}
-          </Text>
+          <View style={styles(theme).basicCharacteristicsTextContainer}>
+            <Text style={styles(theme).basicCharacteristicsValue}>
+              {batchCharacteristics?.salt !== '?'
+                ? batchCharacteristics?.salt
+                : 0}
+            </Text>
+          </View>
         </View>
 
         <Text style={styles(theme).basicCharacteristicsText}>pH</Text>
@@ -222,9 +228,11 @@ function BarrelCharacteristics({navigation}: {navigation: any}): JSX.Element {
             />
           </View>
 
-          <Text style={styles(theme).basicCharacteristicsValue}>
-            {batchCharacteristics?.pH !== '?' ? batchCharacteristics?.pH : 0}
-          </Text>
+          <View style={styles(theme).basicCharacteristicsTextContainer}>
+            <Text style={styles(theme).basicCharacteristicsValue}>
+              {batchCharacteristics?.pH !== '?' ? batchCharacteristics?.pH : 0}
+            </Text>
+          </View>
         </View>
 
         <Text style={styles(theme).basicCharacteristicsText}>Ελαττώματα</Text>
@@ -256,11 +264,13 @@ function BarrelCharacteristics({navigation}: {navigation: any}): JSX.Element {
             />
           </View>
 
-          <Text style={styles(theme).basicCharacteristicsValue}>
-            {batchCharacteristics?.defects !== '?'
-              ? batchCharacteristics?.defects
-              : 0}
-          </Text>
+          <View style={styles(theme).basicCharacteristicsTextContainer}>
+            <Text style={styles(theme).basicCharacteristicsValue}>
+              {batchCharacteristics?.defects !== '?'
+                ? batchCharacteristics?.defects
+                : 0}
+            </Text>
+          </View>
         </View>
       </View>
 
