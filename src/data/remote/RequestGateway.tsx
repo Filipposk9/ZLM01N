@@ -78,7 +78,7 @@ class RequestGateway {
   ): Promise<SuccessResponse<T> | ErrorResponse> {
     try {
       await this.processRequest();
-      console.log('Network request to', this.baseUrl, endpoint);
+      console.log('Network request to', endpoint);
       const response = await fetch(this.baseUrl + endpoint, {
         method: 'POST',
         headers: params,
