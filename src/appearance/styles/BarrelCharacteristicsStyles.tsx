@@ -31,7 +31,7 @@ export const styles = (theme: iTheme) =>
       alignItems: 'center',
     },
     basicCharacteristicsSlider: {
-      width: '88%',
+      width: '83%',
     },
     basicCharacteristicsText: {
       color: theme.buttonTextColor,
