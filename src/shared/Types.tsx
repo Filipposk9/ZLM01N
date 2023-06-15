@@ -178,6 +178,7 @@ export interface BatchCharacteristics {
   pH: string;
   salt: string;
   acidity: string;
+  defects: string;
 }
 
 export interface iTankCharacteristics extends BatchCharacteristics {
