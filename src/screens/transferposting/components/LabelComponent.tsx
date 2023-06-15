@@ -11,6 +11,8 @@ interface LabelComponentProps {
   onDeletePressed: () => void;
 }
 
+//TODO: initially spawn label with placeholder text and replace later with await getData()
+
 function LabelComponent(props: LabelComponentProps): JSX.Element {
   const {count, barcode, onDeletePressed} = props;
   const {theme} = useContext(ThemeContext);
