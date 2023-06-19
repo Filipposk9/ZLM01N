@@ -48,33 +48,23 @@ function ManualLabelInputModal(props: ManualLabelInputModalProps): JSX.Element {
 
   const {theme} = useContext(ThemeContext);
 
-  const [materialNumber, setMaterialNumber] = useState<string>(
-    materialNumberText
-      ? materialNumberText
-      : defaultProps.materialNumberText
-      ? defaultProps.materialNumberText
-      : '',
-  );
-  const [batch, setBatch] = useState<string>(
-    batchText
-      ? batchText
-      : defaultProps.batchText
-      ? defaultProps.batchText
-      : '',
-  );
-  const [quantity, setQuantity] = useState<string | undefined>(
-    quantityText !== ''
-      ? quantityText
-      : defaultProps.quantityText
-      ? defaultProps.quantityText
-      : '',
-  );
+  const [materialNumber, setMaterialNumber] = useState<string | undefined>();
+  const [batch, setBatch] = useState<string | undefined>();
+  const [quantity, setQuantity] = useState<string | undefined>();
 
   return (
     <Modal
       isVisible={visibility}
       onModalShow={() => {
-        setQuantity(quantityText);
+        materialNumberText
+          ? setMaterialNumber(materialNumberText)
+          : setMaterialNumber(defaultProps?.materialNumberText);
+
+        batchText ? setBatch(batchText) : setBatch(defaultProps?.batchText);
+
+        quantityText
+          ? setQuantity(quantityText)
+          : setQuantity(defaultProps.quantityText);
       }}
       onBackdropPress={() => {
         onSubmit('');

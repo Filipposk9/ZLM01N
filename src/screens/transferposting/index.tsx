@@ -109,33 +109,30 @@ function TransferPosting({navigation}: {navigation: any}): JSX.Element {
         storageLocationIn,
       );
 
-      if (scannedLabels.length > 0) {
-        setScannedLabels([
-          ...scannedLabels,
-          {
-            count: scannedLabels[scannedLabels.length - 1].count + 1,
-            materialNumber: materialNumber,
-            batch: batch,
-            quantity: quantity,
-            validity: validity,
-          },
-        ]);
-      } else {
-        setScannedLabels([
-          {
-            count: 1,
-            materialNumber: materialNumber,
-            batch: batch,
-            quantity: quantity,
-            validity: validity,
-          },
-        ]);
-      }
+      const newLabel = {
+        count: 1,
+        materialNumber: materialNumber,
+        batch: batch,
+        quantity: quantity,
+        validity: validity,
+      };
+
+      setScannedLabels(
+        scannedLabels.length > 0
+          ? [
+              ...scannedLabels,
+              {
+                ...newLabel,
+                count: scannedLabels[scannedLabels.length - 1].count + 1,
+              },
+            ]
+          : [newLabel],
+      );
     }
   };
 
   const removeLabel = (index: number) => {
-    const updatedLabels = scannedLabels.filter((item, i) => i !== index);
+    const updatedLabels = scannedLabels.filter((_item, i) => i !== index);
 
     if (updatedLabels) {
       setScannedLabels([]);
