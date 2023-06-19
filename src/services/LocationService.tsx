@@ -1,8 +1,8 @@
 import Geolocation from '@react-native-community/geolocation';
 import {PermissionsAndroid} from 'react-native';
 import {geolocationResponseToLocation} from '../data/remote/Mappers';
-import RemoteDBService from './RemoteDBService';
 import {LocationResponse} from '../data/remote/model/LocationModel';
+import {remoteDBService} from '../data/remote/RequestGateway';
 
 class LocationService {
   private currentUser: string = '';
@@ -48,7 +48,7 @@ class LocationService {
           'Content-type': 'application/json',
         };
 
-        const response = await RemoteDBService.post<LocationResponse>(
+        const response = await remoteDBService().post<LocationResponse>(
           '/location',
           locationStamp,
           headers,

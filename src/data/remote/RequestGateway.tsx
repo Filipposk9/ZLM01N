@@ -78,7 +78,7 @@ class RequestGateway {
   ): Promise<SuccessResponse<T> | ErrorResponse> {
     try {
       await this.processRequest();
-      console.log('Network request to', endpoint);
+      console.log('Network request to', this.baseUrl, endpoint);
       const response = await fetch(this.baseUrl + endpoint, {
         method: 'POST',
         headers: params,
@@ -151,3 +151,7 @@ const getSec = () => {
 };
 
 export default new RequestGateway();
+
+export const remoteDBService = () => {
+  return new RequestGateway('http://10.0.0.48:3001');
+};
