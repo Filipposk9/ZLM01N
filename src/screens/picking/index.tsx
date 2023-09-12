@@ -1,5 +1,5 @@
 import React, {useContext, useState, useRef} from 'react';
-import {View, Text, TextInput, Alert, FlatList} from 'react-native';
+import {View, Text, TextInput, Alert, FlatList, Pressable} from 'react-native';
 import Spinner from 'react-native-loading-spinner-overlay';
 import {styles} from '../../appearance/styles/PickingStyles';
 import {ThemeContext} from '../../appearance/theme/ThemeContext';
@@ -9,6 +9,7 @@ import {OutboundDelivery} from '../../shared/Types';
 import BarcodeValidator from '../../utilities/validators/BarcodeValidator';
 import SapStructureValidator from '../../utilities/validators/SapStructureValidator';
 import OutboundDeliveryItemComponent from './components/OutboundDeliveryItemComponent';
+import Icon from 'react-native-vector-icons/MaterialIcons';
 
 function Picking({navigation}: {navigation: any}): JSX.Element {
   const {theme} = useContext(ThemeContext);
@@ -126,18 +127,30 @@ function Picking({navigation}: {navigation: any}): JSX.Element {
           </View>
         </View>
 
-        <Text
-          style={[
-            styles(theme).outboundDeliveryStatusText,
-            {
-              color:
-                outboundDeliveryData?.header.status === 'C'
-                  ? '#C17161'
-                  : '#94BA78',
-            },
-          ]}>
-          Picking Status: {outboundDeliveryData?.header.status}
-        </Text>
+        <View style={styles(theme).outboundDeliveryHeaderContainer}>
+          <View style={styles(theme).outboundDeliveryHeaderItem}>
+            <Text
+              style={[
+                styles(theme).outboundDeliveryStatusText,
+                {
+                  color:
+                    outboundDeliveryData?.header.status === 'C'
+                      ? '#C17161'
+                      : '#94BA78',
+                },
+              ]}>
+              Picking Status: {outboundDeliveryData?.header.status}
+            </Text>
+          </View>
+          <View style={styles(theme).outboundDeliveryHeaderItem}>
+            <Pressable style={styles(theme).outboundDeliveryCameraButton}>
+              <Text style={styles(theme).outboundDeliveryHeaderTextRight}>
+                Στιγμιότυπα φόρτωσης
+              </Text>
+              <Icon name={'linked-camera'} color={'white'} size={30}></Icon>
+            </Pressable>
+          </View>
+        </View>
       </View>
 
       <View style={styles(theme).outboundDeliveryLinesContainer}>

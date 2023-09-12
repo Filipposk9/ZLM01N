@@ -39,6 +39,7 @@ export const styles = (theme: iTheme) =>
     outboundDeliveryHeaderItem: {
       width: '50%',
       padding: '2%',
+      justifyContent: 'center',
     },
     outboundDeliveryHeaderTextLeft: {
       elevation: 5,
@@ -59,9 +60,16 @@ export const styles = (theme: iTheme) =>
       borderRadius: 10,
       fontSize: 18,
       fontWeight: 'bold',
-      margin: '2%',
-      paddingLeft: '2%',
-      width: '46%',
+      paddingLeft: '4%',
+      height: 45,
+    },
+    outboundDeliveryCameraButton: {
+      flexDirection: 'row',
+      alignItems: 'center',
+      justifyContent: 'center',
+      borderRadius: 10,
+      elevation: 5,
+      backgroundColor: theme.buttonSecondaryBackgroundColor,
     },
     outboundDeliveryLinesContainer: {
       margin: '4%',
