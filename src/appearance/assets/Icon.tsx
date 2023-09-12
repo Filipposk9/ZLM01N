@@ -4,6 +4,7 @@ import IconFeather from 'react-native-vector-icons/Feather';
 import IconMaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityIcons';
 import IconAntDesign from 'react-native-vector-icons/AntDesign';
 import IconOcticons from 'react-native-vector-icons/Octicons';
+import IconMaterialIcons from 'react-native-vector-icons/MaterialIcons';
 
 type IconProps = {
   name: string;
@@ -40,6 +41,8 @@ function Icon(props: IconProps): JSX.Element {
       return <IconFeather {...otherProps} name={name} />;
     case 'barrel':
       return <IconMaterialCommunityIcons {...otherProps} name={name} />;
+    case 'linked-camera':
+      return <IconMaterialIcons {...otherProps} name={name} />;
     default:
       return <Text> </Text>;
   }
