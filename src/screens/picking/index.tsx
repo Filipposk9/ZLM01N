@@ -10,6 +10,7 @@ import BarcodeValidator from '../../utilities/validators/BarcodeValidator';
 import SapStructureValidator from '../../utilities/validators/SapStructureValidator';
 import OutboundDeliveryItemComponent from './components/OutboundDeliveryItemComponent';
 import Icon from 'react-native-vector-icons/MaterialIcons';
+import {Camera} from 'react-native-vision-camera';
 
 function Picking({navigation}: {navigation: any}): JSX.Element {
   const {theme} = useContext(ThemeContext);
@@ -143,7 +144,29 @@ function Picking({navigation}: {navigation: any}): JSX.Element {
             </Text>
           </View>
           <View style={styles(theme).outboundDeliveryHeaderItem}>
-            <Pressable style={styles(theme).outboundDeliveryCameraButton}>
+            <Pressable
+              style={styles(theme).outboundDeliveryCameraButton}
+              onPress={async () => {
+                if (
+                  SapStructureValidator.validateOutboundDelivery(
+                    outboundDelivery,
+                  )
+                ) {
+                  const cameraPermission =
+                    await Camera.requestCameraPermission();
+                  const microphonePermission =
+                    await Camera.requestMicrophonePermission();
+
+                  if (
+                    cameraPermission === 'granted' &&
+                    microphonePermission === 'granted'
+                  ) {
+                    navigation.navigate('ViewFinder');
+                  }
+                } else {
+                  Alert.alert('Παρακαλώ συμπληρώστε αριθμό παράδοσης');
+                }
+              }}>
               <Text style={styles(theme).outboundDeliveryHeaderTextRight}>
                 Στιγμιότυπα φόρτωσης
               </Text>
