@@ -4,13 +4,13 @@ import {useSelector} from 'react-redux';
 
 import {styles} from '../../appearance/styles/HistoryStyles';
 import {ThemeContext} from '../../appearance/theme/ThemeContext';
-import {GoodsMovementLogState} from '../../redux/ReduxTypes';
 import HistoryItem from './components/HistoryItem';
+import {RootState} from '../../redux/Store';
 
 function History(): JSX.Element {
   const {theme} = useContext(ThemeContext);
 
-  const goodsMovementLogs = useSelector((state: GoodsMovementLogState) =>
+  const goodsMovementLogs = useSelector((state: RootState) =>
     state.goodsMovementLog.goodsMovementLog.slice().reverse(),
   );
 
