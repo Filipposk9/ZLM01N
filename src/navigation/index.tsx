@@ -18,6 +18,7 @@ import Mashes from '../screens/mashes/index';
 import BarrelCharacteristics from '../screens/barrelcharacteristics/index';
 import {RootStackParamList} from './types';
 import {ThemeContext} from '../appearance/theme/ThemeContext';
+import ViewFinder from '../utilities/components/ViewFinder';
 
 //TODO: fix repeatable code
 
@@ -381,6 +382,11 @@ function AppNavigation(): JSX.Element {
         name="BarrelCharacteristics"
         component={BarrelCharacteristicsTabs}
         options={{title: 'BarrelCharacteristics'}}
+      />
+      <AppStack.Screen
+        name={'ViewFinder'}
+        component={ViewFinder}
+        options={{title: 'Camera'}}
       />
     </AppStack.Navigator>
   );
