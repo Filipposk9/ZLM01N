@@ -11,4 +11,5 @@ export type RootStackParamList = {
   Mashes: JSX.Element;
   BarrelCharacteristics: JSX.Element;
   History: JSX.Element;
+  ViewFinder: JSX.Element;
 };
