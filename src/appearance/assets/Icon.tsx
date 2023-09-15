@@ -43,6 +43,10 @@ function Icon(props: IconProps): JSX.Element {
       return <IconMaterialCommunityIcons {...otherProps} name={name} />;
     case 'linked-camera':
       return <IconMaterialIcons {...otherProps} name={name} />;
+    case 'keyboard-arrow-left':
+      return <IconMaterialIcons {...otherProps} name={name} />;
+    case 'keyboard-arrow-right':
+      return <IconMaterialIcons {...otherProps} name={name} />;
     default:
       return <Text> </Text>;
   }
