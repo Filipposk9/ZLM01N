@@ -60,8 +60,8 @@ export const styles = (theme: iTheme) =>
       borderRadius: 10,
       fontSize: 18,
       fontWeight: 'bold',
-      paddingLeft: '4%',
-      height: 45,
+      padding: '4%',
+      height: 60,
     },
     outboundDeliveryCameraButton: {
       flexDirection: 'row',
@@ -69,6 +69,7 @@ export const styles = (theme: iTheme) =>
       justifyContent: 'center',
       borderRadius: 10,
       elevation: 5,
+      padding: '4%',
       backgroundColor: theme.buttonSecondaryBackgroundColor,
     },
     outboundDeliveryLinesContainer: {
