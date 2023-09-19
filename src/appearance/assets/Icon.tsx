@@ -5,6 +5,7 @@ import IconMaterialCommunityIcons from 'react-native-vector-icons/MaterialCommun
 import IconAntDesign from 'react-native-vector-icons/AntDesign';
 import IconOcticons from 'react-native-vector-icons/Octicons';
 import IconMaterialIcons from 'react-native-vector-icons/MaterialIcons';
+import IconFontAwesome from 'react-native-vector-icons/FontAwesome';
 
 type IconProps = {
   name: string;
@@ -47,6 +48,10 @@ function Icon(props: IconProps): JSX.Element {
       return <IconMaterialIcons {...otherProps} name={name} />;
     case 'keyboard-arrow-right':
       return <IconMaterialIcons {...otherProps} name={name} />;
+    case 'circle-thin':
+      return <IconFontAwesome {...otherProps} name={name} />;
+    case 'circle':
+      return <IconFontAwesome {...otherProps} name={name} />;
     default:
       return <Text> </Text>;
   }
