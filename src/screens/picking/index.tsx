@@ -161,7 +161,7 @@ function Picking({navigation}: {navigation: any}): JSX.Element {
                     cameraPermission === 'granted' &&
                     microphonePermission === 'granted'
                   ) {
-                    navigation.navigate('ViewFinder');
+                    navigation.navigate('ViewFinder', outboundDelivery);
                   }
                 } else {
                   Alert.alert('Παρακαλώ συμπληρώστε αριθμό παράδοσης');
