@@ -21,6 +21,9 @@ function Picking({navigation}: {navigation: any}): JSX.Element {
     OutboundDelivery | undefined
   >();
 
+  const [outboundDeliveryEditability, setOutboundDeliveryEditability] =
+    useState<boolean>(true);
+
   const scannerRef = useRef<TextInput>(null);
   const itemListRef = useRef<FlatList>(null);
 
@@ -93,10 +96,11 @@ function Picking({navigation}: {navigation: any}): JSX.Element {
 
       <View style={styles(theme).outboundDeliveryInputContainer}>
         <Text style={styles(theme).outboundDeliveryInput}>Παράδοση: </Text>
-        <View>
+        <View onTouchStart={() => setOutboundDeliveryEditability(true)}>
           <TextInput
             style={styles(theme).outboundDeliveryInputField}
             keyboardType="number-pad"
+            editable={outboundDeliveryEditability}
             onChangeText={outboundDelivery => {
               if (outboundDelivery.substring(0, 1) !== '8') {
               } else {
@@ -105,6 +109,7 @@ function Picking({navigation}: {navigation: any}): JSX.Element {
             }}
             onSubmitEditing={() => {
               getOutboundDeliveryData();
+              setOutboundDeliveryEditability(false);
             }}
             value={outboundDelivery}></TextInput>
         </View>
