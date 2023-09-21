@@ -1,5 +1,5 @@
 import React, {useRef, useState} from 'react';
-import {Pressable, Text, View} from 'react-native';
+import {Pressable, View} from 'react-native';
 import Spinner from 'react-native-loading-spinner-overlay';
 import {Camera, useCameraDevices} from 'react-native-vision-camera';
 import AzureAuth from 'react-native-azure-auth';
@@ -118,10 +118,11 @@ function ViewFinder({route}: {route: any}): JSX.Element {
           style={{height: '80%'}}
           ref={cameraRef}
           device={device}
-          format={device.formats?.[0]}
           isActive={cameraIsActive}
           photo={true}
-          video={false}></Camera>
+          video={false}
+          zoom={0}
+          enableHighQualityPhotos={true}></Camera>
       )}
 
       <ImagePreviewModal
