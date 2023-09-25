@@ -14,6 +14,4 @@ The data is handled by a REST endpoint running on a SAP server.
 
 ## Changelog
 
-Quantity field in manually typed labels is now always editable.
-
-Production Order data now gets refreshed after each movement.
+Added ability to capture outbound delivery associated photos and upload them to onedrive
