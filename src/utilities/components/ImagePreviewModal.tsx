@@ -5,7 +5,7 @@ import Icon from 'react-native-vector-icons/MaterialIcons';
 
 interface ImagePreviewModalProps {
   visibility: boolean;
-  image: string;
+  image: string | undefined;
   onSwipeLeft: () => void;
   onSwipeRight: () => void;
   onBackPress: () => void;
@@ -36,7 +36,9 @@ function ImagePreviewModal(props: ImagePreviewModalProps): JSX.Element {
     <Modal
       isVisible={visibility}
       onModalShow={() => setSwipeRegistered(false)}
-      onBackButtonPress={onBackPress}>
+      onBackButtonPress={onBackPress}
+      //TODO: add this animationOut={}
+    >
       <View style={{flex: 1, justifyContent: 'center', alignItems: 'center'}}>
         <Image
           {...panResponder?.panHandlers}
