@@ -134,7 +134,7 @@ function Picking({navigation}: {navigation: any}): JSX.Element {
         );
 
         if (onedriveResponse) {
-          console.log(onedriveResponse, 'uploaded');
+          // console.log(onedriveResponse, 'uploaded');
           //TODO: refreshing.... show info
         }
       }

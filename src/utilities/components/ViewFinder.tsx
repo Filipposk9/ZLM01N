@@ -151,4 +151,8 @@ function ViewFinder(props: ViewFinderProps): JSX.Element {
   );
 }
 
+//TODO: styles outside of function component
+//FIXME: generalise shutter button
+//FIXME: viewfinder height is cut by 20%
+
 export default React.memo(ViewFinder);

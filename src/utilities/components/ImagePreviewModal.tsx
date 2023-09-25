@@ -37,7 +37,9 @@ function ImagePreviewModal(props: ImagePreviewModalProps): JSX.Element {
       isVisible={visibility}
       onModalShow={() => setSwipeRegistered(false)}
       onBackButtonPress={onBackPress}
+      animationOut={'slideOutRight'}
       //TODO: add this animationOut={}
+      //TODO: styles outside of function component
     >
       <View style={{flex: 1, justifyContent: 'center', alignItems: 'center'}}>
         <Image
