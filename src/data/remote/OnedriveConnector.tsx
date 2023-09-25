@@ -1,4 +1,3 @@
-import RNFS from 'react-native-fs';
 import AzureAuth from 'react-native-azure-auth';
 import {uploadSmallFile} from '@harrisoff/onedrive-js-sdk';
 import {Buffer} from '@craftzdog/react-native-buffer';
