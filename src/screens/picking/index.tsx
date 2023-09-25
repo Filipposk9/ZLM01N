@@ -145,22 +145,23 @@ function Picking({navigation}: {navigation: any}): JSX.Element {
 
   return (
     <>
-      <Spinner
-        visible={isUploading}
-        textContent={'Uploading...'}
-        textStyle={{color: 'white'}}
-      />
-
       {viewFinderIsOpen ? (
-        <ViewFinder
-          onPreviewSwipeLeft={deleteCapturedImage}
-          onPreviewSwipeRight={uploadCapturedImageToOnedrive}
-          onImageCaptured={(path: string) => {
-            setCapturedImagePath(path);
-          }}
-          onViewFinderBackPress={() => {
-            setViewFinderIsOpen(false);
-          }}></ViewFinder>
+        <>
+          <Spinner
+            visible={isUploading}
+            textContent={'Uploading...'}
+            textStyle={{color: 'white'}}
+          />
+          <ViewFinder
+            onPreviewSwipeLeft={deleteCapturedImage}
+            onPreviewSwipeRight={uploadCapturedImageToOnedrive}
+            onImageCaptured={(path: string) => {
+              setCapturedImagePath(path);
+            }}
+            onViewFinderBackPress={() => {
+              setViewFinderIsOpen(false);
+            }}></ViewFinder>
+        </>
       ) : (
         <View style={styles(theme).pickingContainer}>
           <Spinner
