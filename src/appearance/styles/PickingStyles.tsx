@@ -6,7 +6,7 @@ export const styles = (theme: iTheme) =>
     pickingContainer: {
       backgroundColor: theme.backgroundColor,
       flex: 1,
-      marginTop: '2%',
+      paddingTop: '2%',
     },
     outboundDeliveryInputContainer: {
       flexDirection: 'row',
