@@ -11,7 +11,7 @@ class BarcodeValidator {
 
     const materialNumberRegex = new RegExp('^(1[0]|2[0-2]|30|4[0-2])[0-9]{7}$');
     const batchRegex = new RegExp(
-      '^([0-9]+|(L)[0-9]{5}|KD[0-9]{8}|(PBAA)[0-9]{6}|401[8|9][0-9]+|[0-9]{5}(X|F)[0-9]{4}|[0-9]{5}((BS(A|B|C|D|E)[0-9]{2})|(C(B|I|P|S|T|U|X|Y)[0-9]{3})|(M(B|C|P|U)[0-9]{3})|(XPD(B|C))[0-9]{1}|(DS|KS|EU|KC|KD)[0-9]{3}))',
+      '^([0-9]+|(L)[0-9]{5}|KD.{8}|(PBAA)[0-9]{6}|401[8|9][0-9]+|[0-9]{5}(X|F)[0-9]{4}|[0-9]{5}((BS(A|B|C|D|E)[0-9]{2})|(C(B|I|P|S|T|U|X|Y)[0-9]{3})|(M(B|C|P|U)[0-9]{3})|(XPD(B|C))[0-9]{1}|(DS|KS|EU|KC|KD)[0-9]{3}))',
       'i',
     );
     const quantityRegex = new RegExp('^[0-9]+[, | .]*[0-9]*$');
