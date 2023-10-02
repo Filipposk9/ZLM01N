@@ -147,8 +147,6 @@ function ManualLabelInputModal(props: ManualLabelInputModalProps): JSX.Element {
             onPress={() => {
               let barcode = '';
 
-              console.log(editable);
-
               if (editable) {
                 barcode = materialNumber + '-' + batch + '-' + quantity;
               } else {
