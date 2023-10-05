@@ -64,16 +64,19 @@ function Picking({navigation}: {navigation: any}): JSX.Element {
         if (outboundDeliveryData?.header.status === 'C') {
           Alert.alert('To picking έχει ήδη ολοκληρωθεί');
         } else {
-          setIsLoading(true);
-
           if (lastScannedBarcode.includes('-')) {
             lastScannedBarcode = lastScannedBarcode.replace(',', '.');
           }
+
+          setIsLoading(true);
 
           const response = await Repository.createPickingRequest(
             outboundDelivery,
             lastScannedBarcode,
           );
+
+          setIsLoading(false);
+
           if (response !== undefined) {
             if (response.code === 0) {
               getOutboundDeliveryData();
@@ -92,7 +95,6 @@ function Picking({navigation}: {navigation: any}): JSX.Element {
               Alert.alert(response.message);
             }
           }
-          setIsLoading(false);
         }
       }
     };
