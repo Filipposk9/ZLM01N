@@ -75,9 +75,8 @@ function Picking({navigation}: {navigation: any}): JSX.Element {
             lastScannedBarcode,
           );
 
-          setIsLoading(false);
-
           if (response !== undefined) {
+            setIsLoading(false);
             if (response.code === 0) {
               getOutboundDeliveryData();
 
@@ -94,6 +93,8 @@ function Picking({navigation}: {navigation: any}): JSX.Element {
             } else {
               Alert.alert(response.message);
             }
+          } else {
+            setIsLoading(false);
           }
         }
       }
