@@ -76,9 +76,9 @@ function Picking({navigation}: {navigation: any}): JSX.Element {
           );
 
           if (response !== undefined) {
-            setIsLoading(false);
             if (response.code === 0) {
               getOutboundDeliveryData();
+              setIsLoading(false);
 
               const scannedIndex = outboundDeliveryData?.items.findIndex(
                 item => item.positionNumber === response.positionNumberHandled,
@@ -91,10 +91,9 @@ function Picking({navigation}: {navigation: any}): JSX.Element {
                 });
               }
             } else {
+              setIsLoading(false);
               Alert.alert(response.message);
             }
-          } else {
-            setIsLoading(false);
           }
         }
       }
