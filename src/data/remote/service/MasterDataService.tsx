@@ -152,7 +152,7 @@ class MasterDataService {
     batch: string,
     storageLocation: string,
   ): Promise<Batch | undefined> {
-    const timeout = 5000;
+    const timeout = 1000;
     const sapRequestHeaders = await SapRequestParameters.getSapRequestHeaders(
       timeout,
     );
@@ -166,6 +166,7 @@ class MasterDataService {
           '&lgortIn=' +
           storageLocation,
         sapRequestHeaders,
+        timeout,
       );
 
       if (isError(response)) {
