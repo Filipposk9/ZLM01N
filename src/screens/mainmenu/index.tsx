@@ -68,6 +68,24 @@ function MainMenu({navigation}: {navigation: any}): JSX.Element {
 
           <MainMenuButton
             navigation={navigation}
+            navigationLocation={'BarrelCharacteristics'}
+            icon={'barrel'}
+            iconColor={'#222222'}
+            text={'Χαρακτηριστικά Βαρελιών'}
+            backgroundColor={'#653818'}></MainMenuButton>
+        </View>
+
+        <View style={styles(theme).mainMenuLine}>
+          <MainMenuButton
+            navigation={navigation}
+            navigationLocation={''}
+            icon={'basket-fill'}
+            iconColor={'white'}
+            text={'Γέμισμα Δεξαμενής'}
+            backgroundColor={'#D53F77'}></MainMenuButton>
+
+          <MainMenuButton
+            navigation={navigation}
             navigationLocation={'TankCharacteristics'}
             icon={'propane-tank-outline'}
             iconColor={'white'}
@@ -86,29 +104,11 @@ function MainMenu({navigation}: {navigation: any}): JSX.Element {
 
           <MainMenuButton
             navigation={navigation}
-            navigationLocation={'BarrelCharacteristics'}
-            icon={'barrel'}
-            iconColor={'#222222'}
-            text={'Χαρακτηριστικά Βαρελιών'}
-            backgroundColor={'#653818'}></MainMenuButton>
-        </View>
-
-        <View style={styles(theme).mainMenuLine}>
-          <MainMenuButton
-            navigation={navigation}
             navigationLocation={''}
             icon={'barcode-scan'}
             iconColor={'white'}
             text={'Απογραφή'}
             backgroundColor={'#2E1A47'}></MainMenuButton>
-
-          {/* <MainMenuButton
-            navigation={navigation}
-            navigationLocation={''}
-            icon={'barcode-scan'}
-            iconColor={'white'}
-            text={'Απογραφή'}
-            backgroundColor={'#2E1A47'}></MainMenuButton> */}
         </View>
       </ScrollView>
     </View>

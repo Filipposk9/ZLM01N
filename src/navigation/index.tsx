@@ -13,6 +13,7 @@ import History from '../screens/history/index';
 import Picking from '../screens/picking/index';
 import GoodsIssues from '../screens/goodsissues/index';
 import TankCharacteristics from '../screens/tankcharacteristics/index';
+import TankFill from '../screens/tankfill/index';
 import TankMap from '../screens/tankmap/index';
 import Mashes from '../screens/mashes/index';
 import BarrelCharacteristics from '../screens/barrelcharacteristics/index';
@@ -324,6 +325,11 @@ function AppNavigation(): JSX.Element {
         name="GoodsIssues"
         component={GoodsIssuesTabs}
         options={{title: 'GoodsIssues'}}
+      />
+      <AppStack.Screen
+        name="TankFill"
+        component={TankFill}
+        options={{title: 'TankFIll'}}
       />
       <AppStack.Screen
         name="TankCharacteristics"

@@ -7,6 +7,7 @@ export type RootStackParamList = {
   TransferPostingLog: JSX.Element;
   Picking: JSX.Element;
   GoodsIssues: JSX.Element;
+  TankFill: JSX.Element;
   TankCharacteristics: JSX.Element;
   Mashes: JSX.Element;
   BarrelCharacteristics: JSX.Element;

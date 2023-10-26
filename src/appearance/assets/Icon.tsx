@@ -52,6 +52,8 @@ function Icon(props: IconProps): JSX.Element {
       return <IconFontAwesome {...otherProps} name={name} />;
     case 'circle':
       return <IconFontAwesome {...otherProps} name={name} />;
+    case 'basket-fill':
+      return <IconMaterialCommunityIcons {...otherProps} name={name} />;
     default:
       return <Text> </Text>;
   }
