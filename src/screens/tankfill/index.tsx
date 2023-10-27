@@ -20,6 +20,7 @@ import {
   PRODUCTION_ORDER,
 } from '../../shared/Constants';
 import {GlobalStyles} from '../../appearance/styles/GlobalStyles';
+import Spinner from 'react-native-loading-spinner-overlay';
 
 function TankFill() {
   const {theme} = useContext(ThemeContext);
@@ -102,11 +103,18 @@ function TankFill() {
 
   return (
     <View style={styles(theme).tankFillContainer}>
+      <Spinner
+        visible={isLoading}
+        textContent={'Γέμισμα Δεξαμενής...'}
+        textStyle={{color: 'white'}}></Spinner>
+
       <View
         style={styles(theme).topContainer}
         onTouchStart={() => {
           setTankEditability(true);
         }}>
+        <Text style={styles(theme).title}>Γέμισμα Δεξαμενής: </Text>
+
         <TextInput
           style={styles(theme).selectedTankText}
           value={tank}
@@ -115,6 +123,10 @@ function TankFill() {
             setTank(tank);
           }}
           onSubmitEditing={() => setTankEditability(false)}></TextInput>
+      </View>
+
+      <View style={styles(theme).middleContainer}>
+        <Text style={styles(theme).labelListHeaderText}>Λίστα ετικετών</Text>
       </View>
 
       <ScrollView

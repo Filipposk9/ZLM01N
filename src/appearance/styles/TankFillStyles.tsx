@@ -8,14 +8,32 @@ export const styles = (theme: iTheme) =>
       height: '100%',
     },
     topContainer: {
-      justifyContent: 'center',
-      height: '20%',
+      justifyContent: 'space-between',
+      margin: '2%',
+      alignItems: 'center',
+      height: '10%',
+      display: 'flex',
+      flexDirection: 'row',
+    },
+    title: {
+      color: theme.textColor,
+      fontSize: 24,
     },
     selectedTankText: {
       color: theme.textColor,
-      fontSize: 36,
+      fontSize: 24,
       fontWeight: 'bold',
       textAlign: 'center',
+    },
+    middleContainer: {
+      marginLeft: '5%',
+      marginBottom: '2%',
+      flexDirection: 'row',
+    },
+    labelListHeaderText: {
+      color: theme.textColor,
+      fontWeight: 'bold',
+      fontSize: 28,
     },
     labelList: {
       elevation: 50,
