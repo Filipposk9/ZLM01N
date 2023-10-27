@@ -7,12 +7,14 @@ import {
   Picking,
   iTankCharacteristics,
   BatchCharacteristics,
+  TankMovement,
 } from '../../../shared/Types';
 import {
   batchCharacteristicsModelToBatchCharacteristics,
   batchCharacteristicsToFormattedBatchCharacteristics,
   handlingUnitToPickingRequest,
   labelToGoodsMovement,
+  labelToTankMovement,
   materialDocumentModelToMaterialDocument,
   pickingModelToPicking,
   tankCharacteristicsModelToTankCharacteristics,
@@ -149,6 +151,42 @@ class ApiPostService {
       return batchCharacteristicsModelToBatchCharacteristics(
         response.result.data,
       );
+    }
+  }
+
+  async fillTank(
+    tank: string,
+    scannedLabels: Label[],
+  ): Promise<MaterialDocument | undefined> {
+    const materialDocument: TankMovement = labelToTankMovement(
+      tank,
+      scannedLabels,
+    );
+
+    const connectionStrength: number | null =
+      await this.getConnectionStrength();
+
+    if (connectionStrength && connectionStrength > 0) {
+      const sapRequestHeaders =
+        await SapRequestParameters.getSapRequestHeaders();
+
+      const response = await RequestGateway.post<MaterialDocumentResponse>(
+        '/filltanks',
+        materialDocument,
+        sapRequestHeaders,
+      );
+
+      if (isError(response)) {
+        ApiPostBuffer.setTankMovementQueue(materialDocument);
+
+        return undefined;
+      } else {
+        return materialDocumentModelToMaterialDocument(response.result.data);
+      }
+    } else {
+      ApiPostBuffer.setTankMovementQueue(materialDocument);
+
+      return undefined;
     }
   }
 

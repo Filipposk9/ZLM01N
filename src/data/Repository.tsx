@@ -273,6 +273,17 @@ class Repository {
       return batchCharacteristicsResponse;
     }
   }
+
+  async fillTank(
+    tank: string,
+    scannedLabels: Label[],
+  ): Promise<MaterialDocument | undefined> {
+    const materialDocument = await ApiPostService.fillTank(tank, scannedLabels);
+
+    if (materialDocument) {
+      return materialDocument;
+    }
+  }
 }
 
 export default new Repository();

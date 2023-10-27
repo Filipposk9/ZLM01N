@@ -1,4 +1,8 @@
-import {GoodsMovement, iTankCharacteristics} from '../../../shared/Types';
+import {
+  GoodsMovement,
+  TankMovement,
+  iTankCharacteristics,
+} from '../../../shared/Types';
 import NetInfo, {NetInfoWifiState} from '@react-native-community/netinfo';
 import SapRequestParameters from '../SapRequestParameters';
 import RequestGateway, {isError} from '../RequestGateway';
@@ -12,9 +16,11 @@ import {TankCharacteristicsResponse} from '../model/TankCharacteristicsModel';
 class ApiPostBuffer {
   private goodsMovementQueueIsLocked: boolean = false;
   private tankCharacteristicsQueueIsLocked: boolean = false;
+  private tankMovementQueueIsLocked: boolean = true;
 
   private goodsMovementQueue: GoodsMovement[] = [];
   private tankCharacteristicsQueue: iTankCharacteristics[] = [];
+  private tankMovementQueue: TankMovement[] = [];
 
   readonly unlockThreshold: number = 10;
 
@@ -44,6 +50,13 @@ class ApiPostBuffer {
                 await this.handleTankCharacteristicsQueue();
               }
             }
+
+            if (!this.tankMovementQueueIsLocked) {
+              if (this.tankMovementQueue && this.tankMovementQueue.length > 0) {
+                this.tankMovementQueueIsLocked = true;
+                await this.handleTankMovementQueue();
+              }
+            }
           }
         }
       }
@@ -57,6 +70,10 @@ class ApiPostBuffer {
   setTankCharacteristicsQueue(newQueue: iTankCharacteristics) {
     this.tankCharacteristicsQueue =
       this.tankCharacteristicsQueue.concat(newQueue);
+  }
+
+  setTankMovementQueue(newQueue: TankMovement) {
+    this.tankMovementQueue = this.tankMovementQueue.concat(newQueue);
   }
 
   private async handleGoodsMovementQueue() {
@@ -115,6 +132,33 @@ class ApiPostBuffer {
 
     if (tankCharacteristicsResponses) {
       this.tankCharacteristicsQueue = newTankCharacteristicsQueue;
+      this.goodsMovementQueueIsLocked = false;
+    }
+  }
+
+  private async handleTankMovementQueue() {
+    const tankMovementQueue = this.tankMovementQueue;
+
+    let newTankMovementQueue: TankMovement[] = [];
+
+    const sapRequestHeaders = await SapRequestParameters.getSapRequestHeaders();
+
+    const tankMovementResponses = tankMovementQueue.map(async tankMovement => {
+      const response = await RequestGateway.post<MaterialDocumentResponse>(
+        '/filltanks',
+        tankMovement,
+        sapRequestHeaders,
+      );
+
+      if (isError(response)) {
+        newTankMovementQueue.push(tankMovement);
+      } else {
+        return materialDocumentModelToMaterialDocument(response.result.data);
+      }
+    });
+
+    if (tankMovementResponses) {
+      this.tankMovementQueue = newTankMovementQueue;
       this.goodsMovementQueueIsLocked = false;
     }
   }

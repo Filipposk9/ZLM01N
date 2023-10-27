@@ -199,3 +199,8 @@ export interface Location {
   longitude: number | null;
   speed: number | null;
 }
+
+export interface TankMovement {
+  tank: string;
+  labels: Label[];
+}

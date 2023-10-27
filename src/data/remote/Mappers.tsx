@@ -19,6 +19,7 @@ import {
   Tank,
   Location,
   BatchCharacteristics,
+  TankMovement,
 } from '../../shared/Types';
 import {MaterialModel} from './model/MaterialModel';
 import {StorageLocationModel} from './model/StorageLocationModel';
@@ -368,5 +369,25 @@ export const batchCharacteristicsToFormattedBatchCharacteristics = (
     salt: batchCharacteristics.salt.replace(',', '.'),
     acidity: batchCharacteristics.acidity.replace(',', '.'),
     defects: batchCharacteristics.defects.replace(',', '.'),
+  });
+};
+
+export const labelToTankMovement = (
+  tank: string,
+  labels: Label[],
+): TankMovement => {
+  const scannedLabels = labels.map((label, index) => {
+    return Object.freeze({
+      count: label.count,
+      materialNumber: label.materialNumber,
+      batch: label.batch,
+      quantity: label.quantity,
+      validity: label.validity,
+    });
+  });
+
+  return Object.freeze({
+    tank: tank,
+    labels: scannedLabels,
   });
 };
