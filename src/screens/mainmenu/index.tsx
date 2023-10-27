@@ -78,7 +78,7 @@ function MainMenu({navigation}: {navigation: any}): JSX.Element {
         <View style={styles(theme).mainMenuLine}>
           <MainMenuButton
             navigation={navigation}
-            navigationLocation={''}
+            navigationLocation={'TankFill'}
             icon={'basket-fill'}
             iconColor={'white'}
             text={'Γέμισμα Δεξαμενής'}
