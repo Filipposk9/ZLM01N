@@ -83,6 +83,7 @@ export interface OutboundDelivery {
 
 export interface OutboundDeliveryHeader {
   outboundDeliveryNumber: string;
+  associatedSalesOrder: string;
   customerNumber: string;
   customerName: string;
   shipToPartyNumber: string;

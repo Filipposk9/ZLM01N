@@ -153,6 +153,7 @@ export const outboundDeliveryModelToOutboundDelivery = (
 
   const header = Object.freeze({
     outboundDeliveryNumber: outboundDeliveryModel.HEADER.OUTBOUNDDELIVERYNUMBER,
+    associatedSalesOrder: outboundDeliveryModel.HEADER.ASSOCIATEDSALESORDER,
     customerNumber: outboundDeliveryModel.HEADER.CUSTOMERNUMBER,
     customerName: outboundDeliveryModel.HEADER.CUSTOMERNAME,
     shipToPartyNumber: outboundDeliveryModel.HEADER.SHIPTOPARTYNUMBER,

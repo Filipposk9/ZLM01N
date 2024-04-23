@@ -6,23 +6,29 @@ export const styles = (theme: iTheme) =>
     pickingContainer: {
       backgroundColor: theme.backgroundColor,
       flex: 1,
-      paddingTop: '2%',
+      paddingTop: '1%',
     },
     outboundDeliveryInputContainer: {
       flexDirection: 'row',
       alignItems: 'center',
-      marginLeft: '5%',
-      marginRight: '5%',
+      justifyContent: 'space-evenly',
+      marginLeft: '4%',
+      marginRight: '4%',
     },
     outboundDeliveryInput: {
       color: theme.textColor,
-      fontSize: 30,
+      fontSize: 28,
+      fontWeight: 'bold',
+    },
+    outboundDeliveryHeaderText: {
+      color: theme.textColor,
+      fontSize: 20,
       fontWeight: 'bold',
     },
     outboundDeliveryInputField: {
       color: theme.textColor,
       fontSize: 24,
-      width: 190,
+      width: 185,
       marginTop: '2%',
     },
     topContainer: {
@@ -36,6 +42,12 @@ export const styles = (theme: iTheme) =>
     outboundDeliveryHeaderContainer: {
       flexDirection: 'row',
       justifyContent: 'space-evenly',
+    },
+    outboundDeliveryHeaderContainer2: {
+      flexDirection: 'row',
+      justifyContent: 'space-between',
+      marginLeft: '4%',
+      marginRight: '4%',
     },
     outboundDeliveryHeaderItem: {
       width: '50%',

@@ -5,6 +5,7 @@ export interface OutboundDeliveryModel {
 
 interface OutboundDeliveryHeader {
   OUTBOUNDDELIVERYNUMBER: string;
+  ASSOCIATEDSALESORDER: string;
   CUSTOMERNUMBER: string;
   CUSTOMERNAME: string;
   SHIPTOPARTYNUMBER: string;

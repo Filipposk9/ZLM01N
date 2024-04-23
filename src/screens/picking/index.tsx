@@ -193,6 +193,15 @@ function Picking({navigation}: {navigation: any}): JSX.Element {
             </View>
           </View>
 
+          <View style={styles(theme).outboundDeliveryHeaderContainer2}>
+            <Text style={styles(theme).outboundDeliveryHeaderText}>
+              Παραγγελία:
+            </Text>
+            <Text style={styles(theme).outboundDeliveryHeaderText}>
+              {outboundDeliveryData?.header.associatedSalesOrder}
+            </Text>
+          </View>
+
           <View style={styles(theme).topContainer}>
             <View style={styles(theme).outboundDeliveryHeaderContainer}>
               <View style={styles(theme).outboundDeliveryHeaderItem}>
