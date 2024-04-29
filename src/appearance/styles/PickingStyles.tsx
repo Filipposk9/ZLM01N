@@ -11,25 +11,24 @@ export const styles = (theme: iTheme) =>
     outboundDeliveryInputContainer: {
       flexDirection: 'row',
       alignItems: 'center',
-      justifyContent: 'space-evenly',
+      justifyContent: 'space-between',
       marginLeft: '4%',
-      marginRight: '4%',
+      marginRight: '2%',
     },
     outboundDeliveryInput: {
       color: theme.textColor,
       fontSize: 28,
       fontWeight: 'bold',
     },
+    outboundDeliveryInputField: {
+      color: theme.textColor,
+      fontSize: 24,
+      marginTop: '2%',
+    },
     outboundDeliveryHeaderText: {
       color: theme.textColor,
       fontSize: 20,
       fontWeight: 'bold',
-    },
-    outboundDeliveryInputField: {
-      color: theme.textColor,
-      fontSize: 24,
-      width: 185,
-      marginTop: '2%',
     },
     topContainer: {
       backgroundColor: theme.foregroundColor,
