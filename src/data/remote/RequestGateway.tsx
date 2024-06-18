@@ -9,9 +9,7 @@ class RequestGateway {
   private baseUrl: string;
   private requestTimeQueue: number[] = [];
 
-  constructor(
-    baseUrl: string = 'http://10.0.0.10:8101/sap/bc/gui/sap/its/zwm_rfn',
-  ) {
+  constructor(baseUrl: string = 'https://domain/endpoint') {
     this.baseUrl = baseUrl;
   }
 

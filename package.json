@@ -23,7 +23,7 @@
     "@realm/react": "^0.4.3",
     "@reduxjs/toolkit": "^1.9.3",
     "react": "18.2.0",
-    "react-native": "0.71.3",
+    "react-native": "^0.71.3",
     "react-native-azure-auth": "^1.8.9",
     "react-native-base64": "^0.2.1",
     "react-native-code-push": "^8.0.0",
